@@ -45,7 +45,7 @@
             .menu-toggle { display: block; }
         }
 
-        /* --- RECHERCHE & CONTROLES --- */
+        /* --- RECHERCHE & FILTRES --- */
         .search-section { margin-top: 160px; text-align: center; padding: 0 20px; }
         
         .search-wrapper {
@@ -60,7 +60,7 @@
         }
         .search-input:focus { border-color: var(--btn-color); box-shadow: 0 10px 25px -5px rgba(114, 90, 193, 0.3); }
 
-        /* Bouton Filtre (Design demandé) */
+        /* Bouton Filtre */
         .advanced-filter-btn {
             background-color: #ffffff; color: var(--btn-color); font-size: 15px; font-weight: 600;
             padding: 0 25px; border: 2px solid var(--card-border); border-radius: 50px; cursor: pointer;
@@ -92,13 +92,14 @@
         .vehicle-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
         .vehicle-garage { color: var(--btn-color); font-size: 11px; font-weight: 800; text-transform: uppercase; margin-bottom: 5px; display: block; }
         .vehicle-name { margin: 0; font-size: 18px; font-weight: 700; color: var(--text-main); }
-        .vehicle-tag { font-size: 12px; color: var(--text-muted); margin-top: 5px; }
+        .vehicle-tag { font-size: 12px; color: var(--text-muted); margin-top: 5px; font-weight: 500; }
 
         /* --- MODALE IMAGE (ZOOM) --- */
         .modal {
             display: none; position: fixed; z-index: 3000; padding-top: 50px; left: 0; top: 0;
             width: 100%; height: 100%; background-color: rgba(10, 5, 20, 0.95); backdrop-filter: blur(8px);
         }
+        .modal.show { display: block; }
         .modal-content-wrapper {
             margin: auto; display: flex; flex-direction: column; align-items: center;
             width: 90%; max-width: 1000px; position: relative; top: 50%; transform: translateY(-50%);
@@ -133,6 +134,7 @@
         .filter-box {
             background: white; width: 90%; max-width: 500px; border-radius: 20px; padding: 30px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); animation: popIn 0.3s ease;
+            max-height: 80vh; overflow-y: auto; /* Scroll si trop long */
         }
         @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         
@@ -193,10 +195,10 @@
             <div class="garage-tabs">
                 <button class="tab-btn active" data-garage="all">Tous</button>
                 <button class="tab-btn" data-garage="arenerdc">Arène RDC</button>
-                <button class="tab-btn" data-garage="arène-1">Arène 1</button>
-                <button class="tab-btn" data-garage="arène-2">Arène 2</button>
-                <button class="tab-btn" data-garage="fonction-2">Fonction 2</button>
-                <button class="tab-btn" data-garage="fonction-3">Fonction 3</button>
+                <button class="tab-btn" data-garage="arene1">Arène 1</button>
+                <button class="tab-btn" data-garage="arene2">Arène 2</button>
+                <button class="tab-btn" data-garage="fonction2">Fonction 2</button>
+                <button class="tab-btn" data-garage="fonction3">Fonction 3</button>
             </div>
         </div>
 
@@ -226,6 +228,33 @@
                 <button id="closeFilter" class="close-filter">&times;</button>
             </div>
             <form id="filterForm">
+                
+                <div class="filter-group-title">Couleur</div>
+                <div class="options-grid">
+                    <input type="radio" id="c-all" name="color" value="all" checked>
+                    <label for="c-all">Toutes</label>
+                    <input type="radio" id="c-noir" name="color" value="Noir">
+                    <label for="c-noir">Noir</label>
+                    <input type="radio" id="c-blanc" name="color" value="Blanc">
+                    <label for="c-blanc">Blanc</label>
+                    <input type="radio" id="c-bleu" name="color" value="Bleu">
+                    <label for="c-bleu">Bleu</label>
+                    <input type="radio" id="c-rouge" name="color" value="Rouge">
+                    <label for="c-rouge">Rouge</label>
+                    <input type="radio" id="c-violet" name="color" value="Violet">
+                    <label for="c-violet">Violet</label>
+                    <input type="radio" id="c-vert" name="color" value="Vert">
+                    <label for="c-vert">Vert</label>
+                    <input type="radio" id="c-rose" name="color" value="Rose">
+                    <label for="c-rose">Rose</label>
+                    <input type="radio" id="c-or" name="color" value="Or">
+                    <label for="c-or">Or</label>
+                    <input type="radio" id="c-gris" name="color" value="Gris">
+                    <label for="c-gris">Gris</label>
+                    <input type="radio" id="c-cameleon" name="color" value="Caméléon">
+                    <label for="c-cameleon">Caméléon</label>
+                </div>
+
                 <div class="filter-group-title">Type de Roues</div>
                 <div class="options-grid">
                     <input type="radio" id="w-all" name="wheel" value="all" checked>
@@ -234,6 +263,8 @@
                     <label for="w-f1">F1</label>
                     <input type="radio" id="w-benny" name="wheel" value="Benny">
                     <label for="w-benny">Benny's</label>
+                    <input type="radio" id="w-sport" name="wheel" value="Sport">
+                    <label for="w-sport">Sport</label>
                 </div>
 
                 <div class="filter-group-title">Plaques</div>
@@ -250,10 +281,14 @@
                 <div class="options-grid">
                     <input type="radio" id="s-all" name="smoke" value="all" checked>
                     <label for="s-all">Toutes</label>
-                    <input type="radio" id="s-patriot" name="smoke" value="Patriotique">
+                    <input type="radio" id="s-patriot" name="smoke" value="Patriote">
                     <label for="s-patriot">Patriote</label>
-                    <input type="radio" id="s-color" name="smoke" value="Classique">
-                    <label for="s-color">Colorée</label>
+                    <input type="radio" id="s-white" name="smoke" value="Blanche">
+                    <label for="s-white">Blanche</label>
+                    <input type="radio" id="s-blue" name="smoke" value="Bleu">
+                    <label for="s-blue">Bleue</label>
+                    <input type="radio" id="s-red" name="smoke" value="Rouge">
+                    <label for="s-red">Rouge</label>
                 </div>
 
                 <div class="filter-actions">
@@ -269,84 +304,84 @@
             m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
         }
 
-        // LISTE DES VÉHICULES AVEC VRAIES IMAGES LOCALES
+        /* DONNÉES COMPLÈTES DE TOUS LES GARAGES */
         const vehicles = [
-            // --- 1. ARENE RDC ---
-            { name: "Ubermacht Niobe", images: ["mod/arenerdc/Niobe.jpg", "mod/arenerdc/Niobe1.jpg", "mod/arenerdc/Niobe2.jpg"], tag: "Couleur Moddée • Jantes Moddées", garage: "arenerdc" },
-            { name: "Obey 8F Drafter", images: ["mod/arenerdc/8F Drafter.jpg", "mod/arenerdc/8F Drafter1.jpg", "mod/arenerdc/8F Drafter2.jpg"], tag: "Pneus F1 • Plaque Yankton", garage: "arenerdc" },
+            // --- ARENE RDC ---
+            { name: "Obey 8F Drafter", images: ["mod/arenerdc/8F Drafter.jpg", "mod/arenerdc/8F Drafter1.jpg", "mod/arenerdc/8F Drafter2.jpg", "mod/arenerdc/8F Drafter3.jpg"], tag: "Bleu • F1 • Yankton", garage: "arenerdc" },
+            { name: "Ubermacht Niobe", images: ["mod/arenerdc/Niobe.jpg", "mod/arenerdc/Niobe1.jpg", "mod/arenerdc/Niobe2.jpg", "mod/arenerdc/Niobe3.jpg", "mod/arenerdc/Niobe4.jpg"], tag: "Caméléon • Benny's", garage: "arenerdc" },
 
-            // --- 2. ARENE 1 ---
-            { name: "Apocalypse Cerberus", images: ["mod/arene1/Cerberus anticipation.jpg"], tag: "Plaque Yankton 'Manu' • Fumée Blanche", garage: "arène-1" },
-            { name: "Coil Cyclone", images: ["mod/arene1/Cyclone.jpg"], tag: "Jantes Benny's • Vitres Moddées", garage: "arène-1" },
-            { name: "Apocalypse ZR380", images: ["mod/arene1/ZR380 anticipation.jpg"], tag: "Jantes Benny's • Plaque Yankton", garage: "arène-1" },
-            { name: "Apocalypse Bruiser", images: ["mod/arene1/Bruiser anticipation.jpg"], tag: "Pneus F1 • Fumée Patriotique", garage: "arène-1" },
-            { name: "Pegassi Zentorno", images: ["mod/arene1/Zentorno.jpg"], tag: "Fumée Bleu Classique", garage: "arène-1" },
-            { name: "Dinka Jester", images: ["mod/arene1/Jester.jpg"], tag: "Fumée Rose Classique", garage: "arène-1" },
-            { name: "Benefactor Krieger", images: ["mod/arene1/Krieger.jpg"], tag: "Roues F1 • Fumée Patriotique", garage: "arène-1" },
-            { name: "Ubermacht Rhinehart", images: ["mod/arene1/Rhinehart.jpg", "mod/arene1/Rhinehart1.jpg"], tag: "Roues F1 • Vitres Moddées", garage: "arène-1" },
-            { name: "Invetero Coquette D10", images: ["mod/arene1/D10.jpg"], tag: "Non Moddé", garage: "arène-1" },
-            { name: "Grotti Itali RSX", images: ["mod/arene1/RSX.jpg", "mod/arene1/RSX1.jpg"], tag: "Full Moddé • Plaque Yankton", garage: "arène-1" },
-            
-            // --- 3. ARENE 2 ---
-            { name: "Benefactor Schlagen GT", images: ["mod/arene2/Schlagen GT.jpg"], tag: "Véhicule Moddé", garage: "arène-2" },
-            { name: "Annis ZR380 Anticipation", images: ["mod/arene2/ZR380 anticipation.jpg"], tag: "Véhicule Moddé", garage: "arène-2" },
-            { name: "Grotti Vigilante", images: ["mod/arene2/Vigilante.jpg"], tag: "Véhicule Moddé", garage: "arène-2" },
-            { name: "Progen T20", images: ["mod/arene2/T20.jpg"], tag: "Véhicule Moddé", garage: "arène-2" },
-            { name: "Ubermacht Niobe", images: ["mod/arene2/Niobe.jpg"], tag: "Véhicule Moddé", garage: "arène-2" },
-            { name: "Dewbauchee Vagner", images: ["mod/arene2/Vagner.jpg"], tag: "Véhicule Moddé", garage: "arène-2" },
-            { name: "Benefactor Dubsta", images: ["mod/arene2/Dubsta.jpg"], tag: "Véhicule Moddé", garage: "arène-2" },
-            { name: "Albany Hermes", images: ["mod/arene2/Hermes.jpg"], tag: "Véhicule Moddé", garage: "arène-2" },
-            { name: "Pegassi Reaper", images: ["mod/arene2/Reaper.jpg"], tag: "Véhicule Moddé", garage: "arène-2" },
+            // --- ARENE 1 ---
+            { name: "Apocalypse Bruiser", images: ["mod/arene1/Bruiser anticipation.jpg", "mod/arene1/Bruiser anticipation1.jpg"], tag: "Rouge • F1 • Patriote", garage: "arene1" },
+            { name: "Apocalypse Cerberus", images: ["mod/arene1/Cerberus anticipation.jpg"], tag: "Noir • Yankton • Blanche", garage: "arene1" },
+            { name: "Coil Cyclone", images: ["mod/arene1/Cyclone.jpg", "mod/arene1/Cyclone1.jpg"], tag: "Noir & Bleu • Benny's", garage: "arene1" },
+            { name: "Invetero Coquette D10", images: ["mod/arene1/D10.jpg", "mod/arene1/D101.jpg"], tag: "Gris • Sport", garage: "arene1" },
+            { name: "Dinka Jester", images: ["mod/arene1/Jester.jpg"], tag: "Rose • Sport", garage: "arene1" },
+            { name: "Benefactor Krieger", images: ["mod/arene1/Krieger.jpg", "mod/arene1/Krieger1.jpg", "mod/arene1/Krieger2.jpg"], tag: "Violet • F1 • Patriote", garage: "arene1" },
+            { name: "Ubermacht Rhinehart", images: ["mod/arene1/Rhinehart.jpg", "mod/arene1/Rhinehart1.jpg", "mod/arene1/Rhinehart2.jpg"], tag: "Noir • F1", garage: "arene1" },
+            { name: "Grotti Itali RSX", images: ["mod/arene1/RSX.jpg", "mod/arene1/RSX1.jpg", "mod/arene1/RSX2.jpg", "mod/arene1/RSX3.jpg"], tag: "Rouge • Yankton • Patriote", garage: "arene1" },
+            { name: "Pegassi Zentorno", images: ["mod/arene1/Zentorno.jpg", "mod/arene1/Zentorno1.jpg", "mod/arene1/Zentorno2.jpg"], tag: "Or • Bleu Classique", garage: "arene1" },
+            { name: "Apocalypse ZR380", images: ["mod/arene1/ZR380 anticipation.jpg", "mod/arene1/ZR380 anticipation1.jpg"], tag: "Rouge • Benny's", garage: "arene1" },
 
-            // --- 4. FONCTION 2 ---
-            { name: "Elegy Rétro Custom", images: ["mod/fonction2/elegy.jpg"], tag: "Couleur Moddée • Jantes Benny's", garage: "fonction-2" },
-            { name: "Benefactor Schlagen GT", images: ["mod/fonction2/schlagen.jpg"], tag: "Couleur Moddée", garage: "fonction-2" },
-            { name: "Karin 190z", images: ["mod/fonction2/190z.jpg"], tag: "Plaque Yankton • Pneus F1", garage: "fonction-2" },
-            { name: "Ubermacht Cypher", images: ["mod/fonction2/Cypher.jpg"], tag: "Couleur Moddée", garage: "fonction-2" },
-            { name: "Albany Roosevelt Valor", images: ["mod/fonction2/Valor.jpg"], tag: "Pneus F1", garage: "fonction-2" },
-            { name: "Canis Kalahari", images: ["mod/fonction2/Kalahari.jpg"], tag: "Couleur Moddée", garage: "fonction-2" },
-            { name: "Bravado Rat-Loader", images: ["mod/fonction2/Bravado.jpg"], tag: "Arrière Invisible", garage: "fonction-2" },
-            { name: "Corbillard Romero", images: ["mod/fonction2/Romero.jpg"], tag: "Couleur Moddée", garage: "fonction-2" },
-            { name: "Albany Brigham", images: ["mod/fonction2/Brigham.jpg"], tag: "Noir Classique", garage: "fonction-2" },
-            { name: "Grotti Itali RSX", images: ["mod/fonction2/Itali.jpg"], tag: "Couleur Moddée", garage: "fonction-2" },
-            { name: "RUNE Zhaba", images: ["mod/fonction2/Zhaba.jpg"], tag: "Couleur Moddée", garage: "fonction-2" },
-            { name: "Weeny Dynasty", images: ["mod/fonction2/Dynasty.jpg"], tag: "Véhicule Moddé", garage: "fonction-2" },
-            { name: "Willard Eudora", images: ["mod/fonction2/Eudora.jpg"], tag: "Véhicule Moddé", garage: "fonction-2" },
-            { name: "Enus Paragon S", images: ["mod/fonction2/Paragon S.jpg"], tag: "Couleur Moddée", garage: "fonction-2" },
-            { name: "Coquette D5", images: ["mod/fonction2/D5.jpg"], tag: "Véhicule Moddé", garage: "fonction-2" },
-            { name: "Caddie", images: ["mod/fonction2/Caddie.jpg"], tag: "Couleur Moddée", garage: "fonction-2" },
-            { name: "Schlagen GT (2)", images: ["mod/fonction2/Schlagen GT.jpg"], tag: "Couleur Moddée", garage: "fonction-2" },
-            { name: "Overflod Pipistrello", images: ["mod/fonction2/Pipistrello.jpg"], tag: "Couleur Moddée", garage: "fonction-2" },
-            { name: "BF Raptor", images: ["mod/fonction2/Raptor.jpg"], tag: "Couleur Moddée", garage: "fonction-2" },
-            { name: "Grotti Itali GTO", images: ["mod/fonction2/Itali GTO.jpg"], tag: "Couleur Moddée", garage: "fonction-2" },
-            
-            // --- 5. FONCTION 3 ---
-            { name: "Hot Rod Blazer", images: ["mod/fonction3/Blazer.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-            { name: "Blista Kanjo", images: ["mod/fonction3/Blista Kanjo.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-            { name: "Canis Bodhi", images: ["mod/fonction3/Bodhi.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-            { name: "Karin Calico GTF", images: ["mod/fonction3/Calico GTF.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-            { name: "Canis Castigator", images: ["mod/fonction3/Castigator.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-            { name: "Coil Cyclone II", images: ["mod/fonction3/Cyclone II.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-            { name: "MTL Dune", images: ["mod/fonction3/Dune.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-            { name: "Vapid Hotknife", images: ["mod/fonction3/Hotknife.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-            { name: "Blista Go Go Monkey", images: ["mod/fonction3/monkey.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-            { name: "Imponte Nightshade", images: ["mod/fonction3/Nightshade.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-            { name: "Benefactor Panto", images: ["mod/fonction3/Panto.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-            { name: "Ubermacht Revolter", images: ["mod/fonction3/Revolter.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-            { name: "HVY Scarab", images: ["mod/fonction3/Scarab anticipation.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-            { name: "Blazer Street", images: ["mod/fonction3/street.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-            { name: "Dinka Sugoi", images: ["mod/fonction3/Sugoi.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-            { name: "Turismo Classique", images: ["mod/fonction3/Turismo classique.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-            { name: "Emperor Vectre", images: ["mod/fonction3/Vectre.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-            { name: "Bravado Verlierer", images: ["mod/fonction3/Verlierer.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-            { name: "ZR380 Anticipation", images: ["mod/fonction3/ZR380 anticipation.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" }
+            // --- ARENE 2 ---
+            { name: "Benefactor Dubsta", images: ["mod/arene2/Dubsta.jpg", "mod/arene2/Dubsta1.jpg", "mod/arene2/Dubsta2.jpg"], tag: "Argent • Benny's", garage: "arene2" },
+            { name: "Albany Hermes", images: ["mod/arene2/Hermes.jpg", "mod/arene2/Hermes1.jpg", "mod/arene2/Hermes2.jpg"], tag: "Rouge Sombre • Benny's", garage: "arene2" },
+            { name: "Ubermacht Niobe (A2)", images: ["mod/arene2/Niobe.jpg", "mod/arene2/Niobe1.jpg", "mod/arene2/Niobe2.jpg"], tag: "Bleu • Sport", garage: "arene2" },
+            { name: "Pegassi Reaper", images: ["mod/arene2/Reaper.jpg", "mod/arene2/Reaper1.jpg", "mod/arene2/Reaper2.jpg"], tag: "Blanc • Sport", garage: "arene2" },
+            { name: "Benefactor Schlagen GT", images: ["mod/arene2/Schlagen GT.jpg", "mod/arene2/Schlagen GT1.jpg", "mod/arene2/Schlagen GT2.jpg"], tag: "Violet • Benny's", garage: "arene2" },
+            { name: "Progen T20", images: ["mod/arene2/T20.jpg", "mod/arene2/T201.jpg"], tag: "Violet • Benny's", garage: "arene2" },
+            { name: "Dewbauchee Vagner", images: ["mod/arene2/Vagner.jpg"], tag: "Noir & Jaune • Sport", garage: "arene2" },
+            { name: "Grotti Vigilante", images: ["mod/arene2/Vigilante.jpg"], tag: "Blanc • F1", garage: "arene2" },
+            { name: "Apocalypse ZR380 (A2)", images: ["mod/arene2/ZR380 anticipation.jpg", "mod/arene2/ZR380 anticipation1.jpg", "mod/arene2/ZR380 anticipation2.jpg"], tag: "Vert • F1", garage: "arene2" },
+
+            // --- FONCTION 2 ---
+            { name: "Karin 190z", images: ["mod/fonction2/190z.jpg"], tag: "Gris • F1 • Yankton", garage: "fonction2" },
+            { name: "Bravado Rat-Loader", images: ["mod/fonction2/Bravado.jpg"], tag: "Arrière Invisible", garage: "fonction2" },
+            { name: "Albany Brigham", images: ["mod/fonction2/Brigham.jpg"], tag: "Noir Classique", garage: "fonction2" },
+            { name: "Caddie", images: ["mod/fonction2/Caddie.jpg"], tag: "Moddé", garage: "fonction2" },
+            { name: "Ubermacht Cypher", images: ["mod/fonction2/Cypher.jpg"], tag: "Caméléon • Benny's", garage: "fonction2" },
+            { name: "Coquette D5", images: ["mod/fonction2/D5.jpg"], tag: "Moddé", garage: "fonction2" },
+            { name: "Weeny Dynasty", images: ["mod/fonction2/Dynasty.jpg"], tag: "Moddé", garage: "fonction2" },
+            { name: "Elegy Rétro Custom", images: ["mod/fonction2/elegy.jpg"], tag: "Bleu • Benny's", garage: "fonction2" },
+            { name: "Willard Eudora", images: ["mod/fonction2/Eudora.jpg"], tag: "Moddé", garage: "fonction2" },
+            { name: "Grotti Itali GTO", images: ["mod/fonction2/Itali GTO.jpg"], tag: "F1", garage: "fonction2" },
+            { name: "Grotti Itali RSX", images: ["mod/fonction2/Itali.jpg"], tag: "Moddé", garage: "fonction2" },
+            { name: "Canis Kalahari", images: ["mod/fonction2/Kalahari.jpg"], tag: "Benny's", garage: "fonction2" },
+            { name: "Enus Paragon S", images: ["mod/fonction2/Paragon S.jpg"], tag: "Moddé", garage: "fonction2" },
+            { name: "Overflod Pipistrello", images: ["mod/fonction2/Pipistrello.jpg"], tag: "F1", garage: "fonction2" },
+            { name: "BF Raptor", images: ["mod/fonction2/Raptor.jpg"], tag: "F1", garage: "fonction2" },
+            { name: "Corbillard Romero", images: ["mod/fonction2/Romero.jpg"], tag: "Benny's", garage: "fonction2" },
+            { name: "Schlagen GT", images: ["mod/fonction2/schlagen.jpg"], tag: "Benny's", garage: "fonction2" },
+            { name: "Schlagen GT (v2)", images: ["mod/fonction2/Schlagen GT.jpg"], tag: "Benny's • Couleur Moddée", garage: "fonction2" },
+            { name: "Albany Roosevelt Valor", images: ["mod/fonction2/Valor.jpg"], tag: "F1", garage: "fonction2" },
+            { name: "RUNE Zhaba", images: ["mod/fonction2/Zhaba.jpg"], tag: "Moddé", garage: "fonction2" },
+
+             // --- FONCTION 3 ---
+            { name: "Hot Rod Blazer", images: ["mod/fonction3/Blazer.jpg"], tag: "F1 • Moddé", garage: "fonction3" },
+            { name: "Blista Kanjo", images: ["mod/fonction3/Blista Kanjo.jpg"], tag: "F1 • Moddé", garage: "fonction3" },
+            { name: "Canis Bodhi", images: ["mod/fonction3/Bodhi.jpg"], tag: "F1 • Moddé", garage: "fonction3" },
+            { name: "Karin Calico GTF", images: ["mod/fonction3/Calico GTF.jpg"], tag: "F1 • Moddé", garage: "fonction3" },
+            { name: "Canis Castigator", images: ["mod/fonction3/Castigator.jpg"], tag: "F1 • Moddé", garage: "fonction3" },
+            { name: "Coil Cyclone II", images: ["mod/fonction3/Cyclone II.jpg"], tag: "F1 • Moddé", garage: "fonction3" },
+            { name: "MTL Dune", images: ["mod/fonction3/Dune.jpg"], tag: "F1 • Moddé", garage: "fonction3" },
+            { name: "Vapid Hotknife", images: ["mod/fonction3/Hotknife.jpg"], tag: "F1 • Moddé", garage: "fonction3" },
+            { name: "Blista Go Go Monkey", images: ["mod/fonction3/monkey.jpg"], tag: "F1 • Moddé", garage: "fonction3" },
+            { name: "Imponte Nightshade", images: ["mod/fonction3/Nightshade.jpg"], tag: "F1 • Moddé", garage: "fonction3" },
+            { name: "Benefactor Panto", images: ["mod/fonction3/Panto.jpg"], tag: "F1 • Moddé", garage: "fonction3" },
+            { name: "Ubermacht Revolter", images: ["mod/fonction3/Revolter.jpg"], tag: "F1 • Moddé", garage: "fonction3" },
+            { name: "HVY Scarab", images: ["mod/fonction3/Scarab anticipation.jpg"], tag: "F1 • Moddé", garage: "fonction3" },
+            { name: "Blazer Street", images: ["mod/fonction3/street.jpg"], tag: "F1 • Moddé", garage: "fonction3" },
+            { name: "Dinka Sugoi", images: ["mod/fonction3/Sugoi.jpg"], tag: "F1 • Moddé", garage: "fonction3" },
+            { name: "Turismo Classique", images: ["mod/fonction3/Turismo classique.jpg"], tag: "F1 • Moddé", garage: "fonction3" },
+            { name: "Emperor Vectre", images: ["mod/fonction3/Vectre.jpg"], tag: "F1 • Moddé", garage: "fonction3" },
+            { name: "Bravado Verlierer", images: ["mod/fonction3/Verlierer.jpg"], tag: "F1 • Moddé", garage: "fonction3" },
+            { name: "ZR380 Anticipation", images: ["mod/fonction3/ZR380 anticipation.jpg"], tag: "F1 • Moddé", garage: "fonction3" }
         ];
 
         // --- ETAT GLOBAL ---
         let currentVehicle = null;
         let currentImageIndex = 0;
         let currentGarage = 'all';
-        let currentFilters = { wheel: 'all', plate: 'all', smoke: 'all' };
+        let currentFilters = { wheel: 'all', plate: 'all', smoke: 'all', color: 'all' };
 
         const grid = document.getElementById('galleryGrid');
         const searchInput = document.getElementById('searchInput');
@@ -388,6 +423,23 @@
             modalDesc.innerText = currentVehicle.tag;
 
             if (currentVehicle.images.length > 1) {
+                // Gestion compteur
+                const nav = document.getElementById("prevBtn").parentNode;
+                const oldCounter = document.getElementById("imgCounter");
+                if(oldCounter) oldCounter.remove();
+                
+                const counter = document.createElement('div');
+                counter.id = "imgCounter";
+                counter.innerText = `${currentImageIndex + 1} / ${currentVehicle.images.length}`;
+                counter.style.position = "absolute";
+                counter.style.bottom = "15px";
+                counter.style.color = "white";
+                counter.style.background = "rgba(0,0,0,0.6)";
+                counter.style.padding = "5px 12px";
+                counter.style.borderRadius = "20px";
+                counter.style.fontWeight = "600";
+                nav.appendChild(counter);
+
                 prevBtn.style.display = "flex";
                 nextBtn.style.display = "flex";
             } else {
@@ -419,18 +471,19 @@
                 // Filtre Onglet Garage
                 const matchGarage = (currentGarage === 'all' || v.garage === currentGarage);
 
-                // Filtres Avancés (Recherche dans les Tags)
+                // Filtres Avancés
                 const vTags = v.tag.toLowerCase();
                 const matchWheel = (currentFilters.wheel === 'all' || vTags.includes(currentFilters.wheel.toLowerCase()));
                 const matchPlate = (currentFilters.plate === 'all' || vTags.includes(currentFilters.plate.toLowerCase()));
                 const matchSmoke = (currentFilters.smoke === 'all' || vTags.includes(currentFilters.smoke.toLowerCase()));
+                const matchColor = (currentFilters.color === 'all' || vTags.includes(currentFilters.color.toLowerCase()));
 
-                if (matchSearch && matchGarage && matchWheel && matchPlate && matchSmoke) {
+                if (matchSearch && matchGarage && matchWheel && matchPlate && matchSmoke && matchColor) {
                     const card = document.createElement('div');
                     card.className = 'vehicle-card';
                     card.onclick = function() { openImageModal(v); };
                     
-                    const garageName = v.garage.replace(/-/g, ' ').toUpperCase();
+                    const garageName = v.garage.replace(/(\d)/, ' $1').toUpperCase(); // Ajoute un espace avant le chiffre
 
                     card.innerHTML = `
                         <img src="${v.images[0]}" class="vehicle-img" alt="${v.name}" loading="lazy">
@@ -471,13 +524,13 @@
             currentFilters.wheel = formData.get('wheel');
             currentFilters.plate = formData.get('plate');
             currentFilters.smoke = formData.get('smoke');
+            currentFilters.color = formData.get('color');
             
-            // On ferme la modale et on relance le rendu
             filterModal.classList.remove('active');
             render();
             
-            // Feedback visuel sur le bouton
-            if(currentFilters.wheel !== 'all' || currentFilters.plate !== 'all' || currentFilters.smoke !== 'all') {
+            // Changement couleur bouton si filtre actif
+            if(currentFilters.wheel !== 'all' || currentFilters.plate !== 'all' || currentFilters.smoke !== 'all' || currentFilters.color !== 'all') {
                 openFilterBtn.classList.add('active-filter');
                 openFilterBtn.innerHTML = `Filtres (Actifs)`;
             } else {
@@ -489,7 +542,6 @@
             }
         });
 
-        // Init
         render();
 
     </script>
