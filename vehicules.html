@@ -1,239 +1,382 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>itsmto • Garage</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-    :root { --bg-body: #f5f3ff; --text-main: #1e1b4b; --text-muted: #64748b; --nav-bg: #ffffff; --card-bg: #ffffff; --card-border: #c4b5fd; --btn-color: #725AC1; --shadow-tone: rgba(114, 90, 193, 0.15); }
-    body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background: var(--bg-body); color: var(--text-main); }
-    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-    
-    .navbar { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 1200px; border-radius: 30px; background: var(--nav-bg); padding: 10px 30px; z-index: 1000; border: 1px solid var(--card-border); box-shadow: 0 10px 30px -10px var(--shadow-tone); box-sizing: border-box; }
-    .nav-inner { display: flex; justify-content: space-between; align-items: center; }
-    .logo { font-weight: 800; font-size: 22px; color: var(--btn-color); text-decoration: none; }
-    .nav-links { display: flex; gap: 20px; }
-    .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 14px; font-weight: 500; }
-    .nav-links a.active { color: var(--btn-color); }
-    .menu-toggle { display: none; background: none; border: none; font-size: 28px; color: var(--btn-color); cursor: pointer; }
-    .mobile-menu { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-body); z-index: 2000; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
-    .mobile-menu a { font-size: 32px; font-weight: 800; text-decoration: none; color: var(--text-main); }
-    .close-menu { position: absolute; top: 30px; right: 30px; font-size: 40px; background: none; border: none; color: var(--text-main); cursor: pointer; }
-    @media (max-width: 768px) { .nav-links { display: none; } .menu-toggle { display: block; } }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>itsmto • Garage</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #f5f3ff;
+            --text-main: #1e1b4b;
+            --text-muted: #64748b;
+            --nav-bg: #ffffff;
+            --card-bg: #ffffff;
+            --card-border: #c4b5fd;
+            --btn-color: #725AC1;
+            --shadow-tone: rgba(114, 90, 193, 0.15);
+        }
 
-    .search-section { margin-top: 160px; text-align: center; padding: 0 20px; }
-    .search-input { width: 100%; max-width: 500px; padding: 15px 25px; border-radius: 50px; border: 2px solid var(--card-border); background: #ffffff; color: var(--text-main); font-size: 16px; margin-bottom: 25px; outline: none; box-shadow: 0 10px 20px -10px var(--shadow-tone); transition: 0.3s; }
-    .search-input:focus { border-color: var(--btn-color); box-shadow: 0 10px 25px -5px rgba(114, 90, 193, 0.3); }
-    .filter-btn { background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text-muted); padding: 10px 20px; border-radius: 20px; cursor: pointer; margin: 5px; font-weight: 600; transition: 0.3s; }
-    .filter-btn.active, .filter-btn:hover { background: var(--btn-color); color: white; border-color: var(--btn-color); }
+        body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background: var(--bg-body); color: var(--text-main); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 
-    .vehicle-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; padding: 40px 0 80px; }
-    .vehicle-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; transition: 0.3s; cursor: pointer; box-shadow: 0 10px 20px -10px var(--shadow-tone); }
-    .vehicle-card:hover { transform: scale(1.02); border-color: var(--btn-color); }
-    .vehicle-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
-    .vehicle-info { padding: 20px; }
-    .vehicle-garage { color: var(--btn-color); font-size: 11px; font-weight: 800; text-transform: uppercase; }
+        /* --- NAVIGATION --- */
+        .navbar {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            width: 95%; max-width: 1200px; border-radius: 30px;
+            background: var(--nav-bg); padding: 10px 30px; z-index: 1000;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 10px 30px -10px var(--shadow-tone);
+            box-sizing: border-box;
+        }
+        .nav-inner { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-weight: 800; font-size: 22px; color: var(--btn-color); text-decoration: none; }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 14px; font-weight: 500; transition: 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--btn-color); }
+        
+        .menu-toggle { display: none; background: none; border: none; font-size: 28px; color: var(--btn-color); cursor: pointer; }
+        .mobile-menu { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-body); z-index: 2000; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
+        .mobile-menu a { font-size: 32px; font-weight: 800; text-decoration: none; color: var(--text-main); }
+        .close-menu { position: absolute; top: 30px; right: 30px; font-size: 40px; background: none; border: none; color: var(--text-main); cursor: pointer; }
+        
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .menu-toggle { display: block; }
+        }
 
-    .modal { display: none; position: fixed; z-index: 2000; padding-top: 50px; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(10, 5, 20, 0.95); backdrop-filter: blur(8px); }
-    .modal-content-wrapper { margin: auto; display: flex; flex-direction: column; align-items: center; width: 90%; max-width: 1000px; position: relative; }
-    .modal-img-container { position: relative; width: 100%; display: flex; align-items: center; justify-content: center; }
-    .modal-img { width: 100%; max-height: 70vh; object-fit: contain; border-radius: 12px; border: 1px solid #ffffff30; }
-    .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: 1px solid rgba(255,255,255,0.2); width: 50px; height: 50px; border-radius: 50%; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 2010; }
-    .prev-btn { left: 10px; } .next-btn { right: 10px; }
-    .modal-details { margin-top: 20px; color: white; text-align: center; }
-    .modal-desc { font-size: 18px; color: var(--btn-color); background: rgba(255,255,255, 0.9); display: inline-block; padding: 10px 25px; border-radius: 50px; font-weight: 600; }
-    .close { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 40px; cursor: pointer; z-index: 2001; }
-</style>
+        /* --- RECHERCHE & FILTRES --- */
+        .search-section { margin-top: 160px; text-align: center; padding: 0 20px; }
+        .search-input {
+            width: 100%; max-width: 500px; padding: 15px 25px; border-radius: 50px;
+            border: 2px solid var(--card-border); background: #ffffff; color: var(--text-main);
+            font-size: 16px; margin-bottom: 25px; outline: none;
+            box-shadow: 0 10px 20px -10px var(--shadow-tone); transition: 0.3s;
+        }
+        .search-input:focus { border-color: var(--btn-color); box-shadow: 0 10px 25px -5px rgba(114, 90, 193, 0.3); }
+
+        .filter-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+        .filter-btn {
+            background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text-muted);
+            padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: 600; transition: 0.3s;
+        }
+        .filter-btn.active, .filter-btn:hover { background: var(--btn-color); color: white; border-color: var(--btn-color); }
+
+        /* --- GRILLE VÉHICULES --- */
+        .vehicle-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px; padding: 40px 0 80px;
+        }
+        .vehicle-card {
+            background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px;
+            overflow: hidden; transition: 0.3s; cursor: pointer;
+            box-shadow: 0 10px 20px -10px var(--shadow-tone); display: flex; flex-direction: column;
+        }
+        .vehicle-card:hover { transform: scale(1.02); border-color: var(--btn-color); }
+        .vehicle-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; background-color: #e0e7ff; }
+        .vehicle-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .vehicle-garage { color: var(--btn-color); font-size: 11px; font-weight: 800; text-transform: uppercase; margin-bottom: 5px; display: block; }
+        .vehicle-name { margin: 0; font-size: 18px; font-weight: 700; color: var(--text-main); }
+
+        /* --- MODALE (ZOOM) --- */
+        .modal {
+            display: none; position: fixed; z-index: 2000; padding-top: 50px; left: 0; top: 0;
+            width: 100%; height: 100%; background-color: rgba(10, 5, 20, 0.95); backdrop-filter: blur(8px);
+        }
+        .modal.show { display: block; }
+        .modal-content-wrapper {
+            margin: auto; display: flex; flex-direction: column; align-items: center;
+            width: 90%; max-width: 1000px; position: relative; top: 50%; transform: translateY(-50%);
+        }
+        .modal-img-container { position: relative; width: 100%; display: flex; align-items: center; justify-content: center; }
+        .modal-img {
+            width: 100%; max-height: 70vh; object-fit: contain; border-radius: 12px;
+            border: 1px solid #ffffff30; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .nav-btn {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(0,0,0,0.5); color: white; border: 1px solid rgba(255,255,255,0.2);
+            width: 50px; height: 50px; border-radius: 50%; font-size: 24px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; z-index: 2010; transition: 0.2s;
+        }
+        .nav-btn:hover { background: var(--btn-color); border-color: var(--btn-color); }
+        .prev-btn { left: 10px; }
+        .next-btn { right: 10px; }
+        
+        .modal-details { margin-top: 20px; color: white; text-align: center; }
+        .modal-desc {
+            font-size: 16px; color: var(--btn-color); background: #ffffff;
+            display: inline-block; padding: 8px 20px; border-radius: 50px; font-weight: 600; margin-top: 10px;
+        }
+        .close { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 40px; cursor: pointer; z-index: 2001; }
+    </style>
 </head>
 <body>
 
-<nav class="navbar">
-    <div class="nav-inner">
-        <a href="index.html" class="logo">ITSMTO</a>
-        <div class="nav-links"><a href="index.html">Accueil</a><a href="vehicules.html" class="active">Garage</a><a href="socials.html">Réseaux</a></div>
-        <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
+    <nav class="navbar">
+        <div class="nav-inner">
+            <a href="index.html" class="logo">ITSMTO</a>
+            <div class="nav-links">
+                <a href="index.html">Accueil</a>
+                <a href="vehicules.html" class="active">Garage</a>
+                <a href="socials.html">Réseaux</a>
+            </div>
+            <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
+        </div>
+    </nav>
+
+    <div id="mobileMenu" class="mobile-menu">
+        <button class="close-menu" onclick="toggleMobileMenu()">×</button>
+        <a href="index.html">Accueil</a>
+        <a href="vehicules.html">Garage</a>
+        <a href="socials.html">Réseaux</a>
     </div>
-</nav>
 
-<div id="mobileMenu" class="mobile-menu">
-    <button class="close-menu" onclick="toggleMobileMenu()">×</button>
-    <a href="index.html">Accueil</a><a href="vehicules.html">Garage</a><a href="socials.html">Réseaux</a>
-</div>
+    <div class="container">
+        <div class="search-section">
+            <h1 style="margin-bottom: 20px; color:var(--text-main);">Mon Catalogue</h1>
+            <input type="text" id="searchInput" class="search-input" placeholder="Rechercher une voiture...">
+            
+            <div class="filter-group">
+                <button class="filter-btn active" data-garage="all">Tous</button>
+                <button class="filter-btn" data-garage="arenerdc">Arène RDC</button>
+                <button class="filter-btn" data-garage="arène-1">Arène 1</button>
+                <button class="filter-btn" data-garage="arène-2">Arène 2</button>
+                <button class="filter-btn" data-garage="fonction-2">Fonction 2</button>
+                <button class="filter-btn" data-garage="fonction-3">Fonction 3</button>
+            </div>
+        </div>
 
-<div class="container">
-    <div class="search-section">
-        <h1 style="margin-bottom: 20px; color:var(--text-main);">Mon Catalogue</h1>
-        <input type="text" id="searchInput" class="search-input" placeholder="Rechercher une voiture...">
-        <div class="filter-group">
-            <button class="filter-btn active" data-garage="all">Tous</button>
-            <button class="filter-btn" data-garage="arenerdc">Arène RDC</button>
-            <button class="filter-btn" data-garage="arène-1">Arène 1</button>
-            <button class="filter-btn" data-garage="arène-2">Arène 2</button>
-            <button class="filter-btn" data-garage="fonction-2">Fonction 2</button>
-            <button class="filter-btn" data-garage="fonction-3">Fonction 3</button>
+        <div id="galleryGrid" class="vehicle-grid">
+            </div>
+    </div>
+
+    <div id="vehicleModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div class="modal-content-wrapper">
+            <div class="modal-img-container">
+                <button id="prevBtn" class="nav-btn prev-btn" onclick="changeImage(-1)">&#10094;</button>
+                <img class="modal-img" id="modalImg" src="" alt="Véhicule">
+                <button id="nextBtn" class="nav-btn next-btn" onclick="changeImage(1)">&#10095;</button>
+            </div>
+            <div class="modal-details">
+                <div id="modalTitle" style="font-size:32px; font-weight:700; margin-bottom:5px;"></div>
+                <div id="modalDesc" class="modal-desc"></div>
+            </div>
         </div>
     </div>
-    <div id="galleryGrid" class="vehicle-grid"></div>
-</div>
 
-<div id="vehicleModal" class="modal">
-    <span class="close" onclick="closeModal()">&times;</span>
-    <div class="modal-content-wrapper">
-        <div class="modal-img-container">
-            <button id="prevBtn" class="nav-btn prev-btn" onclick="changeImage(-1)">&#10094;</button>
-            <img class="modal-img" id="modalImg">
-            <button id="nextBtn" class="nav-btn next-btn" onclick="changeImage(1)">&#10095;</button>
-        </div>
-        <div class="modal-details">
-            <div id="modalTitle" style="font-size:32px; font-weight:700; margin-bottom:10px;"></div>
-            <div id="modalDesc" class="modal-desc"></div>
-        </div>
-    </div>
-</div>
-
-<script>
-    function toggleMobileMenu() { const m = document.getElementById('mobileMenu'); m.style.display = (m.style.display === 'flex') ? 'none' : 'flex'; }
-
-    const vehicles = [
-        // --- 1. ARENE RDC (Priorité 1) ---
-        { name: "Ubermacht Niobe", images: ["mod/arenerdc/Niobe.jpg", "mod/arenerdc/Niobe1.jpg", "mod/arenerdc/Niobe2.jpg"], tag: "Couleur Moddée • Jantes Moddées • Plaque Yankton", garage: "arenerdc" },
-        { name: "Obey 8F Drafter", images: ["mod/arenerdc/8F Drafter.jpg", "mod/arenerdc/8F Drafter1.jpg", "mod/arenerdc/8F Drafter2.jpg"], tag: "Pneus F1 • Plaque Yankton", garage: "arenerdc" },
-
-        // --- 2. ARENE 1 (Priorité 2) ---
-        { name: "Apocalypse Cerberus", images: ["mod/arene1/Cerberus anticipation.jpg"], tag: "Plaque Yankton 'Manu' • Fumée Blanche", garage: "arène-1" },
-        { name: "Coil Cyclone", images: ["mod/arene1/Cyclone.jpg"], tag: "Jantes Benny's • Vitres Moddées", garage: "arène-1" },
-        { name: "Apocalypse ZR380", images: ["mod/arene1/ZR380 anticipation.jpg"], tag: "Jantes Benny's • Plaque Yankton '59' • Fumée Patriotique", garage: "arène-1" },
-        { name: "Apocalypse Bruiser", images: ["mod/arene1/Bruiser anticipation.jpg"], tag: "Pneus F1 • Vitres Moddées • Fumée Patriotique", garage: "arène-1" },
-        { name: "Pegassi Zentorno", images: ["mod/arene1/Zentorno.jpg"], tag: "Fumée Bleu Classique", garage: "arène-1" },
-        { name: "Dinka Jester", images: ["mod/arene1/Jester.jpg"], tag: "Fumée Rose Classique", garage: "arène-1" },
-        { name: "Benefactor Krieger", images: ["mod/arene1/Krieger.jpg"], tag: "Roues F1 • Fumée Patriotique", garage: "arène-1" },
-        { name: "Ubermacht Rhinehart", images: ["mod/arene1/Rhinehart.jpg", "mod/arene1/Rhinehart1.jpg"], tag: "Roues F1 • Vitres Moddées", garage: "arène-1" },
-        { name: "Invetero Coquette D10", images: ["mod/arene1/D10.jpg"], tag: "Non Moddé (Pas encore sortie)", garage: "arène-1" },
-        { name: "Grotti Itali RSX", images: ["mod/arene1/RSX.jpg", "mod/arene1/RSX1.jpg"], tag: "Full Moddé • Plaque Yankton • Fumée Patriotique", garage: "arène-1" },
-        
-        // --- 3. ARENE 2 (Priorité 3) ---
-        { name: "Benefactor Schlagen GT", images: ["mod/arene2/Schlagen GT.jpg"], tag: "Véhicule Moddé", garage: "arène-2" },
-        { name: "Annis ZR380 Anticipation", images: ["mod/arene2/ZR380 anticipation.jpg"], tag: "Véhicule Moddé", garage: "arène-2" },
-        { name: "Grotti Vigilante", images: ["mod/arene2/Vigilante.jpg"], tag: "Véhicule Moddé", garage: "arène-2" },
-        { name: "Progen T20", images: ["mod/arene2/T20.jpg"], tag: "Véhicule Moddé", garage: "arène-2" },
-        { name: "Ubermacht Niobe", images: ["mod/arene2/Niobe.jpg"], tag: "Véhicule Moddé", garage: "arène-2" },
-        { name: "Dewbauchee Vagner", images: ["mod/arene2/Vagner.jpg"], tag: "Véhicule Moddé", garage: "arène-2" },
-        { name: "Benefactor Dubsta", images: ["mod/arene2/Dubsta.jpg"], tag: "Véhicule Moddé", garage: "arène-2" },
-        { name: "Albany Hermes", images: ["mod/arene2/Hermes.jpg"], tag: "Véhicule Moddé", garage: "arène-2" },
-        { name: "Pegassi Reaper", images: ["mod/arene2/Reaper.jpg"], tag: "Véhicule Moddé", garage: "arène-2" },
-
-        // --- 4. FONCTION 2 ---
-        { name: "Annis Elegy Rétro Custom", images: ["mod/fonction2/elegy.jpg"], tag: "Couleur Moddée • Jantes Benny's", garage: "fonction-2" },
-        { name: "Benefactor Schlagen GT", images: ["mod/fonction2/schlagen.jpg"], tag: "Couleur Moddée • Jantes Benny's", garage: "fonction-2" },
-        { name: "Karin 190z", images: ["mod/fonction2/190z.jpg"], tag: "Plaque Yankton • Pneus F1 • Couleur Moddée", garage: "fonction-2" },
-        { name: "Ubermacht Cypher", images: ["mod/fonction2/Cypher.jpg"], tag: "Couleur Moddée • Jantes Benny's", garage: "fonction-2" },
-        { name: "Albany Roosevelt Valor", images: ["mod/fonction2/Valor.jpg"], tag: "Pneus F1 • Couleur Moddée", garage: "fonction-2" },
-        { name: "Canis Kalahari", images: ["mod/fonction2/Kalahari.jpg"], tag: "Couleur Moddée • Jantes Benny's", garage: "fonction-2" },
-        { name: "Bravado Rat-Loader", images: ["mod/fonction2/Bravado.jpg"], tag: "Arrière Invisible", garage: "fonction-2" },
-        { name: "Corbillard Romero", images: ["mod/fonction2/Romero.jpg"], tag: "Couleur Moddée • Jantes Benny's", garage: "fonction-2" },
-        { name: "Albany Brigham", images: ["mod/fonction2/Brigham.jpg"], tag: "Noir Classique", garage: "fonction-2" },
-        { name: "Grotti Itali RSX", images: ["mod/fonction2/Itali.jpg"], tag: "Couleur Moddée", garage: "fonction-2" },
-        { name: "RUNE Zhaba", images: ["mod/fonction2/Zhaba.jpg"], tag: "Couleur Moddée", garage: "fonction-2" },
-        { name: "Weeny Dynasty", images: ["mod/fonction2/Dynasty.jpg"], tag: "Véhicule Moddé", garage: "fonction-2" },
-        { name: "Willard Eudora", images: ["mod/fonction2/Eudora.jpg"], tag: "Véhicule Moddé", garage: "fonction-2" },
-        { name: "Enus Paragon S", images: ["mod/fonction2/Paragon S.jpg"], tag: "Couleur Moddée", garage: "fonction-2" },
-        { name: "Coquette D5", images: ["mod/fonction2/D5.jpg"], tag: "Véhicule Moddé", garage: "fonction-2" },
-        { name: "Caddie", images: ["mod/fonction2/Caddie.jpg"], tag: "Couleur Moddée", garage: "fonction-2" },
-        { name: "Benefactor Schlagen GT (2)", images: ["mod/fonction2/Schlagen GT.jpg"], tag: "Couleur Moddée • Jantes Benny's", garage: "fonction-2" },
-        { name: "Overflod Pipistrello", images: ["mod/fonction2/Pipistrello.jpg"], tag: "Couleur Moddée • Pneus F1", garage: "fonction-2" },
-        { name: "BF Raptor", images: ["mod/fonction2/Raptor.jpg"], tag: "Couleur Moddée • Pneus F1", garage: "fonction-2" },
-        { name: "Grotti Itali GTO", images: ["mod/fonction2/Itali GTO.jpg"], tag: "Couleur Moddée • Pneus F1", garage: "fonction-2" },
-        
-        // --- 5. FONCTION 3 ---
-        { name: "Nagasaki Hot Rod Blazer", images: ["mod/fonction3/Blazer.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-        { name: "Dinka Blista Kanjo", images: ["mod/fonction3/Blista Kanjo.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-        { name: "Canis Bodhi", images: ["mod/fonction3/Bodhi.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-        { name: "Karin Calico GTF", images: ["mod/fonction3/Calico GTF.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-        { name: "Canis Castigator", images: ["mod/fonction3/Castigator.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-        { name: "Coil Cyclone II", images: ["mod/fonction3/Cyclone II.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-        { name: "MTL Dune", images: ["mod/fonction3/Dune.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-        { name: "Vapid Hotknife", images: ["mod/fonction3/Hotknife.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-        { name: "Blista Go Go Monkey", images: ["mod/fonction3/monkey.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-        { name: "Imponte Nightshade", images: ["mod/fonction3/Nightshade.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-        { name: "Benefactor Panto", images: ["mod/fonction3/Panto.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-        { name: "Ubermacht Revolter", images: ["mod/fonction3/Revolter.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-        { name: "HVY Scarab Anticipation", images: ["mod/fonction3/Scarab anticipation.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-        { name: "Nagasaki Blazer Street", images: ["mod/fonction3/street.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-        { name: "Dinka Sugoi", images: ["mod/fonction3/Sugoi.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-        { name: "Grotti Turismo Classique", images: ["mod/fonction3/Turismo classique.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-        { name: "Emperor Vectre", images: ["mod/fonction3/Vectre.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-        { name: "Bravado Verlierer", images: ["mod/fonction3/Verlierer.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
-        { name: "Annis ZR380 Anticipation", images: ["mod/fonction3/ZR380 anticipation.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" }
-    ];
-
-    let currentVehicle = null; let currentImageIndex = 0;
-    const grid = document.getElementById('galleryGrid');
-    const searchInput = document.getElementById('searchInput');
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const modal = document.getElementById("vehicleModal");
-    const modalImg = document.getElementById("modalImg");
-    const modalTitle = document.getElementById("modalTitle");
-    const modalDesc = document.getElementById("modalDesc");
-    const prevBtn = document.getElementById("prevBtn");
-    const nextBtn = document.getElementById("nextBtn");
-    let currentGarage = 'all';
-
-    function openModal(vehicle) {
-        currentVehicle = vehicle; currentImageIndex = 0;
-        updateModalContent();
-        modal.style.display = "block";
-        setTimeout(() => modal.classList.add('show'), 10);
-    }
-    function updateModalContent() {
-        if (!currentVehicle) return;
-        modalImg.src = currentVehicle.images[currentImageIndex];
-        modalTitle.innerText = currentVehicle.name;
-        modalDesc.innerText = currentVehicle.tag;
-        const nav = document.getElementById("prevBtn").parentNode;
-        const oldCounter = document.getElementById("imgCounter"); if(oldCounter) oldCounter.remove();
-        if (currentVehicle.images.length > 1) {
-            const counter = document.createElement('div'); counter.id = "imgCounter";
-            counter.innerText = `${currentImageIndex + 1} / ${currentVehicle.images.length}`;
-            counter.style.position = "absolute"; counter.style.bottom = "15px"; counter.style.color = "white"; counter.style.background = "rgba(0,0,0,0.6)"; counter.style.padding = "5px 12px"; counter.style.borderRadius = "20px";
-            nav.appendChild(counter);
-            prevBtn.style.display = "flex"; nextBtn.style.display = "flex";
-        } else {
-            prevBtn.style.display = "none"; nextBtn.style.display = "none";
+    <script>
+        function toggleMobileMenu() {
+            const m = document.getElementById('mobileMenu');
+            m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
         }
-    }
-    window.changeImage = function(direction) {
-        currentImageIndex += direction;
-        if (currentImageIndex >= currentVehicle.images.length) currentImageIndex = 0;
-        else if (currentImageIndex < 0) currentImageIndex = currentVehicle.images.length - 1;
-        updateModalContent();
-    }
-    function closeModal() { modal.classList.remove('show'); setTimeout(() => modal.style.display = "none", 300); }
-    window.onclick = function(event) { if (event.target == modal || event.target.classList.contains('modal-content-wrapper')) closeModal(); }
 
-    function render() {
-        grid.innerHTML = '';
-        const search = searchInput.value.toLowerCase();
-        let count = 0;
-        vehicles.forEach((v) => {
-            if ((currentGarage === 'all' || v.garage === currentGarage) && v.name.toLowerCase().includes(search)) {
-                const card = document.createElement('div');
-                card.className = 'vehicle-card';
-                card.onclick = function() { openModal(v); };
-                card.innerHTML = `<img src="${v.images[0]}" class="vehicle-img"><div class="vehicle-info"><span class="vehicle-garage">${v.garage.replace('-',' ')}</span><h3 class="vehicle-name">${v.name}</h3></div>`;
-                grid.appendChild(card);
-                count++;
+        // LISTE EXACTE DE TES VÉHICULES AVEC TES PHOTOS
+        const vehicles = [
+            // --- 1. ARENE RDC ---
+            { name: "Ubermacht Niobe", images: ["mod/arenerdc/Niobe.jpg", "mod/arenerdc/Niobe1.jpg", "mod/arenerdc/Niobe2.jpg"], tag: "Couleur Moddée • Jantes Moddées", garage: "arenerdc" },
+            { name: "Obey 8F Drafter", images: ["mod/arenerdc/8F Drafter.jpg", "mod/arenerdc/8F Drafter1.jpg", "mod/arenerdc/8F Drafter2.jpg"], tag: "Pneus F1 • Plaque Yankton", garage: "arenerdc" },
+
+            // --- 2. ARENE 1 ---
+            { name: "Apocalypse Cerberus", images: ["mod/arene1/Cerberus anticipation.jpg"], tag: "Plaque Yankton 'Manu' • Fumée Blanche", garage: "arène-1" },
+            { name: "Coil Cyclone", images: ["mod/arene1/Cyclone.jpg"], tag: "Jantes Benny's • Vitres Moddées", garage: "arène-1" },
+            { name: "Apocalypse ZR380", images: ["mod/arene1/ZR380 anticipation.jpg"], tag: "Jantes Benny's • Plaque Yankton", garage: "arène-1" },
+            { name: "Apocalypse Bruiser", images: ["mod/arene1/Bruiser anticipation.jpg"], tag: "Pneus F1 • Fumée Patriotique", garage: "arène-1" },
+            { name: "Pegassi Zentorno", images: ["mod/arene1/Zentorno.jpg"], tag: "Fumée Bleu Classique", garage: "arène-1" },
+            { name: "Dinka Jester", images: ["mod/arene1/Jester.jpg"], tag: "Fumée Rose Classique", garage: "arène-1" },
+            { name: "Benefactor Krieger", images: ["mod/arene1/Krieger.jpg"], tag: "Roues F1 • Fumée Patriotique", garage: "arène-1" },
+            { name: "Ubermacht Rhinehart", images: ["mod/arene1/Rhinehart.jpg", "mod/arene1/Rhinehart1.jpg"], tag: "Roues F1 • Vitres Moddées", garage: "arène-1" },
+            { name: "Invetero Coquette D10", images: ["mod/arene1/D10.jpg"], tag: "Non Moddé", garage: "arène-1" },
+            { name: "Grotti Itali RSX", images: ["mod/arene1/RSX.jpg", "mod/arene1/RSX1.jpg"], tag: "Full Moddé • Plaque Yankton", garage: "arène-1" },
+            
+            // --- 3. ARENE 2 ---
+            { name: "Benefactor Schlagen GT", images: ["mod/arene2/Schlagen GT.jpg"], tag: "Véhicule Moddé", garage: "arène-2" },
+            { name: "Annis ZR380 Anticipation", images: ["mod/arene2/ZR380 anticipation.jpg"], tag: "Véhicule Moddé", garage: "arène-2" },
+            { name: "Grotti Vigilante", images: ["mod/arene2/Vigilante.jpg"], tag: "Véhicule Moddé", garage: "arène-2" },
+            { name: "Progen T20", images: ["mod/arene2/T20.jpg"], tag: "Véhicule Moddé", garage: "arène-2" },
+            { name: "Ubermacht Niobe", images: ["mod/arene2/Niobe.jpg"], tag: "Véhicule Moddé", garage: "arène-2" },
+            { name: "Dewbauchee Vagner", images: ["mod/arene2/Vagner.jpg"], tag: "Véhicule Moddé", garage: "arène-2" },
+            { name: "Benefactor Dubsta", images: ["mod/arene2/Dubsta.jpg"], tag: "Véhicule Moddé", garage: "arène-2" },
+            { name: "Albany Hermes", images: ["mod/arene2/Hermes.jpg"], tag: "Véhicule Moddé", garage: "arène-2" },
+            { name: "Pegassi Reaper", images: ["mod/arene2/Reaper.jpg"], tag: "Véhicule Moddé", garage: "arène-2" },
+
+            // --- 4. FONCTION 2 ---
+            { name: "Elegy Rétro Custom", images: ["mod/fonction2/elegy.jpg"], tag: "Couleur Moddée • Jantes Benny's", garage: "fonction-2" },
+            { name: "Benefactor Schlagen GT", images: ["mod/fonction2/schlagen.jpg"], tag: "Couleur Moddée", garage: "fonction-2" },
+            { name: "Karin 190z", images: ["mod/fonction2/190z.jpg"], tag: "Plaque Yankton • Pneus F1", garage: "fonction-2" },
+            { name: "Ubermacht Cypher", images: ["mod/fonction2/Cypher.jpg"], tag: "Couleur Moddée", garage: "fonction-2" },
+            { name: "Albany Roosevelt Valor", images: ["mod/fonction2/Valor.jpg"], tag: "Pneus F1", garage: "fonction-2" },
+            { name: "Canis Kalahari", images: ["mod/fonction2/Kalahari.jpg"], tag: "Couleur Moddée", garage: "fonction-2" },
+            { name: "Bravado Rat-Loader", images: ["mod/fonction2/Bravado.jpg"], tag: "Arrière Invisible", garage: "fonction-2" },
+            { name: "Corbillard Romero", images: ["mod/fonction2/Romero.jpg"], tag: "Couleur Moddée", garage: "fonction-2" },
+            { name: "Albany Brigham", images: ["mod/fonction2/Brigham.jpg"], tag: "Noir Classique", garage: "fonction-2" },
+            { name: "Grotti Itali RSX", images: ["mod/fonction2/Itali.jpg"], tag: "Couleur Moddée", garage: "fonction-2" },
+            { name: "RUNE Zhaba", images: ["mod/fonction2/Zhaba.jpg"], tag: "Couleur Moddée", garage: "fonction-2" },
+            { name: "Weeny Dynasty", images: ["mod/fonction2/Dynasty.jpg"], tag: "Véhicule Moddé", garage: "fonction-2" },
+            { name: "Willard Eudora", images: ["mod/fonction2/Eudora.jpg"], tag: "Véhicule Moddé", garage: "fonction-2" },
+            { name: "Enus Paragon S", images: ["mod/fonction2/Paragon S.jpg"], tag: "Couleur Moddée", garage: "fonction-2" },
+            { name: "Coquette D5", images: ["mod/fonction2/D5.jpg"], tag: "Véhicule Moddé", garage: "fonction-2" },
+            { name: "Caddie", images: ["mod/fonction2/Caddie.jpg"], tag: "Couleur Moddée", garage: "fonction-2" },
+            { name: "Schlagen GT (2)", images: ["mod/fonction2/Schlagen GT.jpg"], tag: "Couleur Moddée", garage: "fonction-2" },
+            { name: "Overflod Pipistrello", images: ["mod/fonction2/Pipistrello.jpg"], tag: "Couleur Moddée", garage: "fonction-2" },
+            { name: "BF Raptor", images: ["mod/fonction2/Raptor.jpg"], tag: "Couleur Moddée", garage: "fonction-2" },
+            { name: "Grotti Itali GTO", images: ["mod/fonction2/Itali GTO.jpg"], tag: "Couleur Moddée", garage: "fonction-2" },
+            
+            // --- 5. FONCTION 3 ---
+            { name: "Hot Rod Blazer", images: ["mod/fonction3/Blazer.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
+            { name: "Blista Kanjo", images: ["mod/fonction3/Blista Kanjo.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
+            { name: "Canis Bodhi", images: ["mod/fonction3/Bodhi.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
+            { name: "Karin Calico GTF", images: ["mod/fonction3/Calico GTF.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
+            { name: "Canis Castigator", images: ["mod/fonction3/Castigator.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
+            { name: "Coil Cyclone II", images: ["mod/fonction3/Cyclone II.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
+            { name: "MTL Dune", images: ["mod/fonction3/Dune.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
+            { name: "Vapid Hotknife", images: ["mod/fonction3/Hotknife.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
+            { name: "Blista Go Go Monkey", images: ["mod/fonction3/monkey.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
+            { name: "Imponte Nightshade", images: ["mod/fonction3/Nightshade.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
+            { name: "Benefactor Panto", images: ["mod/fonction3/Panto.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
+            { name: "Ubermacht Revolter", images: ["mod/fonction3/Revolter.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
+            { name: "HVY Scarab", images: ["mod/fonction3/Scarab anticipation.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
+            { name: "Blazer Street", images: ["mod/fonction3/street.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
+            { name: "Dinka Sugoi", images: ["mod/fonction3/Sugoi.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
+            { name: "Turismo Classique", images: ["mod/fonction3/Turismo classique.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
+            { name: "Emperor Vectre", images: ["mod/fonction3/Vectre.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
+            { name: "Bravado Verlierer", images: ["mod/fonction3/Verlierer.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" },
+            { name: "ZR380 Anticipation", images: ["mod/fonction3/ZR380 anticipation.jpg"], tag: "Véhicule Moddé", garage: "fonction-3" }
+        ];
+
+        let currentVehicle = null;
+        let currentImageIndex = 0;
+        const grid = document.getElementById('galleryGrid');
+        const searchInput = document.getElementById('searchInput');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        
+        // Modale Elements
+        const modal = document.getElementById("vehicleModal");
+        const modalImg = document.getElementById("modalImg");
+        const modalTitle = document.getElementById("modalTitle");
+        const modalDesc = document.getElementById("modalDesc");
+        const prevBtn = document.getElementById("prevBtn");
+        const nextBtn = document.getElementById("nextBtn");
+        let currentGarage = 'all';
+
+        // --- FONCTIONS LOGIQUES ---
+
+        function openModal(vehicle) {
+            currentVehicle = vehicle;
+            currentImageIndex = 0;
+            updateModalContent();
+            modal.style.display = "block"; 
+            // Petit délai pour l'animation
+            setTimeout(() => modal.classList.add('show'), 10);
+        }
+
+        function updateModalContent() {
+            if (!currentVehicle) return;
+            modalImg.src = currentVehicle.images[currentImageIndex];
+            modalTitle.innerText = currentVehicle.name;
+            modalDesc.innerText = currentVehicle.tag;
+
+            // Gestion du compteur d'images (si plusieurs)
+            const nav = document.getElementById("prevBtn").parentNode;
+            const oldCounter = document.getElementById("imgCounter");
+            if(oldCounter) oldCounter.remove();
+
+            if (currentVehicle.images.length > 1) {
+                const counter = document.createElement('div');
+                counter.id = "imgCounter";
+                counter.innerText = `${currentImageIndex + 1} / ${currentVehicle.images.length}`;
+                counter.style.position = "absolute";
+                counter.style.bottom = "15px";
+                counter.style.color = "white";
+                counter.style.background = "rgba(0,0,0,0.6)";
+                counter.style.padding = "5px 12px";
+                counter.style.borderRadius = "20px";
+                counter.style.fontWeight = "600";
+                nav.appendChild(counter);
+
+                prevBtn.style.display = "flex";
+                nextBtn.style.display = "flex";
+            } else {
+                prevBtn.style.display = "none";
+                nextBtn.style.display = "none";
             }
-        });
-        if (count === 0) grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px; color:var(--text-muted);">Aucun véhicule trouvé.</div>';
-    }
+        }
 
-    searchInput.addEventListener('input', render);
-    filterBtns.forEach(btn => btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active')); btn.classList.add('active');
-        currentGarage = btn.getAttribute('data-garage'); render();
-    }));
-    render();
-</script>
+        window.changeImage = function(direction) {
+            currentImageIndex += direction;
+            if (currentImageIndex >= currentVehicle.images.length) {
+                currentImageIndex = 0;
+            } else if (currentImageIndex < 0) {
+                currentImageIndex = currentVehicle.images.length - 1;
+            }
+            updateModalContent();
+        }
+
+        function closeModal() {
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = "none";
+            }, 300); // Attend la fin de la transition CSS
+        }
+
+        // Fermer en cliquant dehors
+        window.onclick = function(event) {
+            if (event.target == modal || event.target.classList.contains('modal-content-wrapper')) {
+                closeModal();
+            }
+        }
+
+        function render() {
+            grid.innerHTML = '';
+            const search = searchInput.value.toLowerCase();
+            let count = 0;
+
+            vehicles.forEach((v) => {
+                if ((currentGarage === 'all' || v.garage === currentGarage) && 
+                    v.name.toLowerCase().includes(search)) {
+                    
+                    const card = document.createElement('div');
+                    card.className = 'vehicle-card';
+                    card.onclick = function() { openModal(v); };
+                    
+                    // On affiche le garage en petit au-dessus du nom
+                    const garageName = v.garage.replace(/-/g, ' ').toUpperCase();
+
+                    card.innerHTML = `
+                        <img src="${v.images[0]}" class="vehicle-img" alt="${v.name}" loading="lazy">
+                        <div class="vehicle-info">
+                            <div>
+                                <span class="vehicle-garage">${garageName}</span>
+                                <h3 class="vehicle-name">${v.name}</h3>
+                            </div>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                    count++;
+                }
+            });
+
+            if (count === 0) {
+                grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px; color:var(--text-muted);">Aucun véhicule trouvé.</div>';
+            }
+        }
+
+        // Écouteurs d'événements
+        searchInput.addEventListener('input', render);
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentGarage = btn.getAttribute('data-garage');
+                render();
+            });
+        });
+
+        // Lancement initial
+        render();
+
+    </script>
 </body>
 </html>
