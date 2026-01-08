@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>itsmto Project • Accueil</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    /* NOUVELLE PALETTE CLAIRE & VIOLETTE */
+    :root {
+        --bg-body: #f5f3ff;       /* Fond très clair légèrement violet */
+        --text-main: #1e1b4b;     /* Texte foncé indigo */
+        --text-muted: #64748b;    /* Texte gris moyen */
+        --nav-bg: #ffffff;        /* Barre de nav blanche */
+        --card-bg: #ffffff;       /* Cartes blanches */
+        --card-border: #c4b5fd;   /* Bordures violet clair */
+        --btn-color: #725AC1;     /* Le Violet "Magistral" */
+        --shadow-tone: rgba(114, 90, 193, 0.15); /* Ombre violette */
+    }
+    body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background: var(--bg-body); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    
+    .navbar { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 1200px; border-radius: 30px; background: var(--nav-bg); box-shadow: 0 10px 30px -10px var(--shadow-tone); z-index: 1000; padding: 10px 30px; border: 1px solid var(--card-border); }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-weight: 700; font-size: 20px; color: var(--text-main); text-decoration: none; }
+    .nav-links { display: flex; gap: 20px; list-style: none; margin: 0; padding: 0; }
+    .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 14px; transition: 0.2s; font-weight: 500; }
+    .nav-links a:hover, .nav-links a.active { color: var(--btn-color); }
+
+    .reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    .hero { padding: 180px 0 100px; text-align: center; position: relative; }
+    /* Blobs plus vifs pour le fond blanc */
+    .blob-bg::before { content: ''; position: absolute; width: 6rem; height: 6rem; right: 20%; top: 10%; z-index: -1; background-color: #8b5cf6; border-radius: 9999px; filter: blur(50px); opacity: 0.4; }
+    .blob-bg::after { content: ''; position: absolute; width: 8rem; height: 8rem; left: 20%; bottom: 10%; z-index: -1; background-color: #c4b5fd; border-radius: 9999px; filter: blur(60px); opacity: 0.5; }
+
+    .universal-btn { position: relative; display: inline-flex; justify-content: center; align-items: center; padding: 12px 28px; text-decoration: none; color: var(--btn-color); background: transparent; border: 2px solid var(--btn-color); box-shadow: inset 0 0 0 0 var(--btn-color); cursor: pointer; transition: ease-out 0.5s; border-radius: 10px; font-weight: 700; font-size: 14px; }
+    .universal-btn:hover { color: white; box-shadow: inset 0 -100px 0 0 var(--btn-color); }
+
+    .info-section { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 24px; padding: 40px; margin: 40px 0; text-align: left; box-shadow: 0 20px 40px -20px var(--shadow-tone); }
+    .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 30px; }
+    .info-item h3 { color: var(--btn-color); margin-bottom: 10px; font-weight: 700; }
+    
+    footer { border-top: 1px solid var(--card-border); padding: 40px 0; text-align: center; color: var(--text-muted); font-size: 13px; background: var(--nav-bg); }
+</style>
+</head>
+<body>
+<nav class="navbar">
+    <div class="nav-inner">
+        <a href="index.html" class="logo">ITSMTO<span style="color:var(--btn-color)">.PROJECT</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">Accueil</a></li>
+            <li><a href="vehicules.html">Garage</a></li>
+            <li><a href="socials.html">Réseaux</a></li>
+        </ul>
+    </div>
+</nav>
+<section class="hero blob-bg reveal">
+    <div class="container">
+        <h1 style="font-weight: 800; font-size: 3em;">L'Expérience Moddée par itsmto</h1>
+        <div class="info-section">
+            <h2 style="margin-top:0; color:var(--btn-color);">Fonctionnement & Services</h2>
+            <p style="color:var(--text-muted)">Découvrez ma collection privée et profitez de services d'optimisation de gains.</p>
+            <div class="info-grid">
+                <div class="info-item"><h3>Échanges & Dons</h3><p>Plus de 60 véhicules moddés transférables sur PS5.</p></div>
+                <div class="info-item"><h3>Braquages</h3><p>Services Bogdan, Casino et Cayo Perico disponibles.</p></div>
+                <div class="info-item"><h3>Procédure</h3><p>Contactez-moi sur Discord pour planifier vos sessions.</p></div>
+            </div>
+        </div>
+        <div style="display: flex; gap: 20px; justify-content: center;">
+            <a href="vehicules.html" class="universal-btn">Voir le Garage</a>
+            <a href="socials.html" class="universal-btn">Me contacter</a>
+        </div>
+    </div>
+</section>
+<footer><p>&copy; 2025 itsmto. Tous droits réservés.</p></footer>
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+</script>
+</body>
+</html>
