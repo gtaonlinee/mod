@@ -165,6 +165,7 @@
             <div class="nav-links">
                 <a href="index.html">Accueil</a>
                 <a href="vehicules.html" class="active">Garage</a>
+                <a href="fonctionnement.html">Fonctionnement</a>
                 <a href="socials.html">Réseaux</a>
             </div>
             <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
@@ -175,6 +176,7 @@
         <button class="close-menu" onclick="toggleMobileMenu()">×</button>
         <a href="index.html">Accueil</a>
         <a href="vehicules.html">Garage</a>
+        <a href="fonctionnement.html">Fonctionnement</a>
         <a href="socials.html">Réseaux</a>
     </div>
 
@@ -299,93 +301,93 @@
         // --- LISTE DES VÉHICULES ---
         const vehicles = [
             // --- ARENE RDC ---
-            { name: "Obey 8F Drafter", images: ["mod/arenerdc/8F Drafter.jpg", "mod/arenerdc/8F Drafter1.jpg", "mod/arenerdc/8F Drafter2.jpg", "mod/arenerdc/8F Drafter3.jpg"], tag: "Bleu • F1 • Yankton", garage: "arenerdc" },
-            { name: "Obey 10F Widebody", images: ["mod/arenerdc/10f large.jpg", "mod/arenerdc/10f large1.jpg", "mod/arenerdc/10f large2.jpg", "mod/arenerdc/10f large3.jpg"], tag: "Or • Benny's • Yankton", garage: "arenerdc" },
-            { name: "Lampadati Cinquemila", images: ["mod/arenerdc/Cinquemila.jpg", "mod/arenerdc/Cinquemila1.jpg", "mod/arenerdc/Cinquemila2.jpg", "mod/arenerdc/Cinquemila3.jpg"], tag: "Violet • Benny's • Yankton", garage: "arenerdc" },
-            { name: "Ubermacht Cypher", images: ["mod/arenerdc/Cypher.jpg", "mod/arenerdc/Cypher1.jpg", "mod/arenerdc/Cypher2.jpg", "mod/arenerdc/Cypher3.jpg"], tag: "Gris • F1 • Yankton", garage: "arenerdc" },
-            { name: "Karin Keitora", images: ["mod/arenerdc/Keitora.jpg", "mod/arenerdc/Keitora1.jpg", "mod/arenerdc/Keitora2.jpg", "mod/arenerdc/Keitora3.jpg"], tag: "Vert • F1 • Yankton", garage: "arenerdc" },
-            { name: "Ubermacht Niobe", images: ["mod/arenerdc/Niobe.jpg", "mod/arenerdc/Niobe1.jpg", "mod/arenerdc/Niobe2.jpg", "mod/arenerdc/Niobe3.jpg", "mod/arenerdc/Niobe4.jpg"], tag: "Caméléon • F1 • Yankton", garage: "arenerdc" },
-            { name: "Ocelot Pariah", images: ["mod/arenerdc/Pariah.jpg", "mod/arenerdc/Pariah1.jpg", "mod/arenerdc/Pariah2.jpg", "mod/arenerdc/Pariah3.jpg"], tag: "Or • F1 • Yankton", garage: "arenerdc" },
-            { name: "Karin Vivanite", images: ["mod/arenerdc/Vivanite.jpg", "mod/arenerdc/Vivanite1.jpg", "mod/arenerdc/Vivanite2.jpg", "mod/arenerdc/Vivanite3.jpg"], tag: "Vert • Benny's • Yankton", garage: "arenerdc" },
-            { name: "Pegassi Zentorno", images: ["mod/arenerdc/Zentorno.jpg", "mod/arenerdc/Zentorno1.jpg", "mod/arenerdc/Zentorno2.jpg", "mod/arenerdc/Zentorno3.jpg"], tag: "Blanc • F1 • Yankton", garage: "arenerdc" },
+            { name: "Obey 8F Drafter", images: ["arenerdc/8F Drafter.jpg", "arenerdc/8F Drafter1.jpg", "arenerdc/8F Drafter2.jpg", "arenerdc/8F Drafter3.jpg"], tag: "Bleu • F1 • Yankton", garage: "arenerdc" },
+            { name: "Obey 10F Widebody", images: ["arenerdc/10f large.jpg", "arenerdc/10f large1.jpg", "arenerdc/10f large2.jpg", "arenerdc/10f large3.jpg"], tag: "Or • Benny's • Yankton", garage: "arenerdc" },
+            { name: "Lampadati Cinquemila", images: ["arenerdc/Cinquemila.jpg", "arenerdc/Cinquemila1.jpg", "arenerdc/Cinquemila2.jpg", "arenerdc/Cinquemila3.jpg"], tag: "Violet • Benny's • Yankton", garage: "arenerdc" },
+            { name: "Ubermacht Cypher", images: ["arenerdc/Cypher.jpg", "arenerdc/Cypher1.jpg", "arenerdc/Cypher2.jpg", "arenerdc/Cypher3.jpg"], tag: "Gris • F1 • Yankton", garage: "arenerdc" },
+            { name: "Karin Keitora", images: ["arenerdc/Keitora.jpg", "arenerdc/Keitora1.jpg", "arenerdc/Keitora2.jpg", "arenerdc/Keitora3.jpg"], tag: "Vert • F1 • Yankton", garage: "arenerdc" },
+            { name: "Ubermacht Niobe", images: ["arenerdc/Niobe.jpg", "arenerdc/Niobe1.jpg", "arenerdc/Niobe2.jpg", "arenerdc/Niobe3.jpg", "arenerdc/Niobe4.jpg"], tag: "Caméléon • F1 • Yankton", garage: "arenerdc" },
+            { name: "Ocelot Pariah", images: ["arenerdc/Pariah.jpg", "arenerdc/Pariah1.jpg", "arenerdc/Pariah2.jpg", "arenerdc/Pariah3.jpg"], tag: "Or • F1 • Yankton", garage: "arenerdc" },
+            { name: "Karin Vivanite", images: ["arenerdc/Vivanite.jpg", "arenerdc/Vivanite1.jpg", "arenerdc/Vivanite2.jpg", "arenerdc/Vivanite3.jpg"], tag: "Vert • Benny's • Yankton", garage: "arenerdc" },
+            { name: "Pegassi Zentorno", images: ["arenerdc/Zentorno.jpg", "arenerdc/Zentorno1.jpg", "arenerdc/Zentorno2.jpg", "arenerdc/Zentorno3.jpg"], tag: "Blanc • F1 • Yankton", garage: "arenerdc" },
 
             // --- ARENE 1 ---
-            { name: "Apocalypse Bruiser", images: ["mod/arene1/Bruiser anticipation.jpg", "mod/arene1/Bruiser anticipation1.jpg"], tag: "Rouge • F1 • Yankton", garage: "arene1" },
-            { name: "Apocalypse Cerberus", images: ["mod/arene1/Cerberus anticipation.jpg"], tag: "Noir • F1 • Yankton", garage: "arene1" },
-            { name: "Coil Cyclone", images: ["mod/arene1/Cyclone.jpg", "mod/arene1/Cyclone1.jpg"], tag: "Noir • F1 • Yankton", garage: "arene1" },
-            { name: "Invetero Coquette D10", images: ["mod/arene1/D10.jpg"], tag: "Noir • F1 • Yankton", garage: "arene1" },
-            { name: "Dinka Jester RR", images: ["mod/arene1/Jester.jpg"], tag: "Violet • F1 • Yankton", garage: "arene1" },
-            { name: "Benefactor Krieger", images: ["mod/arene1/Krieger.jpg", "mod/arene1/Krieger1.jpg", "mod/arene1/Krieger2.jpg"], tag: "Violet • F1 • Yankton", garage: "arene1" },
-            { name: "Ubermacht Rhinehart", images: ["mod/arene1/Rhinehart.jpg", "mod/arene1/Rhinehart1.jpg", "mod/arene1/Rhinehart2.jpg"], tag: "Noir • F1 • Yankton", garage: "arene1" },
-            { name: "Grotti Itali RSX", images: ["mod/arene1/RSX.jpg", "mod/arene1/RSX1.jpg", "mod/arene1/RSX2.jpg", "mod/arene1/RSX3.jpg"], tag: "Rouge • F1 • Yankton", garage: "arene1" },
-            { name: "Pegassi Zentorno", images: ["mod/arene1/Zentorno.jpg", "mod/arene1/Zentorno1.jpg", "mod/arene1/Zentorno2.jpg"], tag: "Or • F1 • Yankton", garage: "arene1" },
-            { name: "Apocalypse ZR380", images: ["mod/arene1/ZR380 anticipation.jpg", "mod/arene1/ZR380 anticipation1.jpg"], tag: "Rouge • F1 • Yankton", garage: "arene1" },
+            { name: "Apocalypse Bruiser", images: ["arene1/Bruiser anticipation.jpg", "arene1/Bruiser anticipation1.jpg"], tag: "Rouge • F1 • Yankton", garage: "arene1" },
+            { name: "Apocalypse Cerberus", images: ["arene1/Cerberus anticipation.jpg"], tag: "Noir • F1 • Yankton", garage: "arene1" },
+            { name: "Coil Cyclone", images: ["arene1/Cyclone.jpg", "arene1/Cyclone1.jpg"], tag: "Noir • F1 • Yankton", garage: "arene1" },
+            { name: "Invetero Coquette D10", images: ["arene1/D10.jpg"], tag: "Noir • F1 • Yankton", garage: "arene1" },
+            { name: "Dinka Jester RR", images: ["arene1/Jester.jpg"], tag: "Violet • F1 • Yankton", garage: "arene1" },
+            { name: "Benefactor Krieger", images: ["arene1/Krieger.jpg", "arene1/Krieger1.jpg", "arene1/Krieger2.jpg"], tag: "Violet • F1 • Yankton", garage: "arene1" },
+            { name: "Ubermacht Rhinehart", images: ["arene1/Rhinehart.jpg", "arene1/Rhinehart1.jpg", "arene1/Rhinehart2.jpg"], tag: "Noir • F1 • Yankton", garage: "arene1" },
+            { name: "Grotti Itali RSX", images: ["arene1/RSX.jpg", "arene1/RSX1.jpg", "arene1/RSX2.jpg", "arene1/RSX3.jpg"], tag: "Rouge • F1 • Yankton", garage: "arene1" },
+            { name: "Pegassi Zentorno", images: ["arene1/Zentorno.jpg", "arene1/Zentorno1.jpg", "arene1/Zentorno2.jpg"], tag: "Or • F1 • Yankton", garage: "arene1" },
+            { name: "Apocalypse ZR380", images: ["arene1/ZR380 anticipation.jpg", "arene1/ZR380 anticipation1.jpg"], tag: "Rouge • F1 • Yankton", garage: "arene1" },
 
             // --- ARENE 2 ---
-            { name: "Benefactor Dubsta", images: ["mod/arene2/Dubsta.jpg", "mod/arene2/Dubsta1.jpg", "mod/arene2/Dubsta2.jpg"], tag: "Gris • F1 • Yankton", garage: "arene2" },
-            { name: "Albany Hermes", images: ["mod/arene2/Hermes.jpg", "mod/arene2/Hermes1.jpg", "mod/arene2/Hermes2.jpg"], tag: "Rouge • F1 • Yankton", garage: "arene2" },
-            { name: "Ubermacht Niobe", images: ["mod/arene2/Niobe.jpg", "mod/arene2/Niobe1.jpg", "mod/arene2/Niobe2.jpg"], tag: "Bleu • F1 • Yankton", garage: "arene2" },
-            { name: "Pegassi Reaper", images: ["mod/arene2/Reaper.jpg", "mod/arene2/Reaper1.jpg", "mod/arene2/Reaper2.jpg"], tag: "Blanc • F1 • Yankton", garage: "arene2" },
-            { name: "Benefactor Schlagen GT", images: ["mod/arene2/Schlagen GT.jpg", "mod/arene2/Schlagen GT1.jpg", "mod/arene2/Schlagen GT2.jpg"], tag: "Violet • F1 • Yankton", garage: "arene2" },
-            { name: "Progen T20", images: ["mod/arene2/T20.jpg", "mod/arene2/T201.jpg"], tag: "Violet • F1 • Yankton", garage: "arene2" },
-            { name: "Dewbauchee Vagner", images: ["mod/arene2/Vagner.jpg"], tag: "Noir • F1 • Yankton", garage: "arene2" },
-            { name: "Grotti Vigilante", images: ["mod/arene2/Vigilante.jpg"], tag: "Gris • F1 • Yankton", garage: "arene2" },
-            { name: "Apocalypse ZR380", images: ["mod/arene2/ZR380 anticipation.jpg", "mod/arene2/ZR380 anticipation1.jpg", "mod/arene2/ZR380 anticipation2.jpg"], tag: "Vert • F1 • Yankton", garage: "arene2" },
+            { name: "Benefactor Dubsta", images: ["arene2/Dubsta.jpg", "arene2/Dubsta1.jpg", "arene2/Dubsta2.jpg"], tag: "Gris • F1 • Yankton", garage: "arene2" },
+            { name: "Albany Hermes", images: ["arene2/Hermes.jpg", "arene2/Hermes1.jpg", "arene2/Hermes2.jpg"], tag: "Rouge • F1 • Yankton", garage: "arene2" },
+            { name: "Ubermacht Niobe", images: ["arene2/Niobe.jpg", "arene2/Niobe1.jpg", "arene2/Niobe2.jpg"], tag: "Bleu • F1 • Yankton", garage: "arene2" },
+            { name: "Pegassi Reaper", images: ["arene2/Reaper.jpg", "arene2/Reaper1.jpg", "arene2/Reaper2.jpg"], tag: "Blanc • F1 • Yankton", garage: "arene2" },
+            { name: "Benefactor Schlagen GT", images: ["arene2/Schlagen GT.jpg", "arene2/Schlagen GT1.jpg", "arene2/Schlagen GT2.jpg"], tag: "Violet • F1 • Yankton", garage: "arene2" },
+            { name: "Progen T20", images: ["arene2/T20.jpg", "arene2/T201.jpg"], tag: "Violet • F1 • Yankton", garage: "arene2" },
+            { name: "Dewbauchee Vagner", images: ["arene2/Vagner.jpg"], tag: "Noir • F1 • Yankton", garage: "arene2" },
+            { name: "Grotti Vigilante", images: ["arene2/Vigilante.jpg"], tag: "Gris • F1 • Yankton", garage: "arene2" },
+            { name: "Apocalypse ZR380", images: ["arene2/ZR380 anticipation.jpg", "arene2/ZR380 anticipation1.jpg", "arene2/ZR380 anticipation2.jpg"], tag: "Vert • F1 • Yankton", garage: "arene2" },
 
             // --- BOITE 2 ---
-            { name: "Emperor Vectre", images: ["mod/boite2/Vectre.jpg", "mod/boite2/Vectre1.jpg", "mod/boite2/Vectre2.jpg", "mod/boite2/Vectre3.jpg"], tag: "Vert • F1 • Yankton", garage: "boite2" },
-            { name: "Pegassi Zentorno", images: ["mod/boite2/Zentorno.jpg", "mod/boite2/Zentorno1.jpg", "mod/boite2/Zentorno2.jpg", "mod/boite2/Zentorno3.jpg"], tag: "Vert • F1 • Yankton", garage: "boite2" },
+            { name: "Emperor Vectre", images: ["boite2/Vectre.jpg", "boite2/Vectre1.jpg", "boite2/Vectre2.jpg", "boite2/Vectre3.jpg"], tag: "Vert • F1 • Yankton", garage: "boite2" },
+            { name: "Pegassi Zentorno", images: ["boite2/Zentorno.jpg", "boite2/Zentorno1.jpg", "boite2/Zentorno2.jpg", "boite2/Zentorno3.jpg"], tag: "Vert • F1 • Yankton", garage: "boite2" },
 
             // --- FONCTION 2 ---
-            { name: "Karin 190z", images: ["mod/fonction2/190z.jpg"], tag: "Vert • F1 • Yankton", garage: "fonction2" },
-            { name: "Bravado Rat-Loader", images: ["mod/fonction2/Bravado.jpg"], tag: "Noir • F1 • Yankton", garage: "fonction2" },
-            { name: "Albany Brigham", images: ["mod/fonction2/Brigham.jpg"], tag: "Noir • F1 • Yankton", garage: "fonction2" },
-            { name: "Caddie", images: ["mod/fonction2/Caddie.jpg"], tag: "Vert • F1 • Yankton", garage: "fonction2" },
-            { name: "Ubermacht Cypher", images: ["mod/fonction2/Cypher.jpg"], tag: "Vert • F1 • Yankton", garage: "fonction2" },
-            { name: "Invetero Coquette D5", images: ["mod/fonction2/D5.jpg"], tag: "Rouge • F1 • Yankton", garage: "fonction2" },
-            { name: "Invetero Coquette D10", images: ["mod/fonction2/D10.jpg"], tag: "Noir • F1 • Yankton", garage: "fonction2" },
-            { name: "Weeny Dynasty", images: ["mod/fonction2/Dynasty.jpg"], tag: "Jaune • F1 • Yankton", garage: "fonction2" },
-            { name: "Elegy Rétro Custom", images: ["mod/fonction2/elegy.jpg"], tag: "Gris • F1 • Yankton", garage: "fonction2" },
-            { name: "Willard Eudora", images: ["mod/fonction2/Eudora.jpg"], tag: "Jaune • F1 • Yankton", garage: "fonction2" },
-            { name: "Grotti Itali GTO", images: ["mod/fonction2/Itali GTO.jpg"], tag: "Noir • F1 • Yankton", garage: "fonction2" },
-            { name: "Grotti Itali RSX", images: ["mod/fonction2/Itali.jpg"], tag: "Violet • F1 • Yankton", garage: "fonction2" },
-            { name: "Canis Kalahari", images: ["mod/fonction2/Kalahari.jpg"], tag: "Rose • F1 • Yankton", garage: "fonction2" },
-            { name: "Enus Paragon S", images: ["mod/fonction2/Paragon S.jpg"], tag: "Rose • F1 • Yankton", garage: "fonction2" },
-            { name: "Overflod Pipistrello", images: ["mod/fonction2/Pipistrello.jpg"], tag: "Bleu • F1 • Yankton", garage: "fonction2" },
-            { name: "BF Raptor", images: ["mod/fonction2/Raptor.jpg"], tag: "Vert • F1 • Yankton", garage: "fonction2" },
-            { name: "Corbillard Romero", images: ["mod/fonction2/Romero.jpg"], tag: "Vert • F1 • Yankton", garage: "fonction2" },
-            { name: "Schlagen GT", images: ["mod/fonction2/schlagen.jpg"], tag: "Bleu • F1 • Yankton", garage: "fonction2" },
-            { name: "Schlagen GT (v2)", images: ["mod/fonction2/Schlagen GT.jpg"], tag: "Bleu • F1 • Yankton", garage: "fonction2" },
-            { name: "Albany Roosevelt Valor", images: ["mod/fonction2/Valor.jpg"], tag: "Violet • F1 • Yankton", garage: "fonction2" },
-            { name: "RUNE Zhaba", images: ["mod/fonction2/Zhaba.jpg"], tag: "Vert • F1 • Yankton", garage: "fonction2" },
+            { name: "Karin 190z", images: ["fonction2/190z.jpg"], tag: "Vert • F1 • Yankton", garage: "fonction2" },
+            { name: "Bravado Rat-Loader", images: ["fonction2/Bravado.jpg"], tag: "Noir • F1 • Yankton", garage: "fonction2" },
+            { name: "Albany Brigham", images: ["fonction2/Brigham.jpg"], tag: "Noir • F1 • Yankton", garage: "fonction2" },
+            { name: "Caddie", images: ["fonction2/Caddie.jpg"], tag: "Vert • F1 • Yankton", garage: "fonction2" },
+            { name: "Ubermacht Cypher", images: ["fonction2/Cypher.jpg"], tag: "Vert • F1 • Yankton", garage: "fonction2" },
+            { name: "Invetero Coquette D5", images: ["fonction2/D5.jpg"], tag: "Rouge • F1 • Yankton", garage: "fonction2" },
+            { name: "Invetero Coquette D10", images: ["fonction2/D10.jpg"], tag: "Noir • F1 • Yankton", garage: "fonction2" },
+            { name: "Weeny Dynasty", images: ["fonction2/Dynasty.jpg"], tag: "Jaune • F1 • Yankton", garage: "fonction2" },
+            { name: "Elegy Rétro Custom", images: ["fonction2/elegy.jpg"], tag: "Gris • F1 • Yankton", garage: "fonction2" },
+            { name: "Willard Eudora", images: ["fonction2/Eudora.jpg"], tag: "Jaune • F1 • Yankton", garage: "fonction2" },
+            { name: "Grotti Itali GTO", images: ["fonction2/Itali GTO.jpg"], tag: "Noir • F1 • Yankton", garage: "fonction2" },
+            { name: "Grotti Itali RSX", images: ["fonction2/Itali.jpg"], tag: "Violet • F1 • Yankton", garage: "fonction2" },
+            { name: "Canis Kalahari", images: ["fonction2/Kalahari.jpg"], tag: "Rose • F1 • Yankton", garage: "fonction2" },
+            { name: "Enus Paragon S", images: ["fonction2/Paragon S.jpg"], tag: "Rose • F1 • Yankton", garage: "fonction2" },
+            { name: "Overflod Pipistrello", images: ["fonction2/Pipistrello.jpg"], tag: "Bleu • F1 • Yankton", garage: "fonction2" },
+            { name: "BF Raptor", images: ["fonction2/Raptor.jpg"], tag: "Vert • F1 • Yankton", garage: "fonction2" },
+            { name: "Corbillard Romero", images: ["fonction2/Romero.jpg"], tag: "Vert • F1 • Yankton", garage: "fonction2" },
+            { name: "Schlagen GT", images: ["fonction2/schlagen.jpg"], tag: "Bleu • F1 • Yankton", garage: "fonction2" },
+            { name: "Schlagen GT (v2)", images: ["fonction2/Schlagen GT.jpg"], tag: "Bleu • F1 • Yankton", garage: "fonction2" },
+            { name: "Albany Roosevelt Valor", images: ["fonction2/Valor.jpg"], tag: "Violet • F1 • Yankton", garage: "fonction2" },
+            { name: "RUNE Zhaba", images: ["fonction2/Zhaba.jpg"], tag: "Vert • F1 • Yankton", garage: "fonction2" },
 
              // --- FONCTION 3 ---
-            { name: "Hot Rod Blazer", images: ["mod/fonction3/Blazer.jpg"], tag: "Bleu • F1 • Yankton", garage: "fonction3" },
-            { name: "Blista Kanjo", images: ["mod/fonction3/Blista Kanjo.jpg"], tag: "Noir • F1 • Yankton", garage: "fonction3" },
-            { name: "Canis Bodhi", images: ["mod/fonction3/Bodhi.jpg"], tag: "Gris • F1 • Yankton", garage: "fonction3" },
-            { name: "Karin Calico GTF", images: ["mod/fonction3/Calico GTF.jpg"], tag: "Noir • F1 • Yankton", garage: "fonction3" },
-            { name: "Canis Castigator", images: ["mod/fonction3/Castigator.jpg"], tag: "Vert • F1 • Yankton", garage: "fonction3" },
-            { name: "Coil Cyclone II", images: ["mod/fonction3/Cyclone II.jpg"], tag: "Rose • F1 • Yankton", garage: "fonction3" },
-            { name: "MTL Dune", images: ["mod/fonction3/Dune.jpg"], tag: "Or • F1 • Yankton", garage: "fonction3" },
-            { name: "Vapid Hotknife", images: ["mod/fonction3/Hotknife.jpg"], tag: "Gris • F1 • Yankton", garage: "fonction3" },
-            { name: "Go Go Monkey Blista", images: ["mod/fonction3/monkey.jpg"], tag: "Noir • F1 • Yankton", garage: "fonction3" },
-            { name: "Imponte Nightshade", images: ["mod/fonction3/Nightshade.jpg"], tag: "Rouge • F1 • Yankton", garage: "fonction3" },
-            { name: "Benefactor Panto", images: ["mod/fonction3/Panto.jpg"], tag: "Vert • F1 • Yankton", garage: "fonction3" },
-            { name: "Ubermacht Revolter", images: ["mod/fonction3/Revolter.jpg"], tag: "Violet • F1 • Yankton", garage: "fonction3" },
-            { name: "HVY Scarab", images: ["mod/fonction3/Scarab anticipation.jpg"], tag: "Or • F1 • Yankton", garage: "fonction3" },
-            { name: "Blazer Street", images: ["mod/fonction3/street.jpg"], tag: "Violet • F1 • Yankton", garage: "fonction3" },
-            { name: "Dinka Sugoi", images: ["mod/fonction3/Sugoi.jpg"], tag: "Gris • F1 • Yankton", garage: "fonction3" },
-            { name: "Turismo Classique", images: ["mod/fonction3/Turismo classique.jpg"], tag: "Noir • F1 • Yankton", garage: "fonction3" },
-            { name: "Emperor Vectre", images: ["mod/fonction3/Vectre.jpg"], tag: "Caméléon • F1 • Yankton", garage: "fonction3" },
-            { name: "Bravado Verlierer", images: ["mod/fonction3/Verlierer.jpg"], tag: "Gris • F1 • Yankton", garage: "fonction3" },
-            { name: "ZR380 Anticipation", images: ["mod/fonction3/ZR380 anticipation.jpg"], tag: "Rouge • F1 • Yankton", garage: "fonction3" }
+            { name: "Hot Rod Blazer", images: ["fonction3/Blazer.jpg"], tag: "Bleu • F1 • Yankton", garage: "fonction3" },
+            { name: "Blista Kanjo", images: ["fonction3/Blista Kanjo.jpg"], tag: "Noir • F1 • Yankton", garage: "fonction3" },
+            { name: "Canis Bodhi", images: ["fonction3/Bodhi.jpg"], tag: "Gris • F1 • Yankton", garage: "fonction3" },
+            { name: "Karin Calico GTF", images: ["fonction3/Calico GTF.jpg"], tag: "Noir • F1 • Yankton", garage: "fonction3" },
+            { name: "Canis Castigator", images: ["fonction3/Castigator.jpg"], tag: "Vert • F1 • Yankton", garage: "fonction3" },
+            { name: "Coil Cyclone II", images: ["fonction3/Cyclone II.jpg"], tag: "Rose • F1 • Yankton", garage: "fonction3" },
+            { name: "MTL Dune", images: ["fonction3/Dune.jpg"], tag: "Or • F1 • Yankton", garage: "fonction3" },
+            { name: "Vapid Hotknife", images: ["fonction3/Hotknife.jpg"], tag: "Gris • F1 • Yankton", garage: "fonction3" },
+            { name: "Go Go Monkey Blista", images: ["fonction3/monkey.jpg"], tag: "Noir • F1 • Yankton", garage: "fonction3" },
+            { name: "Imponte Nightshade", images: ["fonction3/Nightshade.jpg"], tag: "Rouge • F1 • Yankton", garage: "fonction3" },
+            { name: "Benefactor Panto", images: ["fonction3/Panto.jpg"], tag: "Vert • F1 • Yankton", garage: "fonction3" },
+            { name: "Ubermacht Revolter", images: ["fonction3/Revolter.jpg"], tag: "Violet • F1 • Yankton", garage: "fonction3" },
+            { name: "HVY Scarab", images: ["fonction3/Scarab anticipation.jpg"], tag: "Or • F1 • Yankton", garage: "fonction3" },
+            { name: "Blazer Street", images: ["fonction3/street.jpg"], tag: "Violet • F1 • Yankton", garage: "fonction3" },
+            { name: "Dinka Sugoi", images: ["fonction3/Sugoi.jpg"], tag: "Gris • F1 • Yankton", garage: "fonction3" },
+            { name: "Turismo Classique", images: ["fonction3/Turismo classique.jpg"], tag: "Noir • F1 • Yankton", garage: "fonction3" },
+            { name: "Emperor Vectre", images: ["fonction3/Vectre.jpg"], tag: "Caméléon • F1 • Yankton", garage: "fonction3" },
+            { name: "Bravado Verlierer", images: ["fonction3/Verlierer.jpg"], tag: "Gris • F1 • Yankton", garage: "fonction3" },
+            { name: "ZR380 Anticipation", images: ["fonction3/ZR380 anticipation.jpg"], tag: "Rouge • F1 • Yankton", garage: "fonction3" }
         ];
 
         // --- ETAT GLOBAL ---
         let currentVehicle = null;
         let currentImageIndex = 0;
         let currentGarage = 'all';
-        let currentFilters = { wheel: 'all', plate: 'all', color: 'all' };
+        let currentFilters = { wheel: 'all', plate: 'all', smoke: 'all', color: 'all' };
 
         const grid = document.getElementById('galleryGrid');
         const searchInput = document.getElementById('searchInput');
@@ -427,6 +429,7 @@
             modalDesc.innerText = currentVehicle.tag;
 
             if (currentVehicle.images.length > 1) {
+                // Gestion compteur
                 const nav = document.getElementById("prevBtn").parentNode;
                 const oldCounter = document.getElementById("imgCounter");
                 if(oldCounter) oldCounter.remove();
@@ -469,20 +472,25 @@
             let count = 0;
 
             vehicles.forEach((v) => {
+                // Filtre Recherche Textuelle
                 const matchSearch = v.name.toLowerCase().includes(search);
+                
+                // Filtre Onglet Garage
                 const matchGarage = (currentGarage === 'all' || v.garage === currentGarage);
 
+                // Filtres Avancés
                 const vTags = v.tag.toLowerCase();
                 const matchWheel = (currentFilters.wheel === 'all' || vTags.includes(currentFilters.wheel.toLowerCase()));
                 const matchPlate = (currentFilters.plate === 'all' || vTags.includes(currentFilters.plate.toLowerCase()));
+                const matchSmoke = (currentFilters.smoke === 'all' || vTags.includes(currentFilters.smoke.toLowerCase()));
                 const matchColor = (currentFilters.color === 'all' || vTags.includes(currentFilters.color.toLowerCase()));
 
-                if (matchSearch && matchGarage && matchWheel && matchPlate && matchColor) {
+                if (matchSearch && matchGarage && matchWheel && matchPlate && matchSmoke && matchColor) {
                     const card = document.createElement('div');
                     card.className = 'vehicle-card';
                     card.onclick = function() { openImageModal(v); };
                     
-                    const garageName = v.garage.replace(/(\d)/, ' $1').toUpperCase();
+                    const garageName = v.garage.replace(/(\d)/, ' $1').toUpperCase(); // Ajoute un espace avant le chiffre
 
                     card.innerHTML = `
                         <img src="${v.images[0]}" class="vehicle-img" alt="${v.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Introuvable'">
@@ -516,17 +524,20 @@
             });
         });
 
+        // Appliquer filtres avancés
         filterForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const formData = new FormData(filterForm);
             currentFilters.wheel = formData.get('wheel');
             currentFilters.plate = formData.get('plate');
+            currentFilters.smoke = formData.get('smoke');
             currentFilters.color = formData.get('color');
             
             filterModal.classList.remove('active');
             render();
             
-            if(currentFilters.wheel !== 'all' || currentFilters.plate !== 'all' || currentFilters.color !== 'all') {
+            // Changement couleur bouton si filtre actif
+            if(currentFilters.wheel !== 'all' || currentFilters.plate !== 'all' || currentFilters.smoke !== 'all' || currentFilters.color !== 'all') {
                 openFilterBtn.classList.add('active-filter');
                 openFilterBtn.innerHTML = `Filtres (Actifs)`;
             } else {
@@ -538,6 +549,7 @@
             }
         });
 
+        // Premier rendu au chargement
         render();
 
     </script>
