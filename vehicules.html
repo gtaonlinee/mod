@@ -387,7 +387,7 @@
         let currentVehicle = null;
         let currentImageIndex = 0;
         let currentGarage = 'all';
-        let currentFilters = { wheel: 'all', plate: 'all', smoke: 'all', color: 'all' };
+        let currentFilters = { wheel: 'all', plate: 'all', color: 'all' };
 
         const grid = document.getElementById('galleryGrid');
         const searchInput = document.getElementById('searchInput');
@@ -482,10 +482,9 @@
                 const vTags = v.tag.toLowerCase();
                 const matchWheel = (currentFilters.wheel === 'all' || vTags.includes(currentFilters.wheel.toLowerCase()));
                 const matchPlate = (currentFilters.plate === 'all' || vTags.includes(currentFilters.plate.toLowerCase()));
-                const matchSmoke = (currentFilters.smoke === 'all' || vTags.includes(currentFilters.smoke.toLowerCase()));
                 const matchColor = (currentFilters.color === 'all' || vTags.includes(currentFilters.color.toLowerCase()));
 
-                if (matchSearch && matchGarage && matchWheel && matchPlate && matchSmoke && matchColor) {
+                if (matchSearch && matchGarage && matchWheel && matchPlate && matchColor) {
                     const card = document.createElement('div');
                     card.className = 'vehicle-card';
                     card.onclick = function() { openImageModal(v); };
@@ -530,14 +529,13 @@
             const formData = new FormData(filterForm);
             currentFilters.wheel = formData.get('wheel');
             currentFilters.plate = formData.get('plate');
-            currentFilters.smoke = formData.get('smoke');
             currentFilters.color = formData.get('color');
             
             filterModal.classList.remove('active');
             render();
             
             // Changement couleur bouton si filtre actif
-            if(currentFilters.wheel !== 'all' || currentFilters.plate !== 'all' || currentFilters.smoke !== 'all' || currentFilters.color !== 'all') {
+            if(currentFilters.wheel !== 'all' || currentFilters.plate !== 'all' || currentFilters.color !== 'all') {
                 openFilterBtn.classList.add('active-filter');
                 openFilterBtn.innerHTML = `Filtres (Actifs)`;
             } else {
