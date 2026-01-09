@@ -3,48 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>itsmto • Réseaux</title>
+<title>itsmto • Fonctionnement</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
     :root { --bg-body: #f5f3ff; --text-main: #1e1b4b; --text-muted: #64748b; --nav-bg: #ffffff; --card-bg: #ffffff; --card-border: #c4b5fd; --btn-color: #725AC1; --shadow-tone: rgba(114, 90, 193, 0.15); }
-    body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background: var(--bg-body); color: var(--text-main); overflow-x: hidden; }
-    .container { max-width: 600px; margin: 140px auto; padding: 0 24px; position: relative; }
+    body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background: var(--bg-body); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
+    .container { max-width: 900px; margin: 140px auto; padding: 0 24px; position: relative; }
     
     .navbar { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 1200px; border-radius: 30px; background: var(--nav-bg); padding: 10px 30px; z-index: 1000; border: 1px solid var(--card-border); box-shadow: 0 10px 30px -10px var(--shadow-tone); box-sizing: border-box; }
     .nav-inner { display: flex; justify-content: space-between; align-items: center; }
     .logo { font-weight: 800; font-size: 22px; color: var(--btn-color); text-decoration: none; }
-    
     .nav-links { display: flex; gap: 20px; }
     .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 14px; font-weight: 500; }
     .nav-links a.active { color: var(--btn-color); }
-
     .menu-toggle { display: none; background: none; border: none; font-size: 28px; color: var(--btn-color); cursor: pointer; }
     .mobile-menu { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-body); z-index: 2000; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
     .mobile-menu a { font-size: 32px; font-weight: 800; text-decoration: none; color: var(--text-main); }
     .close-menu { position: absolute; top: 30px; right: 30px; font-size: 40px; background: none; border: none; color: var(--text-main); cursor: pointer; }
-    
     @media (max-width: 768px) { .nav-links { display: none; } .menu-toggle { display: block; } }
 
     .reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
-    .blob-bg::before { content: ''; position: absolute; width: 12rem; height: 12rem; left: -60px; top: -60px; z-index: -1; background-color: #8b5cf6; border-radius: 9999px; filter: blur(70px); opacity: 0.3; }
+    .blob-bg::before { content: ''; position: absolute; width: 10rem; height: 10rem; left: 50%; top: -50px; transform: translateX(-50%); z-index: -1; background-color: #8b5cf6; border-radius: 9999px; filter: blur(80px); opacity: 0.3; }
 
-    .card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 40px; box-shadow: 0 25px 50px -12px var(--shadow-tone); }
-    .link { display: flex; align-items: center; justify-content: space-between; background: #f8fafc; border: 1px solid var(--card-border); padding: 18px; margin-bottom: 12px; border-radius: 12px; text-decoration: none; color: var(--text-main); transition: 0.3s; font-weight: 600; }
-    .link:hover { background: var(--btn-color); color: white; transform: scale(1.02); border-color: var(--btn-color); }
-    .label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; }
-    .link:hover .label { color: #e9d5ff; }
+    .info-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 40px; margin-bottom: 30px; box-shadow: 0 15px 30px -10px var(--shadow-tone); }
+    .info-card h2 { color: var(--btn-color); margin-top: 0; display: flex; align-items: center; gap: 10px; }
+    .tag-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .tag { background: #f0ebff; color: var(--btn-color); padding: 8px 16px; border-radius: 50px; font-weight: 600; font-size: 14px; border: 1px solid var(--card-border); }
 </style>
 </head>
 <body>
+
 <nav class="navbar">
     <div class="nav-inner">
         <a href="index.html" class="logo">ITSMTO</a>
         <div class="nav-links">
             <a href="index.html">Accueil</a>
             <a href="vehicules.html">Garage</a>
-            <a href="fonctionnement.html">Fonctionnement</a>
-            <a href="socials.html" class="active">Réseaux</a>
+            <a href="fonctionnement.html" class="active">Fonctionnement</a>
+            <a href="socials.html">Réseaux</a>
         </div>
         <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
     </div>
@@ -59,24 +56,20 @@
 </div>
 
 <div class="container blob-bg reveal">
-    <div class="card">
-        <h1 style="font-weight:800; margin-bottom: 5px;">contact</h1>
-        <p style="color:var(--text-muted); margin-bottom:30px;">itsmto_</p>
-        
-        <a href="https://profile.playstation.com/by_math_67" target="_blank" class="link">
-            <div><span class="label">Pour m’ajouter</span><br><span>Profil PlayStation</span></div><span>➔</span>
-        </a>
+    <h1 style="text-align: center; margin-bottom: 50px; font-size: 36px; font-weight: 800;">Services & Fonctionnement</h1>
 
-        <div class="link">
-            <div><span class="label">Psn</span><br><span>by_math_67</span></div><span>🎮</span>
-        </div>
-        
-        <a href="https://discord.gg/dDNhQwsr5E" target="_blank" class="link">
-            <div><span class="label">Discord Principal</span><br><span>Rejoindre le serveur</span></div><span>➔</span>
-        </a>
+    <div class="info-card">
+        <h2><span>🚗</span> Échanges de Véhicules</h2>
+        <p>J'échange mes véhicules moddés (Roues F1, Benny's, Plaques Yankton, Couleurs moddées) contre d'autres véhicules rares que je ne possède pas encore.</p>
+    </div>
 
-        <div class="link">
-            <div><span class="label">Plateformes</span><br><span>PS5 & PC</span></div><span>🚀</span>
+    <div class="info-card">
+        <h2><span>💰</span> Braquages</h2>
+        <p>Besoin d'argent ? Je propose des braquages optimisés (Casino, Cayo Perico, Bogdan).</p>
+        <div class="tag-list">
+            <span class="tag">💎 Casino Diamond</span>
+            <span class="tag">🏝️ Cayo Perico</span>
+            <span class="tag">🚢 Bogdan</span>
         </div>
     </div>
 </div>
@@ -91,5 +84,6 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
 </script>
+
 </body>
 </html>
