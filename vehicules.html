@@ -15,6 +15,9 @@
             --card-border: #c4b5fd;
             --btn-color: #725AC1;
             --shadow-tone: rgba(114, 90, 193, 0.15);
+            --danger-color: #ef4444;
+            --success-color: #28a745; /* Vert pour la sélection */
+            --success-shadow: #218838;
         }
 
         body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background: var(--bg-body); color: var(--text-main); }
@@ -121,23 +124,62 @@
         .vehicle-name { margin: 0; font-size: 18px; font-weight: 700; color: var(--text-main); }
         .vehicle-tag { font-size: 12px; color: var(--text-muted); margin-top: 0px; font-weight: 500; line-height: 1.4; }
 
-        /* BOUTONS DANS LA CARTE */
-        .add-btn {
-            background: var(--btn-color); color: white; border: none; padding: 10px 16px; border-radius: 8px;
-            cursor: pointer; font-weight: 600; font-size: 14px; transition: 0.3s; margin-top: 5px; width: 100%;
+        /* --- BOUTONS STYLISÉS (Avis & Ajouter) --- */
+        .cssbuttons-io-button {
+            background: #a370f0; /* Couleur par défaut (Avis / Ajouter) */
+            color: white;
+            font-family: inherit;
+            padding: 0.35em;
+            padding-left: 1.2em;
+            font-size: 15px;
+            font-weight: 500;
+            border-radius: 0.9em;
+            border: none;
+            letter-spacing: 0.05em;
+            display: flex;
+            align-items: center;
+            box-shadow: inset 0 0 1.6em -0.6em #714da6;
+            overflow: hidden;
+            position: relative;
+            height: 2.8em;
+            padding-right: 3.3em;
+            cursor: pointer;
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 5px;
+            transition: all 0.3s;
         }
-        .add-btn:hover { background: #5a3a9a; }
-        .add-btn.selected { background: #28a745; }
-        .add-btn.selected:hover { background: #218838; }
+        .cssbuttons-io-button .icon {
+            background: white;
+            margin-left: 1em;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 2.2em;
+            width: 2.2em;
+            border-radius: 0.7em;
+            box-shadow: 0.1em 0.1em 0.6em 0.2em #7b52b9;
+            right: 0.3em;
+            transition: all 0.3s;
+        }
+        .cssbuttons-io-button:hover .icon { width: calc(100% - 0.6em); }
+        .cssbuttons-io-button .icon svg { width: 1.1em; transition: transform 0.3s; color: #7b52b9; }
+        .cssbuttons-io-button:hover .icon svg { transform: translateX(0.1em); }
+        .cssbuttons-io-button:active .icon { transform: scale(0.95); }
 
-        /* BOUTON AVIS (Nouveau Style) */
-        .review-btn {
-            background: white; color: var(--btn-color); border: 1px solid var(--btn-color);
-            padding: 8px 16px; border-radius: 8px; cursor: pointer;
-            font-weight: 600; font-size: 13px; transition: 0.3s; margin-top: 5px; width: 100%;
-            display: flex; align-items: center; justify-content: center; gap: 6px;
+        /* VARIANTE : BOUTON SÉLECTIONNÉ (Vert) */
+        .cssbuttons-io-button.selected {
+            background: var(--success-color);
+            box-shadow: inset 0 0 1.6em -0.6em var(--success-shadow);
         }
-        .review-btn:hover { background: #f5f3ff; }
+        .cssbuttons-io-button.selected .icon {
+            box-shadow: 0.1em 0.1em 0.6em 0.2em var(--success-shadow);
+        }
+        .cssbuttons-io-button.selected .icon svg {
+            color: var(--success-color);
+        }
+
 
         /* --- MODALES --- */
         .modal, .filter-modal, .review-modal {
@@ -147,9 +189,8 @@
         }
         .modal.show, .filter-modal.active, .review-modal.active { display: block; }
         
-        /* Modale Avis Spécifique */
         .review-modal { 
-            background: rgba(0, 0, 0, 0.5); /* Fond moins sombre */
+            background: rgba(0, 0, 0, 0.5);
             padding-top: 0;
             display: none; 
             align-items: center; 
@@ -163,7 +204,6 @@
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(-50%); opacity: 1; } }
         
-        /* Correction animation pour les boites centrées (filtres/avis) */
         .filter-box, .review-box { animation: popIn 0.3s ease; }
         @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
@@ -234,8 +274,22 @@
         .review-input-group input, .review-input-group textarea {
             padding: 10px; border: 1px solid #c4b5fd; border-radius: 8px; font-family: inherit; width: 100%; box-sizing: border-box;
         }
+        
+        /* Message d'avertissement pseudo */
+        .pseudo-warning {
+            font-size: 11px; color: var(--danger-color); font-weight: 600; margin-bottom: 2px;
+        }
+
         .btn-send-review { background: var(--btn-color); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
         .btn-send-review:hover { background: #5a3a9a; }
+        
+        /* Style pour input désactivé (quand pseudo déjà choisi) */
+        input:disabled {
+            background-color: #f1f5f9;
+            color: #64748b;
+            cursor: not-allowed;
+            border-color: #cbd5e1;
+        }
 
     </style>
 </head>
@@ -400,6 +454,7 @@
             </div>
 
             <div class="review-input-group">
+                <div id="pseudoWarning" class="pseudo-warning">Attention : Votre pseudo est définitif.</div>
                 <input type="text" id="reviewPseudo" placeholder="Votre Pseudo (ex: Tonio)" maxlength="15">
                 <textarea id="reviewText" rows="2" placeholder="Votre avis sur ce véhicule..." maxlength="140"></textarea>
                 <button id="sendReviewBtn" class="btn-send-review">Envoyer l'avis</button>
@@ -443,6 +498,7 @@
         const reviewText = document.getElementById('reviewText');
         const sendReviewBtn = document.getElementById('sendReviewBtn');
         const closeReviewBtn = document.getElementById('closeReview');
+        const pseudoWarning = document.getElementById('pseudoWarning');
         let activeReviewVehicleName = "";
 
         // Fonction attachée à window pour être accessible depuis le HTML
@@ -452,8 +508,17 @@
             reviewModal.classList.add('active');
             reviewList.innerHTML = '<div style="text-align:center; padding:20px;">Chargement...</div>';
 
+            // Vérifier si un pseudo existe déjà
             const savedPseudo = localStorage.getItem('userPseudo');
-            if(savedPseudo) reviewPseudo.value = savedPseudo;
+            if(savedPseudo) {
+                reviewPseudo.value = savedPseudo;
+                reviewPseudo.disabled = true; // Verrouiller le champ
+                pseudoWarning.style.display = 'none'; // Cacher l'avertissement car c'est déjà fait
+            } else {
+                reviewPseudo.value = "";
+                reviewPseudo.disabled = false;
+                pseudoWarning.style.display = 'block'; // Afficher l'avertissement
+            }
 
             if(db) {
                 // Clé unique par véhicule (enlève les espaces et char spéciaux)
@@ -482,11 +547,20 @@
         };
 
         sendReviewBtn.onclick = function() {
-            const user = reviewPseudo.value.trim();
+            let user = reviewPseudo.value.trim();
             const text = reviewText.value.trim();
             
+            // Si le champ est désactivé, on utilise le pseudo sauvegardé
+            if(reviewPseudo.disabled) {
+                 user = localStorage.getItem('userPseudo');
+            }
+
             if(!user || !text) { alert("Merci de mettre un pseudo et un message !"); return; }
+            
+            // Sauvegarder le pseudo et verrouiller le champ
             localStorage.setItem('userPseudo', user);
+            reviewPseudo.disabled = true;
+            pseudoWarning.style.display = 'none';
 
             if(db) {
                 const vehicleKey = activeReviewVehicleName.replace(/[^a-zA-Z0-9]/g, '_');
@@ -499,7 +573,7 @@
                     text: text,
                     date: dateStr
                 }).then(() => {
-                    reviewText.value = ""; // Vider le champ
+                    reviewText.value = ""; // Vider le champ message
                 }).catch(err => alert("Erreur d'envoi : " + err));
             }
         };
@@ -769,7 +843,16 @@
                     if (isSelected) card.classList.add('selected');
                     
                     const garageName = v.garage.replace(/(\d)/, ' $1').toUpperCase();
+                    
+                    // Gestion du bouton Ajouter
                     const btnText = isSelected ? 'Sélectionné' : 'Ajouter';
+                    const btnClass = isSelected ? 'cssbuttons-io-button selected' : 'cssbuttons-io-button';
+                    
+                    // Icones SVG
+                    const iconPlus = `<svg height="24" width="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>`;
+                    const iconCheck = `<svg height="24" width="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+                    const currentIcon = isSelected ? iconCheck : iconPlus;
+
                     let displayTag = `${v.color1}`;
                     if(v.color2 !== v.color1) displayTag += ` / ${v.color2}`;
                     displayTag += ` • ${v.wheel}`;
@@ -785,12 +868,30 @@
                                 <div class="vehicle-tag">${displayTag}</div>
                             </div>
                             
-                            <button class="review-btn" onclick="window.openReviews('${v.name}')">
-                                <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
+                            <button class="cssbuttons-io-button" onclick="window.openReviews('${v.name}')">
                                 Avis
+                                <div class="icon">
+                                    <svg
+                                    height="24"
+                                    width="24"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                    <path d="M0 0h24v24H0z" fill="none"></path>
+                                    <path
+                                        d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"
+                                        fill="currentColor"
+                                    ></path>
+                                    </svg>
+                                </div>
                             </button>
 
-                            <button class="add-btn ${isSelected ? 'selected' : ''}" onclick="event.stopPropagation(); window.toggleSelection(${vehicleIndex})">${btnText}</button>
+                            <button class="${btnClass}" onclick="event.stopPropagation(); window.toggleSelection(${vehicleIndex})">
+                                ${btnText}
+                                <div class="icon">
+                                    ${currentIcon}
+                                </div>
+                            </button>
                         </div>
                     `;
                     grid.appendChild(card);
