@@ -150,6 +150,54 @@
     }
     .toggle-btn:hover { transform: scale(1.05); }
 
+    /* --- MODAL IMAGE PLEIN ÉCRAN --- */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 3000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.9);
+        animation: fadeIn 0.3s ease-out;
+    }
+
+    .modal-content {
+        margin: auto;
+        display: block;
+        max-width: 90%;
+        max-height: 90%;
+        animation: slideUp 0.4s ease-out;
+    }
+
+    .close {
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+        cursor: pointer;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #bbb;
+        text-decoration: none;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+        from { transform: translateY(50px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+
     footer { border-top: 1px solid var(--card-border); padding: 40px 0; text-align: center; color: var(--text-muted); font-size: 13px; position: relative; z-index: 20; background: var(--bg-body); }
 </style>
 </head>
@@ -204,18 +252,24 @@
 
     <div class="img-gallery-container order">
         <div class="img reorder" id="i-1">
-            <img src="./images/img1.jpg" alt="Véhicule 1" />
+            <img src="./images/img1.jpg" alt="Véhicule 1" onclick="openImageModal('./images/img1.jpg')" />
         </div>
         <div class="img reorder">
-            <img src="./images/img2.jpg" alt="Véhicule 2" />
+            <img src="./images/img2.jpg" alt="Véhicule 2" onclick="openImageModal('./images/img2.jpg')" />
         </div>
         <div class="img reorder">
-            <img src="./images/img3.jpg" alt="Véhicule 3" />
+            <img src="./images/img3.jpg" alt="Véhicule 3" onclick="openImageModal('./images/img3.jpg')" />
         </div>
         <div class="img reorder">
-            <img src="./images/img4.jpg" alt="Véhicule 4" />
+            <img src="./images/img4.jpg" alt="Véhicule 4" onclick="openImageModal('./images/img4.jpg')" />
         </div>
     </div>
+</div>
+
+<!-- Modal Image Plein Écran -->
+<div id="imageModal" class="modal">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <img class="modal-content" id="modalImg">
 </div>
 
 <footer><p>&copy; 2026 itsmto. Tous droits réservés.</p></footer>
@@ -264,6 +318,31 @@
             ease: "cubic",
             simple: true // Optimisation
         });
+    });
+
+    // --- GESTION MODALE IMAGE ---
+    function openImageModal(src) {
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("modalImg");
+        modal.style.display = "block";
+        modalImg.src = src;
+        document.body.style.overflow = 'hidden'; // Empêcher le scroll
+    }
+
+    function closeModal() {
+        const modal = document.getElementById("imageModal");
+        modal.style.display = "none";
+        document.body.style.overflow = 'auto'; // Réactiver le scroll
+    }
+
+    // Fermeture en cliquant en dehors ou avec Échap
+    window.onclick = function(event) {
+        const modal = document.getElementById("imageModal");
+        if (event.target == modal) closeModal();
+    }
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') closeModal();
     });
 </script>
 
