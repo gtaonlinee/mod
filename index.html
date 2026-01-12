@@ -11,7 +11,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/CustomEase.min.js"></script>
 
 <style>
-    :root { --bg-body: #f5f3ff; --text-main: #1e1b4b; --text-muted: #64748b; --nav-bg: #ffffff; --card-bg: #ffffff; --card-border: #c4b5fd; --btn-color: #725AC1; --shadow-tone: rgba(114, 90, 193, 0.15); }
+    :root { --bg-body: #f5f3ff; --text-main: #1e1b4b; --text-muted: #64748b; --nav-bg: #ffffff; --card-bg: #ffffff; --card-border: #c4b5fd; --btn-color: #725AC1; --shadow-tone: rgba(114, 90, 193, 0.15); --danger-color: #ef4444; }
     body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background: var(--bg-body); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
     .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
     
@@ -34,7 +34,7 @@
     /* Hero & Contenu Existants */
     .reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
-    .hero { padding: 180px 0 50px; text-align: center; position: relative; } /* Padding ajusté */
+    .hero { padding: 180px 0 50px; text-align: center; position: relative; } 
     .blob-bg::before { content: ''; position: absolute; width: 6rem; height: 6rem; right: 20%; top: 10%; z-index: -1; background-color: #8b5cf6; border-radius: 9999px; filter: blur(50px); opacity: 0.4; }
     .blob-bg::after { content: ''; position: absolute; width: 8rem; height: 8rem; left: 20%; bottom: 10%; z-index: -1; background-color: #c4b5fd; border-radius: 9999px; filter: blur(60px); opacity: 0.5; }
     
@@ -45,158 +45,67 @@
     .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 30px; }
     .info-item h3 { color: var(--btn-color); margin-bottom: 10px; }
     
-    /* --- NOUVEAUX STYLES POUR L'ANIMATION GSAP --- */
+    /* --- CSS MODALE AVIS --- */
+    .review-modal { 
+        background: rgba(0, 0, 0, 0.6);
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 3000;
+        display: none; align-items: center; justify-content: center;
+        backdrop-filter: blur(5px); animation: fadeIn 0.3s ease-out;
+    }
+    .review-modal.active { display: flex; }
     
-    .animation-wrapper {
-        position: relative;
-        width: 100%;
-        min-height: 800px; /* Espace pour l'animation */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 50px;
+    .review-box {
+        background: white; width: 90%; max-width: 500px; border-radius: 20px; padding: 30px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        max-height: 80vh; overflow-y: auto; position: relative; animation: popIn 0.3s ease;
     }
+    .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #f3f4f6; padding-bottom: 15px; }
+    .review-header h2 { font-size: 20px; font-weight: 700; margin: 0; color: var(--text-main); }
+    .close-review { background: none; border: none; font-size: 24px; color: var(--text-muted); cursor: pointer; }
 
-    /* Le Gros Texte Arrière-plan */
-    .big-text-bg {
-        position: absolute;
-        top: 20%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-        z-index: 0;
-        width: 100%;
-        pointer-events: none; /* Pour que le clic passe à travers */
-    }
-
-    .big-text-bg h1 {
-        font-size: 15vw; /* Très grand responsive */
-        font-weight: 400;
-        letter-spacing: -0.05em;
-        color: rgba(30, 27, 75, 0.1); /* Couleur text-main mais très transparente */
-        margin: 0;
-        line-height: 1;
-    }
-
-    .big-text-bg p {
-        font-size: 1.5rem;
-        color: #22c55e; /* Vert demandé */
-        font-weight: 600;
-        margin-top: 10px;
-    }
-
-    /* Conteneur Galerie */
-    .img-gallery-container {
-        position: relative;
-        width: 100%;
-        height: 600px;
-        z-index: 10;
-        margin-top: 100px;
-    }
-
-    /* Les Images (Cartes) */
-    .img {
-        position: absolute;
-        width: 300px;
-        height: 400px;
-        overflow: hidden;
-        border-radius: 15px;
-        box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-        
-        /* Position initiale "étalée" (quand c'est ouvert) */
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
+    .review-list { background: #f9fafb; border-radius: 10px; padding: 15px; max-height: 300px; overflow-y: auto; margin-bottom: 20px; display: flex; flex-direction: column; gap: 10px; }
+    .single-review { background: white; padding: 10px; border-radius: 8px; border: 1px solid #e5e7eb; font-size: 14px; }
+    .sr-user { font-weight: 700; color: var(--btn-color); font-size: 12px; margin-bottom: 2px; }
+    .sr-text { color: var(--text-main); line-height: 1.4; }
     
-    .img img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+    .review-input-group { display: flex; gap: 10px; flex-direction: column; }
+    .review-input-group input, .review-input-group textarea {
+        padding: 10px; border: 1px solid #c4b5fd; border-radius: 8px; font-family: inherit; width: 100%; box-sizing: border-box;
     }
+    .btn-send-review { background: var(--btn-color); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+    .btn-send-review:hover { background: #5a3a9a; }
+    
+    .pseudo-warning { font-size: 11px; color: var(--danger-color); font-weight: 600; margin-bottom: 2px; }
+    input:disabled { background-color: #f1f5f9; color: #64748b; cursor: not-allowed; border-color: #cbd5e1; }
 
-    /* Positions quand étalé */
+    /* --- ANIMATION GSAP --- */
+    .animation-wrapper { position: relative; width: 100%; min-height: 800px; display: flex; flex-direction: column; align-items: center; margin-top: 50px; }
+    .big-text-bg { position: absolute; top: 20%; left: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 0; width: 100%; pointer-events: none; }
+    .big-text-bg h1 { font-size: 15vw; font-weight: 400; letter-spacing: -0.05em; color: rgba(30, 27, 75, 0.1); margin: 0; line-height: 1; }
+    .big-text-bg p { font-size: 1.5rem; color: #22c55e; font-weight: 600; margin-top: 10px; }
+    .img-gallery-container { position: relative; width: 100%; height: 600px; z-index: 10; margin-top: 100px; }
+    .img { position: absolute; width: 300px; height: 400px; overflow: hidden; border-radius: 15px; box-shadow: 0 20px 50px rgba(0,0,0,0.2); top: 50%; left: 50%; transform: translate(-50%, -50%); }
+    .img img { width: 100%; height: 100%; object-fit: cover; }
     .img:nth-child(1) { margin-left: -350px; transform: translate(-50%, -50%) rotate(-5deg); }
     .img:nth-child(2) { margin-left: -120px; transform: translate(-50%, -50%) rotate(-2deg); }
     .img:nth-child(3) { margin-left: 120px; transform: translate(-50%, -50%) rotate(2deg); }
     .img:nth-child(4) { margin-left: 350px; transform: translate(-50%, -50%) rotate(5deg); }
-
-    /* Classe .reorder : État "Empilé" (Initial) */
-    .img.reorder {
-        margin-left: 0; /* Reset marge */
-        /* Tous au centre */
-        top: 50%;
-        left: 50%;
-    }
-    /* Légère rotation pour l'effet de paquet de cartes */
+    .img.reorder { margin-left: 0; top: 50%; left: 50%; }
     .img.reorder:nth-child(1) { transform: translate(-50%, -50%) rotate(6deg); z-index: 1;}
     .img.reorder:nth-child(2) { transform: translate(-50%, -50%) rotate(-3deg); z-index: 2;}
     .img.reorder:nth-child(3) { transform: translate(-50%, -50%) rotate(2deg); z-index: 3;}
     .img.reorder:nth-child(4) { transform: translate(-50%, -50%) rotate(-1deg); z-index: 4;}
-
-    /* Bouton d'action pour l'animation */
-    .toggle-btn {
-        margin-top: 20px;
-        background: var(--btn-color);
-        color: white;
-        border: none;
-        padding: 15px 40px;
-        border-radius: 30px;
-        font-size: 16px;
-        cursor: pointer;
-        z-index: 20;
-        font-weight: bold;
-        transition: transform 0.2s;
-    }
+    .toggle-btn { margin-top: 20px; background: var(--btn-color); color: white; border: none; padding: 15px 40px; border-radius: 30px; font-size: 16px; cursor: pointer; z-index: 20; font-weight: bold; transition: transform 0.2s; }
     .toggle-btn:hover { transform: scale(1.05); }
 
-    /* --- MODAL IMAGE PLEIN ÉCRAN --- */
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 3000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0,0,0,0.9);
-        animation: fadeIn 0.3s ease-out;
-    }
-
-    .modal-content {
-        margin: auto;
-        display: block;
-        max-width: 90%;
-        max-height: 90%;
-        animation: slideUp 0.4s ease-out;
-    }
-
-    .close {
-        position: absolute;
-        top: 15px;
-        right: 35px;
-        color: #f1f1f1;
-        font-size: 40px;
-        font-weight: bold;
-        transition: 0.3s;
-        cursor: pointer;
-    }
-
-    .close:hover,
-    .close:focus {
-        color: #bbb;
-        text-decoration: none;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
-
-    @keyframes slideUp {
-        from { transform: translateY(50px); opacity: 0; }
-        to { transform: translateY(0); opacity: 1; }
-    }
+    /* Modal Image Plein Écran */
+    .modal { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); animation: fadeIn 0.3s ease-out; }
+    .modal-content { margin: auto; display: block; max-width: 90%; max-height: 90%; animation: slideUp 0.4s ease-out; }
+    .close { position: absolute; top: 15px; right: 35px; color: #f1f1f1; font-size: 40px; font-weight: bold; transition: 0.3s; cursor: pointer; }
+    .close:hover, .close:focus { color: #bbb; text-decoration: none; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
     footer { border-top: 1px solid var(--card-border); padding: 40px 0; text-align: center; color: var(--text-muted); font-size: 13px; position: relative; z-index: 20; background: var(--bg-body); }
 </style>
@@ -217,7 +126,8 @@
 
 <div id="mobileMenu" class="mobile-menu">
     <button class="close-menu" onclick="toggleMobileMenu()">×</button>
-
+    <a href="vehicules.html">Garage</a>
+    <a href="fonctionnement.html">Fonctionnement</a>
     <a href="socials.html">Contact</a>
 </div>
 
@@ -235,6 +145,7 @@
         </div>
         
         <div style="display:flex; gap:20px; justify-content:center; flex-wrap:wrap;">
+            <button id="openReviewBtn" class="universal-btn">Avis Clients</button>
             <a href="vehicules.html" class="universal-btn">Voir le Garage</a>
             <a href="fonctionnement.html" class="universal-btn">Fonctionnement</a>
             <a href="socials.html" class="universal-btn">Me contacter</a>
@@ -248,6 +159,7 @@
 
     <div class="big-text-bg">
         <h1>ITSMTO</h1>
+        <p>Expert GTA V • PS5</p>
     </div>
 
     <div class="img-gallery-container order">
@@ -266,13 +178,169 @@
     </div>
 </div>
 
-<!-- Modal Image Plein Écran -->
 <div id="imageModal" class="modal">
     <span class="close" onclick="closeModal()">&times;</span>
     <img class="modal-content" id="modalImg">
 </div>
 
+<div id="reviewModal" class="review-modal">
+    <div class="review-box">
+        <div class="review-header">
+            <h2 id="reviewVehicleTitle">Avis sur itsmto & Services</h2>
+            <button id="closeReview" class="close-review">&times;</button>
+        </div>
+        
+        <div id="reviewList" class="review-list">
+            <div style="text-align:center; color:#999; margin-top:10px;">Chargement des avis...</div>
+        </div>
+
+        <div class="review-input-group">
+            <div id="pseudoWarning" class="pseudo-warning">Attention : Votre pseudo est définitif.</div>
+            <input type="text" id="reviewPseudo" placeholder="Votre Pseudo (ex: Tonio)" maxlength="15">
+            <textarea id="reviewText" rows="2" placeholder="Un mot sur les échanges ou services ?" maxlength="140"></textarea>
+            <button id="sendReviewBtn" class="btn-send-review">Envoyer l'avis</button>
+        </div>
+    </div>
+</div>
+
 <footer><p>&copy; 2026 itsmto. Tous droits réservés.</p></footer>
+
+<script type="module">
+    // 1. IMPORT FIREBASE
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
+
+    // 2. CONFIGURATION FIREBASE
+    const firebaseConfig = {
+        apiKey: "AIzaSyDTBFPsJpzIVA0oWLG_QZ4curscfoDNM2o",
+        authDomain: "avis-86b9e.firebaseapp.com",
+        projectId: "avis-86b9e",
+        storageBucket: "avis-86b9e.firebasestorage.app",
+        messagingSenderId: "832229592256",
+        appId: "1:832229592256:web:ac8e079fa0a92f71ef3125",
+        measurementId: "G-V14JREKZ3C",
+        databaseURL: "https://avis-86b9e-default-rtdb.europe-west1.firebasedatabase.app"
+    };
+
+    // 3. INITIALISATION
+    let app, db;
+    try {
+        app = initializeApp(firebaseConfig);
+        db = getDatabase(app);
+        console.log("Firebase connecté !");
+    } catch (e) {
+        console.error("Erreur Firebase :", e);
+    }
+
+    // --- GESTION DES AVIS ---
+    const reviewModal = document.getElementById('reviewModal');
+    const openReviewBtn = document.getElementById('openReviewBtn');
+    const closeReviewBtn = document.getElementById('closeReview');
+    
+    const reviewList = document.getElementById('reviewList');
+    const reviewPseudo = document.getElementById('reviewPseudo');
+    const reviewText = document.getElementById('reviewText');
+    const sendReviewBtn = document.getElementById('sendReviewBtn');
+    const pseudoWarning = document.getElementById('pseudoWarning');
+
+    // Clé unique pour les avis globaux
+    const globalReviewKey = "general_itsmto";
+
+    // --- LISTE NOIRE (MODÉRATION) ---
+    const blackList = [
+        "admin", "staff", "modo", "itsmto", "owner", "proprietaire",
+        "merde", "connard", "connasse", "salope", "pute", "pd", "encule", "fdp", "ntm",
+        "nique", "batard", "suce", "bite", "couille", "chienne", "foutre", "con",
+        "debile", "abruti", "bouffon", "triso", "handicape", "mongol", "sex", "porno", "zizi"
+    ];
+
+    function containsForbiddenContent(text) {
+        if(!text) return false;
+        const lowerText = text.toLowerCase();
+        return blackList.some(word => lowerText.includes(word));
+    }
+
+    // OUVRIR MODALE
+    openReviewBtn.onclick = function() {
+        reviewModal.classList.add('active');
+        reviewList.innerHTML = '<div style="text-align:center; padding:20px;">Chargement...</div>';
+
+        // Pseudo Check
+        const savedPseudo = localStorage.getItem('userPseudo');
+        if(savedPseudo) {
+            reviewPseudo.value = savedPseudo;
+            reviewPseudo.disabled = true;
+            pseudoWarning.style.display = 'none';
+        } else {
+            reviewPseudo.value = "";
+            reviewPseudo.disabled = false;
+            pseudoWarning.style.display = 'block';
+        }
+
+        if(db) {
+            const reviewsRef = ref(db, 'avis/' + globalReviewKey);
+            onValue(reviewsRef, (snapshot) => {
+                reviewList.innerHTML = "";
+                const data = snapshot.val();
+                if (data) {
+                    const reviews = Object.values(data).reverse();
+                    reviews.forEach(r => {
+                        const div = document.createElement('div');
+                        div.className = 'single-review';
+                        div.innerHTML = `<div class="sr-user">${r.user} <span style="font-weight:400; color:#999; font-size:10px;">- ${r.date}</span></div><div class="sr-text">${r.text}</div>`;
+                        reviewList.appendChild(div);
+                    });
+                } else {
+                    reviewList.innerHTML = '<div style="text-align:center; color:#999; padding:20px; font-style:italic;">Aucun avis pour le moment. Soyez le premier !</div>';
+                }
+            });
+        }
+    };
+
+    // FERMER MODALE
+    closeReviewBtn.onclick = function() {
+        reviewModal.classList.remove('active');
+    };
+
+    // ENVOYER AVIS
+    sendReviewBtn.onclick = function() {
+        let user = reviewPseudo.value.trim();
+        const text = reviewText.value.trim();
+        
+        if(reviewPseudo.disabled) { user = localStorage.getItem('userPseudo'); }
+
+        if(!user || !text) { alert("Merci de remplir tous les champs !"); return; }
+        
+        // Check Modération
+        if (containsForbiddenContent(user)) {
+            alert("Ce pseudo est interdit. Veuillez en choisir un autre.");
+            reviewPseudo.value = "";
+            return;
+        }
+        if (containsForbiddenContent(text)) {
+            alert("Votre message contient des termes inappropriés.");
+            return;
+        }
+
+        localStorage.setItem('userPseudo', user);
+        reviewPseudo.disabled = true;
+        pseudoWarning.style.display = 'none';
+
+        if(db) {
+            const reviewsRef = ref(db, 'avis/' + globalReviewKey);
+            const now = new Date();
+            const dateStr = now.toLocaleDateString() + " " + now.toLocaleTimeString().slice(0,5);
+
+            push(reviewsRef, {
+                user: user,
+                text: text,
+                date: dateStr
+            }).then(() => {
+                reviewText.value = "";
+            }).catch(err => alert("Erreur d'envoi : " + err));
+        }
+    };
+</script>
 
 <script>
     // Menu Mobile
@@ -287,62 +355,43 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach((el) => obs.observe(el));
 
-    // --- SCRIPT D'ANIMATION GSAP FLIP ---
+    // --- ANIMATION GSAP FLIP ---
     gsap.registerPlugin(Flip);
     CustomEase.create("cubic", "0.83, 0, 0.17, 1");
 
-    const gallery = document.querySelector(".img-gallery-container");
     const images = gsap.utils.toArray(".img");
     const btn = document.querySelector(".toggle-btn");
-    
     let isFlipped = false;
 
     btn.addEventListener("click", () => {
         isFlipped = !isFlipped;
-        
-        // Change le texte du bouton
         btn.textContent = isFlipped ? "Masquer les exemples" : "Voir les exemples";
-
-        // Capture l'état actuel
         let state = Flip.getState(".img-gallery-container, .img");
-        
-        // Change les classes (bascule entre empilé et étalé)
-        // Note: J'ai inversé la logique par rapport au code original pour que ça commence empilé
         images.forEach((img) => img.classList.toggle("reorder"));
-
-        // Anime le changement
-        Flip.from(state, {
-            absolute: true,
-            duration: 1.5,
-            stagger: 0.05,
-            ease: "cubic",
-            simple: true // Optimisation
-        });
+        Flip.from(state, { absolute: true, duration: 1.5, stagger: 0.05, ease: "cubic", simple: true });
     });
 
-    // --- GESTION MODALE IMAGE ---
+    // --- MODAL IMAGE PLEIN ÉCRAN ---
     function openImageModal(src) {
         const modal = document.getElementById("imageModal");
         const modalImg = document.getElementById("modalImg");
         modal.style.display = "block";
         modalImg.src = src;
-        document.body.style.overflow = 'hidden'; // Empêcher le scroll
+        document.body.style.overflow = 'hidden';
     }
-
     function closeModal() {
         const modal = document.getElementById("imageModal");
         modal.style.display = "none";
-        document.body.style.overflow = 'auto'; // Réactiver le scroll
+        document.body.style.overflow = 'auto';
     }
-
-    // Fermeture en cliquant en dehors ou avec Échap
     window.onclick = function(event) {
         const modal = document.getElementById("imageModal");
+        const reviewM = document.getElementById("reviewModal");
         if (event.target == modal) closeModal();
+        if (event.target == reviewM) reviewM.classList.remove('active');
     }
-
     document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape') closeModal();
+        if (event.key === 'Escape') { closeModal(); document.getElementById("reviewModal").classList.remove('active'); }
     });
 </script>
 
