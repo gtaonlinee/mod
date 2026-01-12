@@ -45,31 +45,56 @@
             .menu-toggle { display: block; }
         }
 
-        /* --- RECHERCHE & FILTRES --- */
+        /* --- RECHERCHE --- */
         .search-section { margin-top: 160px; text-align: center; padding: 0 20px; }
         
         .search-wrapper {
-            display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; flex-wrap: wrap;
+            display: flex; justify-content: center; margin-bottom: 25px;
         }
 
         .search-input {
-            width: 100%; max-width: 400px; padding: 15px 25px; border-radius: 50px;
+            width: 100%; max-width: 500px; padding: 15px 25px; border-radius: 50px;
             border: 2px solid var(--card-border); background: #ffffff; color: var(--text-main);
-            font-size: 16px; outline: none;
+            font-size: 16px; outline: none; text-align: center;
             box-shadow: 0 10px 20px -10px var(--shadow-tone); transition: 0.3s;
         }
         .search-input:focus { border-color: var(--btn-color); box-shadow: 0 10px 25px -5px rgba(114, 90, 193, 0.3); }
 
+        /* --- CONTROLES FLOTTANTS BAS GAUCHE --- */
+        .bottom-controls {
+            position: fixed; bottom: 30px; left: 30px; z-index: 1000;
+            display: flex; gap: 15px; align-items: center;
+        }
+
         /* Bouton Filtre */
         .advanced-filter-btn {
             background-color: #ffffff; color: var(--btn-color); font-size: 15px; font-weight: 600;
-            padding: 0 25px; border: 2px solid var(--card-border); border-radius: 50px; cursor: pointer;
+            padding: 0 25px; height: 50px; border: 2px solid var(--card-border); border-radius: 50px; cursor: pointer;
             display: flex; align-items: center; gap: 8px; transition: all 0.2s;
             box-shadow: 0 10px 20px -10px var(--shadow-tone);
         }
         .advanced-filter-btn:hover { background-color: var(--btn-color); color: white; border-color: var(--btn-color); }
         .advanced-filter-btn.active-filter { background-color: var(--btn-color); color: white; }
 
+        /* Bouton Valider */
+        #validateBtn {
+            background: var(--btn-color); color: white;
+            border: none; padding: 0 25px; height: 50px; border-radius: 50px; cursor: pointer; font-weight: 600;
+            font-size: 15px; box-shadow: 0 10px 20px -10px var(--shadow-tone); transition: 0.3s;
+            display: flex; align-items: center; justify-content: center;
+        }
+        #validateBtn:hover { background: #5a3a9a; transform: scale(1.05); }
+        
+        /* État désactivé du bouton valider */
+        #validateBtn.disabled {
+            background-color: #94a3b8; /* Gris */
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+            opacity: 0.7;
+        }
+
+        /* --- TABS --- */
         .garage-tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
         .tab-btn {
             background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text-muted);
@@ -103,14 +128,6 @@
         .add-btn:hover { background: #5a3a9a; }
         .add-btn.selected { background: #28a745; }
         .add-btn.selected:hover { background: #218838; }
-
-        #validateBtn {
-            position: fixed; bottom: 20px; right: 20px; background: var(--btn-color); color: white;
-            border: none; padding: 15px 20px; border-radius: 50px; cursor: pointer; font-weight: 600;
-            font-size: 16px; box-shadow: 0 10px 20px -10px var(--shadow-tone); transition: 0.3s;
-            display: none; z-index: 1000;
-        }
-        #validateBtn:hover { background: #5a3a9a; transform: scale(1.05); }
 
         /* --- MODALE IMAGE (ZOOM) --- */
         .modal {
@@ -214,12 +231,6 @@
             
             <div class="search-wrapper">
                 <input type="text" id="searchInput" class="search-input" placeholder="Rechercher une voiture...">
-                <button id="openFilterBtn" class="advanced-filter-btn">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-                    </svg>
-                    Filtres
-                </button>
             </div>
             
             <div class="garage-tabs">
@@ -237,10 +248,18 @@
         </div>
 
         <div id="galleryGrid" class="vehicle-grid">
-            </div>
+        </div>
     </div>
 
-    <button id="validateBtn">Valider ma liste (0/10)</button>
+    <div class="bottom-controls">
+        <button id="openFilterBtn" class="advanced-filter-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+            </svg>
+            Filtres
+        </button>
+        <button id="validateBtn" class="disabled">Ma liste (0/10)</button>
+    </div>
 
     <div id="vehicleModal" class="modal">
         <span class="close" onclick="closeModal()">&times;</span>
@@ -330,15 +349,14 @@
 
         // --- LISTE DES VÉHICULES ---
         const vehicles = [
-            
-            // --- BOITE 2 (Ordre : Zentorno, Vectre, S95, Itali GTO, ETR1) ---
+            // --- BOITE 2 ---
             { name: "Pegassi Zentorno", images: ["boite2/Zentorno.jpg", "boite2/Zentorno1.jpg", "boite2/Zentorno2.jpg", "boite2/Zentorno3.jpg"], tag: "Caméléon • F1 • Yankton", garage: "boite2" },
             { name: "Emperor Vectre", images: ["boite2/Vectre.jpg", "boite2/Vectre1.jpg", "boite2/Vectre2.jpg", "boite2/Vectre3.jpg"], tag: "Vert • F1 • Yankton", garage: "boite2" },
             { name: "Karin S95", images: ["boite2/S95.jpg", "boite2/S951.jpg", "boite2/S952.jpg", "boite2/S953.jpg"], tag: "Rose • F1 • Yankton", garage: "boite2" },
             { name: "Grotti Itali GTO", images: ["boite2/Itali GTO.jpg", "boite2/Itali GTO1.jpg", "boite2/Itali GTO2.jpg", "boite2/Itali GTO3.jpg"], tag: "Bleu • F1 • Yankton", garage: "boite2" },
             { name: "Emperor ETR1", images: ["boite2/ETR.jpg", "boite2/ETR1.jpg", "boite2/ETR2.jpg", "boite2/ETR3.jpg"], tag: "Bleu • F1 • Yankton", garage: "boite2" },
 
-            // --- FONCTION 2 (Ordre du menu) ---
+            // --- FONCTION 2 ---
             { name: "Canis Kalahari", images: ["fonction2/Kalahari.jpg", "fonction2/Kalahari1.jpg", "fonction2/Kalahari2.jpg", "fonction2/Kalahari3.jpg"], tag: "Rose • F1 • Yankton", garage: "fonction2" },
             { name: "Albany Roosevelt Valor", images: ["fonction2/Roosevelt.jpg", "fonction2/Roosevelt1.jpg", "fonction2/Roosevelt2.jpg", "fonction2/Roosevelt3.jpg"], tag: "Violet • F1 • Yankton", garage: "fonction2" },
             { name: "Ubermacht Cypher", images: ["fonction2/Cypher.jpg", "fonction2/Cypher1.jpg", "fonction2/Cypher2.jpg", "fonction2/Cypher3.jpg"], tag: "Bleu • F1 • Yankton", garage: "fonction2" },
@@ -360,7 +378,7 @@
             { name: "Invetero Coquette D5", images: ["fonction2/D5.jpg", "fonction2/D51.jpg", "fonction2/D52.jpg", "fonction2/D53.jpg"], tag: "Rouge • F1 • Yankton", garage: "fonction2" },
             { name: "Enus Paragon S", images: ["fonction2/Paragon S.jpg", "fonction2/Paragon S1.jpg", "fonction2/Paragon S2.jpg", "fonction2/Paragon S3.jpg"], tag: "Rose • F1 • Yankton", garage: "fonction2" },
 
-            // --- FONCTION 3 (Ordre du menu) ---
+            // --- FONCTION 3 ---
             { name: "Blazer Street", images: ["fonction3/street.jpg"], tag: "Violet • F1 • Yankton", garage: "fonction3" },
             { name: "Hot Rod Blazer", images: ["fonction3/Blazer.jpg"], tag: "Bleu • F1 • Yankton", garage: "fonction3" },
             { name: "Ubermacht Revolter", images: ["fonction3/Revolter.jpg"], tag: "Violet • F1 • Yankton", garage: "fonction3" },
@@ -446,7 +464,6 @@
         const modalDesc = document.getElementById("modalDesc");
         const prevBtn = document.getElementById("prevBtn");
         const nextBtn = document.getElementById("nextBtn");
-        // AJOUT ICI POUR CORRIGER LE BUG
         const modalImgContainer = document.querySelector('.modal-img-container');
 
         // Filter Modal Elements
@@ -474,16 +491,18 @@
 
         function updateValidateBtn() {
             const btn = document.getElementById('validateBtn');
+            btn.textContent = `Ma liste (${selectedVehicles.length}/10)`;
+            
             if (selectedVehicles.length > 0) {
-                btn.style.display = 'block';
-                btn.textContent = `Valider ma liste (${selectedVehicles.length}/10)`;
+                btn.classList.remove('disabled');
             } else {
-                btn.style.display = 'none';
+                btn.classList.add('disabled');
             }
         }
 
         function validateList() {
-            if (selectedVehicles.length === 0) return;
+            if (selectedVehicles.length === 0) return; // Ne rien faire si vide
+            
             let text = "Salut itsmto, voici ma commande :\n";
             selectedVehicles.forEach(v => {
                 const garageName = garageNames[v.garage] || v.garage.toUpperCase();
@@ -520,7 +539,6 @@
                 newCounter.id = "imgCounter";
                 newCounter.className = "img-counter";
                 newCounter.innerText = `${currentImageIndex + 1} / ${currentVehicle.images.length}`;
-                // C'EST ICI QUE CA PLANTAIT SANS LA VARIABLE
                 modalImgContainer.appendChild(newCounter);
 
                 prevBtn.style.display = "flex";
@@ -581,7 +599,6 @@
                     card.setAttribute('data-vehicle-index', vehicleIndex);
                     card.onclick = function() { 
                         const idx = parseInt(this.getAttribute('data-vehicle-index'));
-                        console.log('Clic sur carte index:', idx, 'véhicule:', vehicles[idx].name);
                         openImageModal(vehicles[idx]); 
                     };
                     
@@ -621,7 +638,7 @@
             });
         });
 
-        // Activation des boutons pour le filtre (nouveau)
+        // Activation des boutons pour le filtre
         openFilterBtn.addEventListener('click', () => {
             filterModal.classList.add('active');
         });
