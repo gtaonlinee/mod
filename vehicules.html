@@ -88,11 +88,28 @@
             box-shadow: 0 10px 20px -10px var(--shadow-tone); display: flex; flex-direction: column;
         }
         .vehicle-card:hover { transform: scale(1.02); border-color: var(--btn-color); }
+        .vehicle-card.selected { border-color: var(--btn-color); box-shadow: 0 10px 25px -5px rgba(114, 90, 193, 0.4); }
         .vehicle-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; background-color: #e0e7ff; }
         .vehicle-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
         .vehicle-garage { color: var(--btn-color); font-size: 11px; font-weight: 800; text-transform: uppercase; margin-bottom: 5px; display: block; }
         .vehicle-name { margin: 0; font-size: 18px; font-weight: 700; color: var(--text-main); }
         .vehicle-tag { font-size: 12px; color: var(--text-muted); margin-top: 5px; font-weight: 500; }
+
+        .add-btn {
+            background: var(--btn-color); color: white; border: none; padding: 8px 16px; border-radius: 8px;
+            cursor: pointer; font-weight: 600; font-size: 14px; transition: 0.3s; margin-top: 10px;
+        }
+        .add-btn:hover { background: #5a3a9a; }
+        .add-btn.selected { background: #28a745; }
+        .add-btn.selected:hover { background: #218838; }
+
+        #validateBtn {
+            position: fixed; bottom: 20px; right: 20px; background: var(--btn-color); color: white;
+            border: none; padding: 15px 20px; border-radius: 50px; cursor: pointer; font-weight: 600;
+            font-size: 16px; box-shadow: 0 10px 20px -10px var(--shadow-tone); transition: 0.3s;
+            display: none; z-index: 1000;
+        }
+        #validateBtn:hover { background: #5a3a9a; transform: scale(1.05); }
 
         /* --- MODALE IMAGE (ZOOM) --- */
         .modal {
@@ -211,6 +228,8 @@
         <div id="galleryGrid" class="vehicle-grid">
             </div>
     </div>
+
+    <button id="validateBtn">Valider ma liste (0/10)</button>
 
     <div id="vehicleModal" class="modal">
         <span class="close" onclick="closeModal()">&times;</span>
@@ -391,6 +410,19 @@
         let currentImageIndex = 0;
         let currentGarage = 'all';
         let currentFilters = { wheel: 'all', plate: 'all', color: 'all' };
+        let selectedVehicles = [];
+
+        const garageNames = {
+            'arenerdc': 'Arène RDC',
+            'arene1': 'Arène 1',
+            'arene2': 'Arène 2',
+            'boite2': 'Boîte 2',
+            'boite3': 'Boîte 3',
+            'boite4': 'Boîte 4',
+            'fonction1': 'Fonction 1',
+            'fonction2': 'Fonction 2',
+            'fonction3': 'Fonction 3'
+        };
 
         const grid = document.getElementById('galleryGrid');
         const searchInput = document.getElementById('searchInput');
@@ -410,12 +442,47 @@
         const closeFilterBtn = document.getElementById('closeFilter');
         const filterForm = document.getElementById('filterForm');
 
-        // --- GESTION MODALE FILTRES ---
-        openFilterBtn.addEventListener('click', () => { filterModal.classList.add('active'); });
-        closeFilterBtn.addEventListener('click', () => { filterModal.classList.remove('active'); });
-        filterModal.addEventListener('click', (e) => {
-            if (e.target === filterModal) filterModal.classList.remove('active');
-        });
+        // --- GESTION PANIER ---
+        function toggleSelection(vehicleIndex) {
+            const vehicle = vehicles[vehicleIndex];
+            const index = selectedVehicles.findIndex(v => v.name === vehicle.name && v.garage === vehicle.garage);
+            if (index > -1) {
+                selectedVehicles.splice(index, 1);
+            } else {
+                if (selectedVehicles.length >= 10) {
+                    alert("Vous ne pouvez sélectionner que 10 véhicules maximum.");
+                    return;
+                }
+                selectedVehicles.push(vehicle);
+            }
+            updateValidateBtn();
+            render();
+        }
+
+        function updateValidateBtn() {
+            const btn = document.getElementById('validateBtn');
+            if (selectedVehicles.length > 0) {
+                btn.style.display = 'block';
+                btn.textContent = `Valider ma liste (${selectedVehicles.length}/10)`;
+            } else {
+                btn.style.display = 'none';
+            }
+        }
+
+        function validateList() {
+            if (selectedVehicles.length === 0) return;
+            let text = "Salut itsmto, voici ma commande :\n";
+            selectedVehicles.forEach(v => {
+                const garageName = garageNames[v.garage] || v.garage.toUpperCase();
+                text += `- ${v.name} (Garage : ${garageName})\n`;
+            });
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Ta liste a été copiée ! Envoie-la moi en message privé sur Discord. Mon pseudo : itsmto");
+            }).catch(err => {
+                console.error('Erreur lors de la copie : ', err);
+                alert("Erreur lors de la copie. Veuillez copier manuellement :\n" + text);
+            });
+        }
 
         // --- GESTION MODALE IMAGE ---
         function openImageModal(vehicle) {
@@ -473,7 +540,7 @@
             const search = searchInput.value.toLowerCase();
             let count = 0;
 
-            vehicles.forEach((v) => {
+            vehicles.forEach((v, vehicleIndex) => {
                 const matchSearch = v.name.toLowerCase().includes(search);
                 const matchGarage = (currentGarage === 'all' || v.garage === currentGarage);
 
@@ -485,9 +552,12 @@
                 if (matchSearch && matchGarage && matchWheel && matchPlate && matchColor) {
                     const card = document.createElement('div');
                     card.className = 'vehicle-card';
+                    const isSelected = selectedVehicles.some(sv => sv.name === v.name && sv.garage === v.garage);
+                    if (isSelected) card.classList.add('selected');
                     card.onclick = function() { openImageModal(v); };
                     
                     const garageName = v.garage.replace(/(\d)/, ' $1').toUpperCase();
+                    const btnText = isSelected ? 'Sélectionné' : 'Ajouter';
 
                     card.innerHTML = `
                         <img src="${v.images[0]}" class="vehicle-img" alt="${v.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Introuvable'">
@@ -497,6 +567,7 @@
                                 <h3 class="vehicle-name">${v.name}</h3>
                                 <div class="vehicle-tag">${v.tag}</div>
                             </div>
+                            <button class="add-btn ${isSelected ? 'selected' : ''}" onclick="event.stopPropagation(); toggleSelection(${vehicleIndex})">${btnText}</button>
                         </div>
                     `;
                     grid.appendChild(card);
@@ -547,6 +618,10 @@
 
         // Premier rendu au chargement
         render();
+        updateValidateBtn();
+
+        // Event listener pour valider
+        document.getElementById('validateBtn').addEventListener('click', validateList);
 
     </script>
 </body>
