@@ -16,7 +16,7 @@
             --btn-color: #725AC1;
             --shadow-tone: rgba(114, 90, 193, 0.15);
             --danger-color: #ef4444;
-            --success-color: #28a745; /* Vert pour la sélection */
+            --success-color: #28a745;
             --success-shadow: #218838;
         }
 
@@ -126,7 +126,7 @@
 
         /* --- BOUTONS STYLISÉS (Avis & Ajouter) --- */
         .cssbuttons-io-button {
-            background: #a370f0; /* Couleur par défaut (Avis / Ajouter) */
+            background: #a370f0;
             color: white;
             font-family: inherit;
             padding: 0.35em;
@@ -179,7 +179,6 @@
         .cssbuttons-io-button.selected .icon svg {
             color: var(--success-color);
         }
-
 
         /* --- MODALES --- */
         .modal, .filter-modal, .review-modal {
@@ -501,6 +500,23 @@
         const pseudoWarning = document.getElementById('pseudoWarning');
         let activeReviewVehicleName = "";
 
+        // --- LISTE NOIRE (MODÉRATION) ---
+        // Liste de mots interdits dans les pseudos et les messages
+        const blackList = [
+            "admin", "staff", "modo", "itsmto", "owner", "proprietaire", // Usurpation
+            "merde", "connard", "connasse", "salope", "pute", "pd", "encule", "fdp", "ntm",
+            "nique", "batard", "suce", "bite", "couille", "chienne", "foutre", "con",
+            "debile", "abruti", "bouffon", "triso", "handicape", "mongol", "sex", "porno", "zizi"
+            // Ajoute d'autres mots ici si nécessaire
+        ];
+
+        // Fonction pour vérifier si un texte contient un mot interdit
+        function containsForbiddenContent(text) {
+            if(!text) return false;
+            const lowerText = text.toLowerCase();
+            return blackList.some(word => lowerText.includes(word));
+        }
+
         // Fonction attachée à window pour être accessible depuis le HTML
         window.openReviews = function(vehicleName) {
             activeReviewVehicleName = vehicleName;
@@ -557,6 +573,19 @@
 
             if(!user || !text) { alert("Merci de mettre un pseudo et un message !"); return; }
             
+            // --- VÉRIFICATION LISTE NOIRE ---
+            if (containsForbiddenContent(user)) {
+                alert("Ce pseudo est interdit ou réservé. Veuillez en choisir un autre.");
+                reviewPseudo.value = ""; // Reset le champ pseudo
+                return;
+            }
+
+            if (containsForbiddenContent(text)) {
+                alert("Votre message contient des termes inappropriés. Merci de rester respectueux.");
+                return;
+            }
+            // --------------------------------
+
             // Sauvegarder le pseudo et verrouiller le champ
             localStorage.setItem('userPseudo', user);
             reviewPseudo.disabled = true;
