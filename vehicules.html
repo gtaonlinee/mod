@@ -114,13 +114,24 @@
             background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px;
             overflow: hidden; transition: 0.3s; cursor: pointer;
             box-shadow: 0 10px 20px -10px var(--shadow-tone); display: flex; flex-direction: column;
+            position: relative;
         }
         .vehicle-card:hover { transform: scale(1.02); border-color: var(--btn-color); }
         .vehicle-card.selected { border-color: var(--btn-color); box-shadow: 0 10px 25px -5px rgba(114, 90, 193, 0.4); }
         .vehicle-card:active { transform: scale(0.98); transition: 0.1s; }
         .vehicle-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; background-color: #e0e7ff; user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
         .vehicle-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 8px; }
-        .vehicle-garage { color: var(--btn-color); font-size: 11px; font-weight: 800; text-transform: uppercase; margin-bottom: 2px; display: block; }
+        
+        /* Badge Garage + Slot */
+        .garage-badge {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;
+        }
+        .vehicle-garage { color: var(--btn-color); font-size: 11px; font-weight: 800; text-transform: uppercase; }
+        .vehicle-slot { 
+            background: #f0ebff; color: var(--btn-color); font-size: 10px; font-weight: 700; 
+            padding: 2px 6px; border-radius: 4px; border: 1px solid #c4b5fd;
+        }
+
         .vehicle-name { margin: 0; font-size: 18px; font-weight: 700; color: var(--text-main); }
         .vehicle-tag { font-size: 12px; color: var(--text-muted); margin-top: 0px; font-weight: 500; line-height: 1.4; }
 
@@ -466,7 +477,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
         import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
 
-        // 2. CONFIGURATION FIREBASE (Tes clés + URL devinée)
+        // 2. CONFIGURATION FIREBASE
         const firebaseConfig = {
             apiKey: "AIzaSyDTBFPsJpzIVA0oWLG_QZ4curscfoDNM2o",
             authDomain: "avis-86b9e.firebaseapp.com",
@@ -475,8 +486,6 @@
             messagingSenderId: "832229592256",
             appId: "1:832229592256:web:ac8e079fa0a92f71ef3125",
             measurementId: "G-V14JREKZ3C",
-            // J'ai ajouté l'URL standard pour l'Europe (vu ton ID de projet)
-            // Si ça ne marche pas, essaie "https://avis-86b9e-default-rtdb.firebaseio.com"
             databaseURL: "https://avis-86b9e-default-rtdb.europe-west1.firebasedatabase.app"
         };
 
@@ -501,52 +510,45 @@
         let activeReviewVehicleName = "";
 
         // --- LISTE NOIRE (MODÉRATION) ---
-        // Liste de mots interdits dans les pseudos et les messages
         const blackList = [
-            "admin", "staff", "modo", "itsmto", "owner", "proprietaire", // Usurpation
+            "admin", "staff", "modo", "itsmto", "owner", "proprietaire",
             "merde", "connard", "connasse", "salope", "pute", "pd", "encule", "fdp", "ntm",
             "nique", "batard", "suce", "bite", "couille", "chienne", "foutre", "con",
             "debile", "abruti", "bouffon", "triso", "handicape", "mongol", "sex", "porno", "zizi"
-            // Ajoute d'autres mots ici si nécessaire
         ];
 
-        // Fonction pour vérifier si un texte contient un mot interdit
         function containsForbiddenContent(text) {
             if(!text) return false;
             const lowerText = text.toLowerCase();
             return blackList.some(word => lowerText.includes(word));
         }
 
-        // Fonction attachée à window pour être accessible depuis le HTML
         window.openReviews = function(vehicleName) {
             activeReviewVehicleName = vehicleName;
             document.getElementById('reviewVehicleTitle').innerText = "Avis : " + vehicleName;
             reviewModal.classList.add('active');
             reviewList.innerHTML = '<div style="text-align:center; padding:20px;">Chargement...</div>';
 
-            // Vérifier si un pseudo existe déjà
             const savedPseudo = localStorage.getItem('userPseudo');
             if(savedPseudo) {
                 reviewPseudo.value = savedPseudo;
-                reviewPseudo.disabled = true; // Verrouiller le champ
-                pseudoWarning.style.display = 'none'; // Cacher l'avertissement car c'est déjà fait
+                reviewPseudo.disabled = true;
+                pseudoWarning.style.display = 'none';
             } else {
                 reviewPseudo.value = "";
                 reviewPseudo.disabled = false;
-                pseudoWarning.style.display = 'block'; // Afficher l'avertissement
+                pseudoWarning.style.display = 'block';
             }
 
             if(db) {
-                // Clé unique par véhicule (enlève les espaces et char spéciaux)
                 const vehicleKey = vehicleName.replace(/[^a-zA-Z0-9]/g, '_');
                 const reviewsRef = ref(db, 'avis/' + vehicleKey);
                 
-                // Ecoute les changements en temps réel
                 onValue(reviewsRef, (snapshot) => {
                     reviewList.innerHTML = "";
                     const data = snapshot.val();
                     if (data) {
-                        const reviews = Object.values(data).reverse(); // Plus récents en haut
+                        const reviews = Object.values(data).reverse();
                         reviews.forEach(r => {
                             const div = document.createElement('div');
                             div.className = 'single-review';
@@ -566,17 +568,15 @@
             let user = reviewPseudo.value.trim();
             const text = reviewText.value.trim();
             
-            // Si le champ est désactivé, on utilise le pseudo sauvegardé
             if(reviewPseudo.disabled) {
                  user = localStorage.getItem('userPseudo');
             }
 
             if(!user || !text) { alert("Merci de mettre un pseudo et un message !"); return; }
             
-            // --- VÉRIFICATION LISTE NOIRE ---
             if (containsForbiddenContent(user)) {
                 alert("Ce pseudo est interdit ou réservé. Veuillez en choisir un autre.");
-                reviewPseudo.value = ""; // Reset le champ pseudo
+                reviewPseudo.value = "";
                 return;
             }
 
@@ -584,9 +584,7 @@
                 alert("Votre message contient des termes inappropriés. Merci de rester respectueux.");
                 return;
             }
-            // --------------------------------
 
-            // Sauvegarder le pseudo et verrouiller le champ
             localStorage.setItem('userPseudo', user);
             reviewPseudo.disabled = true;
             pseudoWarning.style.display = 'none';
@@ -602,7 +600,7 @@
                     text: text,
                     date: dateStr
                 }).then(() => {
-                    reviewText.value = ""; // Vider le champ message
+                    reviewText.value = "";
                 }).catch(err => alert("Erreur d'envoi : " + err));
             }
         };
@@ -611,7 +609,7 @@
             reviewModal.classList.remove('active');
         };
 
-        // --- CODE EXISTANT (Navigation, Filtres, Rendu) ---
+        // --- CODE NAVIGATION & VÉHICULES ---
         
         function toggleMobileMenu() {
             const m = document.getElementById('mobileMenu');
@@ -619,90 +617,91 @@
         }
         window.toggleMobileMenu = toggleMobileMenu;
 
+        // --- LISTE ANCIENNE VERSION + AJOUT SLOT ---
         const vehicles = [
             // --- BOITE 2 ---
-            { name: "Pegassi Zentorno", images: ["boite2/Zentorno.jpg", "boite2/Zentorno1.jpg", "boite2/Zentorno2.jpg", "boite2/Zentorno3.jpg"], color1: "Bleu / Vert", color2: "Bleu / Vert", wheel: "F1", plateContent: "Al", plateBackground: "SA EXEMPT", garage: "boite2" },
-            { name: "Emperor Vectre", images: ["boite2/Vectre.jpg", "boite2/Vectre1.jpg", "boite2/Vectre2.jpg", "boite2/Vectre3.jpg"], color1: "Vert", color2: "Vert", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "boite2" },
-            { name: "Karin S95", images: ["boite2/S95.jpg", "boite2/S951.jpg", "boite2/S952.jpg", "boite2/S953.jpg"], color1: "Rose", color2: "Rose", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "boite2" },
-            { name: "Grotti Itali GTO", images: ["boite2/Itali GTO.jpg", "boite2/Itali GTO1.jpg", "boite2/Itali GTO2.jpg", "boite2/Itali GTO3.jpg"], color1: "Bleu", color2: "Bleu", wheel: "Benny's", plateContent: "Al", plateBackground: "Liberty", garage: "boite2" },
-            { name: "Emperor ETR1", images: ["boite2/ETR.jpg", "boite2/ETR1.jpg", "boite2/ETR2.jpg", "boite2/ETR3.jpg"], color1: "Bleu", color2: "Bleu", wheel: "Benny's", plateContent: "Al", plateBackground: "Las venturas", garage: "boite2" },
+            { slot: 1, name: "Pegassi Zentorno", images: ["boite2/Zentorno.jpg", "boite2/Zentorno1.jpg", "boite2/Zentorno2.jpg", "boite2/Zentorno3.jpg"], color1: "Bleu / Vert", color2: "Bleu / Vert", wheel: "F1", plateContent: "Al", plateBackground: "SA EXEMPT", garage: "boite2" },
+            { slot: 2, name: "Emperor Vectre", images: ["boite2/Vectre.jpg", "boite2/Vectre1.jpg", "boite2/Vectre2.jpg", "boite2/Vectre3.jpg"], color1: "Vert", color2: "Vert", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "boite2" },
+            { slot: 3, name: "Karin S95", images: ["boite2/S95.jpg", "boite2/S951.jpg", "boite2/S952.jpg", "boite2/S953.jpg"], color1: "Rose", color2: "Rose", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "boite2" },
+            { slot: 4, name: "Grotti Itali GTO", images: ["boite2/Itali GTO.jpg", "boite2/Itali GTO1.jpg", "boite2/Itali GTO2.jpg", "boite2/Itali GTO3.jpg"], color1: "Bleu", color2: "Bleu", wheel: "Benny's", plateContent: "Al", plateBackground: "Liberty", garage: "boite2" },
+            { slot: 5, name: "Emperor ETR1", images: ["boite2/ETR.jpg", "boite2/ETR1.jpg", "boite2/ETR2.jpg", "boite2/ETR3.jpg"], color1: "Bleu", color2: "Bleu", wheel: "Benny's", plateContent: "Al", plateBackground: "Las venturas", garage: "boite2" },
 
             // --- FONCTION 2 ---
-            { name: "Canis Kalahari", images: ["fonction2/Kalahari.jpg", "fonction2/Kalahari1.jpg", "fonction2/Kalahari2.jpg", "fonction2/Kalahari3.jpg"], color1: "Rose", color2: "Rose", wheel: "F1", plateContent: "Al", plateBackground: "Yankton", garage: "fonction2" },
-            { name: "Albany Roosevelt Valor", images: ["fonction2/Roosevelt.jpg", "fonction2/Roosevelt1.jpg", "fonction2/Roosevelt2.jpg", "fonction2/Roosevelt3.jpg"], color1: "Violet", color2: "Violet", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
-            { name: "Ubermacht Cypher", images: ["fonction2/Cypher.jpg", "fonction2/Cypher1.jpg", "fonction2/Cypher2.jpg", "fonction2/Cypher3.jpg"], color1: "Bleu", color2: "Bleu", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
-            { name: "Karin 190z", images: ["fonction2/190z.jpg", "fonction2/190z1.jpg", "fonction2/190z2.jpg", "fonction2/190z3.jpg"], color1: "Vert", color2: "Vert", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
-            { name: "Benefactor Schlagen GT", images: ["fonction2/Schlagen.jpg", "fonction2/Schlagen1.jpg", "fonction2/Schlagen2.jpg", "fonction2/Schlagen3.jpg"], color1: "Violet", color2: "Violet", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
-            { name: "Elegy Rétro Custom", images: ["fonction2/elegy.jpg", "fonction2/elegy1.jpg", "fonction2/elegy2.jpg", "fonction2/elegy3.jpg"], color1: "Gris", color2: "Gris", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
-            { name: "Willard Eudora", images: ["fonction2/Eudora.jpg", "fonction2/Eudora1.jpg", "fonction2/Eudora2.jpg"], color1: "Jaune", color2: "Jaune", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "fonction2" },
-            { name: "Weeny Dynasty", images: ["fonction2/Dynasty.jpg", "fonction2/Dynasty1.jpg", "fonction2/Dynasty2.jpg"], color1: "Jaune", color2: "Jaune", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "fonction2" },
-            { name: "RUNE Zhaba", images: ["fonction2/Zhaba.jpg", "fonction2/Zhaba1.jpg", "fonction2/Zhaba2.jpg", "fonction2/Zhaba3.jpg"], color1: "Bleu", color2: "Bleu", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
-            { name: "Grotti Itali RSX", images: ["fonction2/Itali RSX.jpg", "fonction2/Itali RSX1.jpg", "fonction2/Itali RSX2.jpg", "fonction2/Itali RSX3.jpg"], color1: "Violet", color2: "Violet", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
-            { name: "Albany Brigham", images: ["fonction2/Brigham.jpg", "fonction2/Brigham1.jpg", "fonction2/Brigham2.jpg"], color1: "Noir", color2: "Noir", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
-            { name: "Corbillard Romero", images: ["fonction2/Corbillard Romero.jpg", "fonction2/Corbillard Romero1.jpg", "fonction2/Corbillard Romero2.jpg", "fonction2/Corbillard Romero3.jpg"], color1: "Vert", color2: "Vert", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
-            { name: "Bravado Rat-Loader", images: ["fonction2/Rat-loader.jpg", "fonction2/Rat-loader1.jpg", "fonction2/Rat-loader2.jpg", "fonction2/Rat-loader3.jpg"], color1: "Blanc", color2: "Blanc", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
-            { name: "Grotti Itali GTO", images: ["fonction2/Itali GTO.jpg", "fonction2/Itali GTO1.jpg", "fonction2/Itali GTO2.jpg", "fonction2/Itali GTO3.jpg"], color1: "Noir", color2: "Noir", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
-            { name: "BF Raptor", images: ["fonction2/Raptor.jpg", "fonction2/Raptor1.jpg", "fonction2/Raptor2.jpg", "fonction2/Raptor3.jpg"], color1: "Bleu", color2: "Bleu", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
-            { name: "Overflod Pipistrello", images: ["fonction2/Pipistrello.jpg", "fonction2/Pipistrello1.jpg", "fonction2/Pipistrello2.jpg", "fonction2/Pipistrello3.jpg"], color1: "Bleu", color2: "Bleu", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
-            { name: "Ocelot XA-21", images: ["fonction2/XA.jpg", "fonction2/XA1.jpg", "fonction2/XA2.jpg", "fonction2/XA3.jpg"], color1: "Vert", color2: "Vert", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
-            { name: "Caddie", images: ["fonction2/Caddie.jpg", "fonction2/Caddie1.jpg", "fonction2/Caddie2.jpg", "fonction2/Caddie3.jpg"], color1: "Vert", color2: "Vert", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
-            { name: "Invetero Coquette D5", images: ["fonction2/D5.jpg", "fonction2/D51.jpg", "fonction2/D52.jpg", "fonction2/D53.jpg"], color1: "Rouge", color2: "Rouge", wheel: "F1", plateContent: "Vi", plateBackground: "Yankton", garage: "fonction2" },
-            { name: "Enus Paragon S", images: ["fonction2/Paragon S.jpg", "fonction2/Paragon S1.jpg", "fonction2/Paragon S2.jpg", "fonction2/Paragon S3.jpg"], color1: "Rose", color2: "Rose", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
+            { slot: 1, name: "Canis Kalahari", images: ["fonction2/Kalahari.jpg", "fonction2/Kalahari1.jpg", "fonction2/Kalahari2.jpg", "fonction2/Kalahari3.jpg"], color1: "Rose", color2: "Rose", wheel: "F1", plateContent: "Al", plateBackground: "Yankton", garage: "fonction2" },
+            { slot: 2, name: "Albany Roosevelt Valor", images: ["fonction2/Roosevelt.jpg", "fonction2/Roosevelt1.jpg", "fonction2/Roosevelt2.jpg", "fonction2/Roosevelt3.jpg"], color1: "Violet", color2: "Violet", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
+            { slot: 3, name: "Ubermacht Cypher", images: ["fonction2/Cypher.jpg", "fonction2/Cypher1.jpg", "fonction2/Cypher2.jpg", "fonction2/Cypher3.jpg"], color1: "Bleu", color2: "Bleu", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
+            { slot: 4, name: "Karin 190z", images: ["fonction2/190z.jpg", "fonction2/190z1.jpg", "fonction2/190z2.jpg", "fonction2/190z3.jpg"], color1: "Vert", color2: "Vert", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
+            { slot: 5, name: "Benefactor Schlagen GT", images: ["fonction2/Schlagen.jpg", "fonction2/Schlagen1.jpg", "fonction2/Schlagen2.jpg", "fonction2/Schlagen3.jpg"], color1: "Violet", color2: "Violet", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
+            { slot: 6, name: "Elegy Rétro Custom", images: ["fonction2/elegy.jpg", "fonction2/elegy1.jpg", "fonction2/elegy2.jpg", "fonction2/elegy3.jpg"], color1: "Gris", color2: "Gris", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
+            { slot: 7, name: "Willard Eudora", images: ["fonction2/Eudora.jpg", "fonction2/Eudora1.jpg", "fonction2/Eudora2.jpg"], color1: "Jaune", color2: "Jaune", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "fonction2" },
+            { slot: 8, name: "Weeny Dynasty", images: ["fonction2/Dynasty.jpg", "fonction2/Dynasty1.jpg", "fonction2/Dynasty2.jpg"], color1: "Jaune", color2: "Jaune", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "fonction2" },
+            { slot: 9, name: "RUNE Zhaba", images: ["fonction2/Zhaba.jpg", "fonction2/Zhaba1.jpg", "fonction2/Zhaba2.jpg", "fonction2/Zhaba3.jpg"], color1: "Bleu", color2: "Bleu", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
+            { slot: 10, name: "Grotti Itali RSX", images: ["fonction2/Itali RSX.jpg", "fonction2/Itali RSX1.jpg", "fonction2/Itali RSX2.jpg", "fonction2/Itali RSX3.jpg"], color1: "Violet", color2: "Violet", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
+            { slot: 11, name: "Albany Brigham", images: ["fonction2/Brigham.jpg", "fonction2/Brigham1.jpg", "fonction2/Brigham2.jpg"], color1: "Noir", color2: "Noir", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
+            { slot: 12, name: "Corbillard Romero", images: ["fonction2/Corbillard Romero.jpg", "fonction2/Corbillard Romero1.jpg", "fonction2/Corbillard Romero2.jpg", "fonction2/Corbillard Romero3.jpg"], color1: "Vert", color2: "Vert", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
+            { slot: 13, name: "Bravado Rat-Loader", images: ["fonction2/Rat-loader.jpg", "fonction2/Rat-loader1.jpg", "fonction2/Rat-loader2.jpg", "fonction2/Rat-loader3.jpg"], color1: "Blanc", color2: "Blanc", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
+            { slot: 14, name: "Grotti Itali GTO", images: ["fonction2/Itali GTO.jpg", "fonction2/Itali GTO1.jpg", "fonction2/Itali GTO2.jpg", "fonction2/Itali GTO3.jpg"], color1: "Noir", color2: "Noir", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
+            { slot: 15, name: "BF Raptor", images: ["fonction2/Raptor.jpg", "fonction2/Raptor1.jpg", "fonction2/Raptor2.jpg", "fonction2/Raptor3.jpg"], color1: "Bleu", color2: "Bleu", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
+            { slot: 16, name: "Overflod Pipistrello", images: ["fonction2/Pipistrello.jpg", "fonction2/Pipistrello1.jpg", "fonction2/Pipistrello2.jpg", "fonction2/Pipistrello3.jpg"], color1: "Bleu", color2: "Bleu", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
+            { slot: 17, name: "Ocelot XA-21", images: ["fonction2/XA.jpg", "fonction2/XA1.jpg", "fonction2/XA2.jpg", "fonction2/XA3.jpg"], color1: "Vert", color2: "Vert", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
+            { slot: 18, name: "Caddie", images: ["fonction2/Caddie.jpg", "fonction2/Caddie1.jpg", "fonction2/Caddie2.jpg", "fonction2/Caddie3.jpg"], color1: "Vert", color2: "Vert", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
+            { slot: 19, name: "Invetero Coquette D5", images: ["fonction2/D5.jpg", "fonction2/D51.jpg", "fonction2/D52.jpg", "fonction2/D53.jpg"], color1: "Rouge", color2: "Rouge", wheel: "F1", plateContent: "Vi", plateBackground: "Yankton", garage: "fonction2" },
+            { slot: 20, name: "Enus Paragon S", images: ["fonction2/Paragon S.jpg", "fonction2/Paragon S1.jpg", "fonction2/Paragon S2.jpg", "fonction2/Paragon S3.jpg"], color1: "Rose", color2: "Rose", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
 
             // --- FONCTION 3 ---
-            { name: "Blazer Street", images: ["fonction3/street.jpg"], color1: "Violet", color2: "Violet", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { name: "Hot Rod Blazer", images: ["fonction3/Blazer.jpg"], color1: "Bleu", color2: "Bleu", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { name: "Ubermacht Revolter", images: ["fonction3/Revolter.jpg"], color1: "Violet", color2: "Violet", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { name: "Canis Bodhi", images: ["fonction3/Bodhi.jpg"], color1: "Gris", color2: "Gris", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { name: "Go Go Monkey Blista", images: ["fonction3/monkey.jpg"], color1: "Noir", color2: "Noir", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { name: "Dinka Sugoi", images: ["fonction3/Sugoi.jpg"], color1: "Gris", color2: "Gris", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { name: "Karin Calico GTF", images: ["fonction3/Calico GTF.jpg"], color1: "Noir", color2: "Noir", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { name: "Emperor Vectre", images: ["fonction3/Vectre.jpg"], color1: "Caméléon", color2: "Caméléon", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { name: "Bravado Verlierer", images: ["fonction3/Verlierer.jpg"], color1: "Gris", color2: "Gris", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { name: "Canis Castigator", images: ["fonction3/Castigator.jpg"], color1: "Vert", color2: "Vert", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { name: "Coil Cyclone II", images: ["fonction3/Cyclone II.jpg"], color1: "Rose", color2: "Rose", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { name: "MTL Dune", images: ["fonction3/Dune.jpg"], color1: "Or", color2: "Or", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { name: "Vapid Hotknife", images: ["fonction3/Hotknife.jpg"], color1: "Gris", color2: "Gris", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { name: "Imponte Nightshade", images: ["fonction3/Nightshade.jpg"], color1: "Rouge", color2: "Rouge", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { name: "Benefactor Panto", images: ["fonction3/Panto.jpg"], color1: "Vert", color2: "Vert", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { name: "HVY Scarab", images: ["fonction3/Scarab anticipation.jpg"], color1: "Or", color2: "Or", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { name: "Turismo Classique", images: ["fonction3/Turismo classique.jpg"], color1: "Noir", color2: "Noir", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { name: "ZR380 Anticipation", images: ["fonction3/ZR380 anticipation.jpg"], color1: "Rouge", color2: "Rouge", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { name: "Blista Kanjo", images: ["fonction3/Blista Kanjo.jpg"], color1: "Noir", color2: "Noir", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
+            { slot: 1, name: "Blazer Street", images: ["fonction3/street.jpg"], color1: "Violet", color2: "Violet", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
+            { slot: 2, name: "Hot Rod Blazer", images: ["fonction3/Blazer.jpg"], color1: "Bleu", color2: "Bleu", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
+            { slot: 3, name: "Ubermacht Revolter", images: ["fonction3/Revolter.jpg"], color1: "Violet", color2: "Violet", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
+            { slot: 4, name: "Canis Bodhi", images: ["fonction3/Bodhi.jpg"], color1: "Gris", color2: "Gris", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
+            { slot: 5, name: "Go Go Monkey Blista", images: ["fonction3/monkey.jpg"], color1: "Noir", color2: "Noir", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
+            { slot: 6, name: "Dinka Sugoi", images: ["fonction3/Sugoi.jpg"], color1: "Gris", color2: "Gris", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
+            { slot: 7, name: "Karin Calico GTF", images: ["fonction3/Calico GTF.jpg"], color1: "Noir", color2: "Noir", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
+            { slot: 8, name: "Emperor Vectre", images: ["fonction3/Vectre.jpg"], color1: "Caméléon", color2: "Caméléon", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
+            { slot: 9, name: "Bravado Verlierer", images: ["fonction3/Verlierer.jpg"], color1: "Gris", color2: "Gris", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
+            { slot: 10, name: "Canis Castigator", images: ["fonction3/Castigator.jpg"], color1: "Vert", color2: "Vert", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
+            { slot: 11, name: "Coil Cyclone II", images: ["fonction3/Cyclone II.jpg"], color1: "Rose", color2: "Rose", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
+            { slot: 12, name: "MTL Dune", images: ["fonction3/Dune.jpg"], color1: "Or", color2: "Or", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
+            { slot: 13, name: "Vapid Hotknife", images: ["fonction3/Hotknife.jpg"], color1: "Gris", color2: "Gris", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
+            { slot: 14, name: "Imponte Nightshade", images: ["fonction3/Nightshade.jpg"], color1: "Rouge", color2: "Rouge", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
+            { slot: 15, name: "Benefactor Panto", images: ["fonction3/Panto.jpg"], color1: "Vert", color2: "Vert", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
+            { slot: 16, name: "HVY Scarab", images: ["fonction3/Scarab anticipation.jpg"], color1: "Or", color2: "Or", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
+            { slot: 17, name: "Turismo Classique", images: ["fonction3/Turismo classique.jpg"], color1: "Noir", color2: "Noir", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
+            { slot: 18, name: "ZR380 Anticipation", images: ["fonction3/ZR380 anticipation.jpg"], color1: "Rouge", color2: "Rouge", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
+            { slot: 19, name: "Blista Kanjo", images: ["fonction3/Blista Kanjo.jpg"], color1: "Noir", color2: "Noir", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
 
             // --- ARENE RDC ---
-            { name: "Obey 8F Drafter", images: ["arenerdc/8F Drafter.jpg", "arenerdc/8F Drafter1.jpg", "arenerdc/8F Drafter2.jpg", "arenerdc/8F Drafter3.jpg"], color1: "Bleu", color2: "Bleu", wheel: "F1", plateContent: "Al", plateBackground: "bleu", garage: "arenerdc" },
-            { name: "Obey 10F Widebody", images: ["arenerdc/10f large.jpg", "arenerdc/10f large1.jpg", "arenerdc/10f large2.jpg", "arenerdc/10f large3.jpg"], color1: "Or", color2: "Rouge", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "arenerdc" },
-            { name: "Lampadati Cinquemila", images: ["arenerdc/Cinquemila.jpg", "arenerdc/Cinquemila1.jpg", "arenerdc/Cinquemila2.jpg", "arenerdc/Cinquemila3.jpg"], color1: "Violet", color2: "Rose", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "arenerdc" },
-            { name: "Ubermacht Cypher", images: ["arenerdc/Cypher.jpg", "arenerdc/Cypher1.jpg", "arenerdc/Cypher2.jpg", "arenerdc/Cypher3.jpg"], color1: "Gris", color2: "Rouge", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "arenerdc" },
-            { name: "Karin Keitora", images: ["arenerdc/Keitora.jpg", "arenerdc/Keitora1.jpg", "arenerdc/Keitora2.jpg", "arenerdc/Keitora3.jpg"], color1: "Vert", color2: "Blanc", wheel: "F1", plateContent: "Vi", plateBackground: "Liberty", garage: "arenerdc" },
-            { name: "Ubermacht Niobe", images: ["arenerdc/Niobe.jpg", "arenerdc/Niobe1.jpg", "arenerdc/Niobe2.jpg", "arenerdc/Niobe3.jpg", "arenerdc/Niobe4.jpg"], color1: "Bleu", color2: "Rose", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "arenerdc" },
-            { name: "Ocelot Pariah", images: ["arenerdc/Pariah.jpg", "arenerdc/Pariah1.jpg", "arenerdc/Pariah2.jpg", "arenerdc/Pariah3.jpg"], color1: "Or", color2: "Or", wheel: "F1", plateContent: "Al", plateBackground: "Yankton", garage: "arenerdc" },
-            { name: "Karin Vivanite", images: ["arenerdc/Vivanite.jpg", "arenerdc/Vivanite1.jpg", "arenerdc/Vivanite2.jpg", "arenerdc/Vivanite3.jpg"], color1: "Vert", color2: "Vert", wheel: "Benny's", plateContent: "Pe", plateBackground: "Yankton", garage: "arenerdc" },
-            { name: "Pegassi Zentorno", images: ["arenerdc/Zentorno.jpg", "arenerdc/Zentorno1.jpg", "arenerdc/Zentorno2.jpg", "arenerdc/Zentorno3.jpg"], color1: "Gris", color2: "Gris", wheel: "Origine", plateContent: "Al", plateBackground: "bleu", garage: "arenerdc" },
+            { slot: 1, name: "Obey 8F Drafter", images: ["arenerdc/8F Drafter.jpg", "arenerdc/8F Drafter1.jpg", "arenerdc/8F Drafter2.jpg", "arenerdc/8F Drafter3.jpg"], color1: "Bleu", color2: "Bleu", wheel: "F1", plateContent: "Al", plateBackground: "bleu", garage: "arenerdc" },
+            { slot: 2, name: "Obey 10F Widebody", images: ["arenerdc/10f large.jpg", "arenerdc/10f large1.jpg", "arenerdc/10f large2.jpg", "arenerdc/10f large3.jpg"], color1: "Or", color2: "Rouge", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "arenerdc" },
+            { slot: 3, name: "Lampadati Cinquemila", images: ["arenerdc/Cinquemila.jpg", "arenerdc/Cinquemila1.jpg", "arenerdc/Cinquemila2.jpg", "arenerdc/Cinquemila3.jpg"], color1: "Violet", color2: "Rose", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "arenerdc" },
+            { slot: 4, name: "Ubermacht Cypher", images: ["arenerdc/Cypher.jpg", "arenerdc/Cypher1.jpg", "arenerdc/Cypher2.jpg", "arenerdc/Cypher3.jpg"], color1: "Gris", color2: "Rouge", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "arenerdc" },
+            { slot: 5, name: "Karin Keitora", images: ["arenerdc/Keitora.jpg", "arenerdc/Keitora1.jpg", "arenerdc/Keitora2.jpg", "arenerdc/Keitora3.jpg"], color1: "Vert", color2: "Blanc", wheel: "F1", plateContent: "Vi", plateBackground: "Liberty", garage: "arenerdc" },
+            { slot: 6, name: "Ubermacht Niobe", images: ["arenerdc/Niobe.jpg", "arenerdc/Niobe1.jpg", "arenerdc/Niobe2.jpg", "arenerdc/Niobe3.jpg", "arenerdc/Niobe4.jpg"], color1: "Bleu", color2: "Rose", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "arenerdc" },
+            { slot: 7, name: "Ocelot Pariah", images: ["arenerdc/Pariah.jpg", "arenerdc/Pariah1.jpg", "arenerdc/Pariah2.jpg", "arenerdc/Pariah3.jpg"], color1: "Or", color2: "Or", wheel: "F1", plateContent: "Al", plateBackground: "Yankton", garage: "arenerdc" },
+            { slot: 8, name: "Karin Vivanite", images: ["arenerdc/Vivanite.jpg", "arenerdc/Vivanite1.jpg", "arenerdc/Vivanite2.jpg", "arenerdc/Vivanite3.jpg"], color1: "Vert", color2: "Vert", wheel: "Benny's", plateContent: "Pe", plateBackground: "Yankton", garage: "arenerdc" },
+            { slot: 9, name: "Pegassi Zentorno", images: ["arenerdc/Zentorno.jpg", "arenerdc/Zentorno1.jpg", "arenerdc/Zentorno2.jpg", "arenerdc/Zentorno3.jpg"], color1: "Gris", color2: "Gris", wheel: "Origine", plateContent: "Al", plateBackground: "bleu", garage: "arenerdc" },
 
             // --- ARENE 1 ---
-            { name: "Apocalypse Bruiser", images: ["arene1/Bruiser anticipation.jpg", "arene1/Bruiser anticipation1.jpg"], color1: "Rouge", color2: "Bleu", wheel: "F1", plateContent: "Indifférent", plateBackground: "Indifférent", garage: "arene1" },
-            { name: "Apocalypse Cerberus", images: ["arene1/Cerberus anticipation.jpg"], color1: "Bleu", color2: "Noir", wheel: "F1", plateContent: "Indifférent", plateBackground: "Indifférent", garage: "arene1" },
-            { name: "Coil Cyclone", images: ["arene1/Cyclone.jpg", "arene1/Cyclone1.jpg"], color1: "Bleu", color2: "Bleu", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "arene1" },
-            { name: "Invetero Coquette D10", images: ["arene1/D10.jpg"], color1: "Noir", color2: "Noir", wheel: "F1", plateContent: "Al", plateBackground: "Basic", garage: "arene1" },
-            { name: "Dinka Jester RR", images: ["arene1/Jester.jpg"], color1: "Rose", color2: "Noir", wheel: "Origine", plateContent: "Indifférent", plateBackground: "Indifférent", garage: "arene1" },
-            { name: "Benefactor Krieger", images: ["arene1/Krieger.jpg", "arene1/Krieger1.jpg", "arene1/Krieger2.jpg"], color1: "Violet", color2: "Violet", wheel: "F1", plateContent: "Pe", plateBackground: "Violet", garage: "arene1" },
-            { name: "Ubermacht Rhinehart", images: ["arene1/Rhinehart.jpg", "arene1/Rhinehart1.jpg", "arene1/Rhinehart2.jpg"], color1: "Vert", color2: "Noir", wheel: "F1", plateContent: "Al", plateBackground: "Noir", garage: "arene1" },
-            { name: "Grotti Itali RSX", images: ["arene1/RSX.jpg", "arene1/RSX1.jpg", "arene1/RSX2.jpg", "arene1/RSX3.jpg"], color1: "Rouge", color2: "Blanc", wheel: "Benny's", plateContent: "Vi", plateBackground: "Yankton", garage: "arene1" },
-            { name: "Pegassi Zentorno", images: ["arene1/Zentorno.jpg", "arene1/Zentorno1.jpg", "arene1/Zentorno2.jpg"], color1: "Jaune", color2: "Noir", wheel: "Origine", plateContent: "Al", plateBackground: "Blanc", garage: "arene1" },
-            { name: "Apocalypse ZR380", images: ["arene1/ZR380 anticipation.jpg", "arene1/ZR380 anticipation1.jpg"], color1: "Rouge", color2: "Rouge", wheel: "Benny's", plateContent: "Pe", plateBackground: "Yankton", garage: "arene1" },
+            { slot: 1, name: "Apocalypse Bruiser", images: ["arene1/Bruiser anticipation.jpg", "arene1/Bruiser anticipation1.jpg"], color1: "Rouge", color2: "Bleu", wheel: "F1", plateContent: "Indifférent", plateBackground: "Indifférent", garage: "arene1" },
+            { slot: 2, name: "Apocalypse Cerberus", images: ["arene1/Cerberus anticipation.jpg"], color1: "Bleu", color2: "Noir", wheel: "F1", plateContent: "Indifférent", plateBackground: "Indifférent", garage: "arene1" },
+            { slot: 3, name: "Coil Cyclone", images: ["arene1/Cyclone.jpg", "arene1/Cyclone1.jpg"], color1: "Bleu", color2: "Bleu", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "arene1" },
+            { slot: 4, name: "Invetero Coquette D10", images: ["arene1/D10.jpg"], color1: "Noir", color2: "Noir", wheel: "F1", plateContent: "Al", plateBackground: "Basic", garage: "arene1" },
+            { slot: 5, name: "Dinka Jester RR", images: ["arene1/Jester.jpg"], color1: "Rose", color2: "Noir", wheel: "Origine", plateContent: "Indifférent", plateBackground: "Indifférent", garage: "arene1" },
+            { slot: 6, name: "Benefactor Krieger", images: ["arene1/Krieger.jpg", "arene1/Krieger1.jpg", "arene1/Krieger2.jpg"], color1: "Violet", color2: "Violet", wheel: "F1", plateContent: "Pe", plateBackground: "Violet", garage: "arene1" },
+            { slot: 7, name: "Ubermacht Rhinehart", images: ["arene1/Rhinehart.jpg", "arene1/Rhinehart1.jpg", "arene1/Rhinehart2.jpg"], color1: "Vert", color2: "Noir", wheel: "F1", plateContent: "Al", plateBackground: "Noir", garage: "arene1" },
+            { slot: 8, name: "Grotti Itali RSX", images: ["arene1/RSX.jpg", "arene1/RSX1.jpg", "arene1/RSX2.jpg", "arene1/RSX3.jpg"], color1: "Rouge", color2: "Blanc", wheel: "Benny's", plateContent: "Vi", plateBackground: "Yankton", garage: "arene1" },
+            { slot: 9, name: "Pegassi Zentorno", images: ["arene1/Zentorno.jpg", "arene1/Zentorno1.jpg", "arene1/Zentorno2.jpg"], color1: "Jaune", color2: "Noir", wheel: "Origine", plateContent: "Al", plateBackground: "Blanc", garage: "arene1" },
+            { slot: 10, name: "Apocalypse ZR380", images: ["arene1/ZR380 anticipation.jpg", "arene1/ZR380 anticipation1.jpg"], color1: "Rouge", color2: "Rouge", wheel: "Benny's", plateContent: "Pe", plateBackground: "Yankton", garage: "arene1" },
 
             // --- ARENE 2 ---
-            { name: "Benefactor Dubsta", images: ["arene2/Dubsta.jpg", "arene2/Dubsta1.jpg", "arene2/Dubsta2.jpg"], color1: "Caméléon", color2: "Blanc", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "arene2" },
-            { name: "Albany Hermes", images: ["arene2/Hermes.jpg", "arene2/Hermes1.jpg", "arene2/Hermes2.jpg"], color1: "Rouge", color2: "Rouge", wheel: "F1", plateContent: "Al", plateBackground: "Yankton", garage: "arene2" },
-            { name: "Ubermacht Niobe", images: ["arene2/Niobe.jpg", "arene2/Niobe1.jpg", "arene2/Niobe2.jpg"], color1: "Bleu", color2: "Blanc", wheel: "Benny's", plateContent: "Pe", plateBackground: "Yankton", garage: "arene2" },
-            { name: "Pegassi Reaper", images: ["arene2/Reaper.jpg", "arene2/Reaper1.jpg", "arene2/Reaper2.jpg"], color1: "Blanc", color2: "Blanc", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "arene2" },
-            { name: "Benefactor Schlagen GT", images: ["arene2/Schlagen GT.jpg", "arene2/Schlagen GT1.jpg", "arene2/Schlagen GT2.jpg"], color1: "Violet", color2: "Bleu", wheel: "Benny's", plateContent: "Pe", plateBackground: "Yankton", garage: "arene2" },
-            { name: "Progen T20", images: ["arene2/T20.jpg", "arene2/T201.jpg"], color1: "Violet", color2: "Violet", wheel: "Benny's", plateContent: "Pe", plateBackground: "Violet", garage: "arene2" },
-            { name: "Dewbauchee Vagner", images: ["arene2/Vagner.jpg"], color1: "Noir", color2: "Noir", wheel: "F1", plateContent: "Al", plateBackground: "Yankton", garage: "arene2" },
-            { name: "Grotti Vigilante", images: ["arene2/Vigilante.jpg"], color1: "Caméléon", color2: "Beige", wheel: "Benny's", plateContent: "Indifférent", plateBackground: "Indifférent", garage: "arene2" },
-            { name: "Apocalypse ZR380", images: ["arene2/ZR380 anticipation.jpg", "arene2/ZR380 anticipation1.jpg", "arene2/ZR380 anticipation2.jpg"], color1: "Bleu", color2: "Bleu", wheel: "Benny's", plateContent: "Pe", plateBackground: "Yankton", garage: "arene2" }
+            { slot: 1, name: "Benefactor Dubsta", images: ["arene2/Dubsta.jpg", "arene2/Dubsta1.jpg", "arene2/Dubsta2.jpg"], color1: "Caméléon", color2: "Blanc", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "arene2" },
+            { slot: 2, name: "Albany Hermes", images: ["arene2/Hermes.jpg", "arene2/Hermes1.jpg", "arene2/Hermes2.jpg"], color1: "Rouge", color2: "Rouge", wheel: "F1", plateContent: "Al", plateBackground: "Yankton", garage: "arene2" },
+            { slot: 3, name: "Ubermacht Niobe", images: ["arene2/Niobe.jpg", "arene2/Niobe1.jpg", "arene2/Niobe2.jpg"], color1: "Bleu", color2: "Blanc", wheel: "Benny's", plateContent: "Pe", plateBackground: "Yankton", garage: "arene2" },
+            { slot: 4, name: "Pegassi Reaper", images: ["arene2/Reaper.jpg", "arene2/Reaper1.jpg", "arene2/Reaper2.jpg"], color1: "Blanc", color2: "Blanc", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "arene2" },
+            { slot: 5, name: "Benefactor Schlagen GT", images: ["arene2/Schlagen GT.jpg", "arene2/Schlagen GT1.jpg", "arene2/Schlagen GT2.jpg"], color1: "Violet", color2: "Bleu", wheel: "Benny's", plateContent: "Pe", plateBackground: "Yankton", garage: "arene2" },
+            { slot: 6, name: "Progen T20", images: ["arene2/T20.jpg", "arene2/T201.jpg"], color1: "Violet", color2: "Violet", wheel: "Benny's", plateContent: "Pe", plateBackground: "Violet", garage: "arene2" },
+            { slot: 7, name: "Dewbauchee Vagner", images: ["arene2/Vagner.jpg"], color1: "Noir", color2: "Noir", wheel: "F1", plateContent: "Al", plateBackground: "Yankton", garage: "arene2" },
+            { slot: 8, name: "Grotti Vigilante", images: ["arene2/Vigilante.jpg"], color1: "Caméléon", color2: "Beige", wheel: "Benny's", plateContent: "Indifférent", plateBackground: "Indifférent", garage: "arene2" },
+            { slot: 9, name: "Apocalypse ZR380", images: ["arene2/ZR380 anticipation.jpg", "arene2/ZR380 anticipation1.jpg", "arene2/ZR380 anticipation2.jpg"], color1: "Bleu", color2: "Bleu", wheel: "Benny's", plateContent: "Pe", plateBackground: "Yankton", garage: "arene2" }
         ];
 
         let currentVehicle = null;
@@ -892,7 +891,10 @@
                              onerror="this.src='https://via.placeholder.com/300x200?text=Image+Introuvable'">
                         <div class="vehicle-info">
                             <div>
-                                <span class="vehicle-garage">${garageName}</span>
+                                <div class="garage-badge">
+                                    <span class="vehicle-garage">${garageName}</span>
+                                    <span class="vehicle-slot">Emplacement : ${v.slot}/10</span>
+                                </div>
                                 <h3 class="vehicle-name">${v.name}</h3>
                                 <div class="vehicle-tag">${displayTag}</div>
                             </div>
