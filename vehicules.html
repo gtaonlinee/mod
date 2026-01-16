@@ -15,19 +15,18 @@
             --card-border: #c4b5fd;
             --btn-color: #725AC1;
             --shadow-tone: rgba(114, 90, 193, 0.15);
-            --danger-color: #ef4444;
             --success-color: #28a745;
             --success-shadow: #218838;
         }
 
-        body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background: var(--bg-body); color: var(--text-main); }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background: var(--bg-body); color: var(--text-main); overflow-x: hidden; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
 
-        /* --- NAVIGATION --- */
+        /* --- NAVIGATION (Z-Index Haut) --- */
         .navbar {
             position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
             width: 95%; max-width: 1200px; border-radius: 30px;
-            background: var(--nav-bg); padding: 10px 30px; z-index: 1000;
+            background: var(--nav-bg); padding: 10px 30px; z-index: 5000; /* Très haut */
             border: 1px solid var(--card-border);
             box-shadow: 0 10px 30px -10px var(--shadow-tone);
             box-sizing: border-box;
@@ -39,9 +38,16 @@
         .nav-links a:hover, .nav-links a.active { color: var(--btn-color); }
         
         .menu-toggle { display: none; background: none; border: none; font-size: 28px; color: var(--btn-color); cursor: pointer; }
-        .mobile-menu { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-body); z-index: 2000; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
+        
+        /* MENU MOBILE (Caché par défaut) */
+        .mobile-menu { 
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: var(--bg-body); z-index: 6000; 
+            flex-direction: column; align-items: center; justify-content: center; gap: 40px; 
+        }
+        .mobile-menu.active { display: flex !important; }
         .mobile-menu a { font-size: 32px; font-weight: 800; text-decoration: none; color: var(--text-main); }
-        .close-menu { position: absolute; top: 30px; right: 30px; font-size: 40px; background: none; border: none; color: var(--text-main); cursor: pointer; }
+        .close-menu { position: absolute; top: 30px; right: 30px; font-size: 40px; border: none; background: none; color: var(--text-main); cursor: pointer; }
         
         @media (max-width: 768px) {
             .nav-links { display: none; }
@@ -49,7 +55,7 @@
         }
 
         /* --- RECHERCHE --- */
-        .search-section { margin-top: 160px; text-align: center; padding: 0 20px; }
+        .search-section { margin-top: 160px; text-align: center; padding: 0 20px; position: relative; z-index: 5; }
         .search-wrapper { display: flex; justify-content: center; margin-bottom: 25px; }
         .search-input {
             width: 100%; max-width: 500px; padding: 15px 25px; border-radius: 50px;
@@ -59,9 +65,9 @@
         }
         .search-input:focus { border-color: var(--btn-color); box-shadow: 0 10px 25px -5px rgba(114, 90, 193, 0.3); }
 
-        /* --- CONTROLES FLOTTANTS BAS GAUCHE --- */
+        /* --- CONTROLES FLOTTANTS --- */
         .bottom-controls {
-            position: fixed; bottom: 30px; left: 30px; z-index: 1000;
+            position: fixed; bottom: 30px; left: 30px; z-index: 4000;
             display: flex; gap: 15px; align-items: center;
         }
         .advanced-filter-btn {
@@ -70,7 +76,6 @@
             display: flex; align-items: center; gap: 8px; transition: all 0.2s;
             box-shadow: 0 10px 20px -10px var(--shadow-tone);
         }
-        .advanced-filter-btn:hover { background-color: var(--btn-color); color: white; border-color: var(--btn-color); }
         .advanced-filter-btn.active-filter { background-color: var(--btn-color); color: white; }
 
         #validateBtn {
@@ -79,11 +84,11 @@
             font-size: 15px; box-shadow: 0 10px 20px -10px var(--shadow-tone); transition: 0.3s;
             display: flex; align-items: center; justify-content: center;
         }
-        #validateBtn:hover { background: #5a3a9a; transform: scale(1.05); }
+        #validateBtn:hover { transform: scale(1.05); }
         #validateBtn.disabled { background-color: #94a3b8; cursor: not-allowed; transform: none; box-shadow: none; opacity: 0.7; }
 
         /* --- TABS --- */
-        .garage-tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+        .garage-tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; position: relative; z-index: 6; }
         .tab-btn {
             background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text-muted);
             padding: 8px 18px; border-radius: 20px; cursor: pointer; font-weight: 600; transition: 0.3s; font-size: 13px;
@@ -93,7 +98,7 @@
         /* --- GRILLE VÉHICULES --- */
         .vehicle-grid {
             display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 24px; padding: 40px 0 80px;
+            gap: 24px; padding: 40px 0 80px; position: relative; z-index: 5;
         }
         .vehicle-card {
             background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px;
@@ -103,98 +108,74 @@
         }
         .vehicle-card:hover { transform: scale(1.02); border-color: var(--btn-color); }
         .vehicle-card.selected { border-color: var(--btn-color); box-shadow: 0 10px 25px -5px rgba(114, 90, 193, 0.4); }
-        .vehicle-card:active { transform: scale(0.98); transition: 0.1s; }
-        .vehicle-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; background-color: #e0e7ff; user-select: none; }
+        .vehicle-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; background-color: #e0e7ff; }
         .vehicle-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 8px; }
         
-        .garage-badge {
-            display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;
-        }
+        .garage-badge { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px; }
         .vehicle-garage { color: var(--btn-color); font-size: 11px; font-weight: 800; text-transform: uppercase; }
-        .vehicle-slot { 
-            background: #f0ebff; color: var(--btn-color); font-size: 10px; font-weight: 700; 
-            padding: 2px 6px; border-radius: 4px; border: 1px solid #c4b5fd;
-        }
-
+        .vehicle-slot { background: #f0ebff; color: var(--btn-color); font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; border: 1px solid #c4b5fd; }
         .vehicle-name { margin: 0; font-size: 18px; font-weight: 700; color: var(--text-main); }
         .vehicle-tag { font-size: 12px; color: var(--text-muted); margin-top: 0px; font-weight: 500; line-height: 1.4; }
 
-        /* Boutons Card */
+        /* Boutons */
         .cssbuttons-io-button {
-            background: #a370f0; color: white; padding: 0.35em; padding-left: 1.2em; font-size: 15px; font-weight: 500;
+            background: #a370f0; color: white; padding: 0.35em 3.3em 0.35em 1.2em; font-size: 15px; font-weight: 500;
             border-radius: 0.9em; border: none; display: flex; align-items: center; position: relative; height: 2.8em;
-            padding-right: 3.3em; cursor: pointer; width: 100%; margin-top: 5px; transition: all 0.3s;
+            cursor: pointer; width: 100%; margin-top: 5px; transition: all 0.3s;
             box-shadow: inset 0 0 1.6em -0.6em #714da6;
         }
         .cssbuttons-io-button .icon {
             background: white; margin-left: 1em; position: absolute; display: flex; align-items: center; justify-content: center;
             height: 2.2em; width: 2.2em; border-radius: 0.7em; right: 0.3em; transition: all 0.3s;
-            box-shadow: 0.1em 0.1em 0.6em 0.2em #7b52b9;
+            box-shadow: 0.1em 0.1em 0.6em 0.2em #7b52b9; color: #7b52b9;
         }
-        .cssbuttons-io-button:hover .icon { width: calc(100% - 0.6em); }
-        .cssbuttons-io-button .icon svg { width: 1.1em; transition: transform 0.3s; color: #7b52b9; }
-        .cssbuttons-io-button:hover .icon svg { transform: translateX(0.1em); }
-        .cssbuttons-io-button:active .icon { transform: scale(0.95); }
-
         .cssbuttons-io-button.selected { background: var(--success-color); box-shadow: inset 0 0 1.6em -0.6em var(--success-shadow); }
-        .cssbuttons-io-button.selected .icon { box-shadow: 0.1em 0.1em 0.6em 0.2em var(--success-shadow); }
-        .cssbuttons-io-button.selected .icon svg { color: var(--success-color); }
+        .cssbuttons-io-button.selected .icon { box-shadow: 0.1em 0.1em 0.6em 0.2em var(--success-shadow); color: var(--success-color); }
 
-        /* --- MODALES --- */
+        /* --- MODALES (Cachées par défaut) --- */
         .modal, .filter-modal, .review-modal {
-            display: none; position: fixed; z-index: 3000; padding-top: 50px; left: 0; top: 0;
+            display: none; position: fixed; z-index: 7000; padding-top: 50px; left: 0; top: 0;
             width: 100%; height: 100%; background-color: rgba(10, 5, 20, 0.95); backdrop-filter: blur(8px);
-            animation: fadeIn 0.3s ease-out;
         }
         .modal.show, .filter-modal.active, .review-modal.active { display: block; }
-        .review-modal { background: rgba(0, 0, 0, 0.5); padding-top: 0; display: none; align-items: center; justify-content: center; }
-        .review-modal.active { display: flex; }
+        .review-modal.active { display: flex; align-items: center; justify-content: center; padding-top: 0; }
 
-        .modal-content-wrapper, .filter-box, .review-box { position: relative; margin: auto; animation: slideUp 0.4s ease-out; }
+        .modal-content-wrapper, .filter-box, .review-box { position: relative; margin: auto; }
         .filter-box, .review-box { background: white; width: 90%; max-width: 500px; border-radius: 20px; padding: 30px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); max-height: 80vh; overflow-y: auto; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(-50%); opacity: 1; } }
 
         .modal-img-container { position: relative; width: 100%; display: flex; align-items: center; justify-content: center; }
-        .modal-img { width: 100%; max-height: 70vh; object-fit: contain; border-radius: 12px; border: 1px solid #ffffff30; box-shadow: 0 20px 50px rgba(0,0,0,0.5); transition: transform 0.3s ease; }
+        .modal-img { width: 100%; max-height: 70vh; object-fit: contain; border-radius: 12px; border: 1px solid #ffffff30; }
+        
         .nav-btn {
             position: absolute; top: 50%; transform: translateY(-50%);
             background: rgba(0,0,0,0.7); color: white; border: 2px solid rgba(255,255,255,0.3);
             width: 60px; height: 60px; border-radius: 50%; font-size: 28px; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; z-index: 2010; transition: all 0.3s; backdrop-filter: blur(10px);
+            display: flex; align-items: center; justify-content: center; z-index: 2010;
         }
-        .nav-btn:hover { background: var(--btn-color); border-color: var(--btn-color); transform: translateY(-50%) scale(1.1); }
         .prev-btn { left: 20px; } .next-btn { right: 20px; }
         .modal-details { margin-top: 20px; color: white; text-align: center; }
         .modal-desc { font-size: 16px; color: var(--btn-color); background: #ffffff; display: inline-block; padding: 8px 20px; border-radius: 50px; font-weight: 600; margin-top: 10px; }
-        .close { position: absolute; top: 20px; right: 30px; color: #f1f1f1; font-size: 50px; cursor: pointer; z-index: 2001; transition: all 0.3s; }
-        .close:hover { color: var(--btn-color); transform: scale(1.2); }
-        .img-counter { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 600; backdrop-filter: blur(10px); }
-
+        .close { position: absolute; top: 20px; right: 30px; color: #f1f1f1; font-size: 50px; cursor: pointer; z-index: 2001; }
+        
+        /* FILTRES & AVIS */
         .filter-header, .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #f3f4f6; padding-bottom: 15px; }
         .filter-header h2, .review-header h2 { font-size: 20px; font-weight: 700; margin: 0; color: var(--text-main); }
         .close-filter, .close-review { background: none; border: none; font-size: 24px; color: var(--text-muted); cursor: pointer; }
-
         .filter-group-title { font-size: 13px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; margin-top: 15px; }
         .options-grid { display: flex; flex-wrap: wrap; gap: 8px; }
         .options-grid input[type="radio"] { display: none; }
-        .options-grid label { padding: 8px 16px; background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 50px; font-size: 14px; color: var(--text-main); cursor: pointer; transition: all 0.2s; }
-        .options-grid label:hover { background-color: #f3f4f6; border-color: var(--card-border); }
+        .options-grid label { padding: 8px 16px; background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 50px; font-size: 14px; color: var(--text-main); cursor: pointer; }
         .options-grid input[type="radio"]:checked + label { background-color: var(--btn-color); border-color: var(--btn-color); color: white; }
         .filter-actions { margin-top: 30px; display: flex; justify-content: flex-end; gap: 10px; }
-        .btn-reset { background: #e2e8f0; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-weight: 600; color: var(--text-main); }
+        .btn-reset { background: #e2e8f0; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-weight: 600; }
         .btn-apply { background: var(--text-main); border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-weight: 600; color: white; }
 
-        .review-list { background: #f9fafb; border-radius: 10px; padding: 15px; max-height: 300px; overflow-y: auto; margin-bottom: 20px; display: flex; flex-direction: column; gap: 10px; }
-        .single-review { background: white; padding: 10px; border-radius: 8px; border: 1px solid #e5e7eb; font-size: 14px; }
+        .review-list { background: #f9fafb; border-radius: 10px; padding: 15px; max-height: 300px; overflow-y: auto; margin-bottom: 20px; }
+        .single-review { background: white; padding: 10px; border-radius: 8px; border: 1px solid #e5e7eb; font-size: 14px; margin-bottom: 10px; }
         .sr-user { font-weight: 700; color: var(--btn-color); font-size: 12px; margin-bottom: 2px; }
-        .sr-text { color: var(--text-main); line-height: 1.4; }
         .review-input-group { display: flex; gap: 10px; flex-direction: column; }
-        .review-input-group input, .review-input-group textarea { padding: 10px; border: 1px solid #c4b5fd; border-radius: 8px; font-family: inherit; width: 100%; box-sizing: border-box; }
-        .pseudo-warning { font-size: 11px; color: var(--danger-color); font-weight: 600; margin-bottom: 2px; }
-        .btn-send-review { background: var(--btn-color); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .btn-send-review:hover { background: #5a3a9a; }
-        input:disabled { background-color: #f1f5f9; color: #64748b; cursor: not-allowed; border-color: #cbd5e1; }
+        .review-input-group input, .review-input-group textarea { padding: 10px; border: 1px solid #c4b5fd; border-radius: 8px; width: 100%; box-sizing: border-box; }
+        .btn-send-review { background: var(--btn-color); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -264,7 +245,7 @@
 
     <div id="filterModal" class="filter-modal">
         <div class="filter-box">
-            <div class="filter-header"><h2>Filtres Avancés</h2><button id="closeFilter" class="close-filter">&times;</button></div>
+            <div class="filter-header"><h2>Filtres</h2><button id="closeFilter" class="close-filter">&times;</button></div>
             <form id="filterForm">
                 <div class="filter-group-title">Couleur</div>
                 <div class="options-grid">
@@ -273,30 +254,16 @@
                     <input type="radio" id="c-blanc" name="color" value="Blanc"><label for="c-blanc">Blanc</label>
                     <input type="radio" id="c-bleu" name="color" value="Bleu"><label for="c-bleu">Bleu</label>
                     <input type="radio" id="c-rouge" name="color" value="Rouge"><label for="c-rouge">Rouge</label>
-                    <input type="radio" id="c-violet" name="color" value="Violet"><label for="c-violet">Violet</label>
                     <input type="radio" id="c-vert" name="color" value="Vert"><label for="c-vert">Vert</label>
                     <input type="radio" id="c-rose" name="color" value="Rose"><label for="c-rose">Rose</label>
                     <input type="radio" id="c-or" name="color" value="Or"><label for="c-or">Or</label>
-                    <input type="radio" id="c-gris" name="color" value="Gris"><label for="c-gris">Gris</label>
                     <input type="radio" id="c-cameleon" name="color" value="Caméléon"><label for="c-cameleon">Caméléon</label>
-                    <input type="radio" id="c-jaune" name="color" value="Jaune"><label for="c-jaune">Jaune</label>
-                    <input type="radio" id="c-chrome" name="color" value="Chrome"><label for="c-chrome">Chrome</label>
                 </div>
                 <div class="filter-group-title">Type de Roues</div>
                 <div class="options-grid">
                     <input type="radio" id="w-all" name="wheel" value="all" checked><label for="w-all">Toutes</label>
                     <input type="radio" id="w-f1" name="wheel" value="F1"><label for="w-f1">F1</label>
                     <input type="radio" id="w-benny" name="wheel" value="Benny"><label for="w-benny">Benny's</label>
-                    <input type="radio" id="w-sport" name="wheel" value="Sport"><label for="w-sport">Sport</label>
-                    <input type="radio" id="w-basic" name="wheel" value="Basic"><label for="w-basic">Basic</label>
-                </div>
-                <div class="filter-group-title">Plaque</div>
-                <div class="options-grid">
-                    <input type="radio" id="p-all" name="plate" value="all" checked><label for="p-all">Tous</label>
-                    <input type="radio" id="p-yank" name="plate" value="Yankton"><label for="p-yank">Yankton</label>
-                    <input type="radio" id="p-sa" name="plate" value="Exempt"><label for="p-sa">Exempt</label>
-                    <input type="radio" id="p-lib" name="plate" value="Liberty"><label for="p-lib">Liberty</label>
-                    <input type="radio" id="p-las" name="plate" value="Las venturas"><label for="p-las">Las Venturas</label>
                 </div>
                 <div class="filter-actions">
                     <button type="button" class="btn-reset" onclick="resetFilters()">Réinitialiser</button>
@@ -332,260 +299,304 @@
             databaseURL: "https://avis-86b9e-default-rtdb.europe-west1.firebasedatabase.app"
         };
 
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
+        let app, db;
+        let isFirebaseOk = false;
 
+        try {
+            app = initializeApp(firebaseConfig);
+            db = getDatabase(app);
+            isFirebaseOk = true;
+            console.log("Firebase OK");
+        } catch (e) {
+            console.warn("Firebase erreur (Local ?)");
+        }
+
+        // Expose functions globally for HTML buttons
+        window.openReviews = function(vehicleName) {
+            document.getElementById('reviewVehicleTitle').innerText = "Avis : " + vehicleName;
+            document.getElementById('reviewModal').classList.add('active');
+            const list = document.getElementById('reviewList');
+            
+            if(!isFirebaseOk) {
+                list.innerHTML = '<div style="padding:20px;text-align:center;">Avis indisponibles en local.</div>';
+                return;
+            }
+            list.innerHTML = '<div style="padding:20px;text-align:center;">Chargement...</div>';
+
+            const vehicleKey = vehicleName.replace(/[^a-zA-Z0-9]/g, '_');
+            onValue(ref(db, 'avis/' + vehicleKey), (snapshot) => {
+                list.innerHTML = "";
+                const data = snapshot.val();
+                if (data) {
+                    Object.values(data).reverse().forEach(r => {
+                        const div = document.createElement('div');
+                        div.className = 'single-review';
+                        div.innerHTML = `<div class="sr-user">${r.user} <span style="font-size:10px;color:#999">- ${r.date}</span></div><div class="sr-text">${r.text}</div>`;
+                        list.appendChild(div);
+                    });
+                } else { list.innerHTML = '<div style="padding:20px;text-align:center;color:#999">Aucun avis.</div>'; }
+            });
+        };
+
+        document.getElementById('sendReviewBtn').onclick = function() {
+            if(!isFirebaseOk) return alert("Pas de connexion Firebase.");
+            const user = document.getElementById('reviewPseudo').value.trim();
+            const text = document.getElementById('reviewText').value.trim();
+            const title = document.getElementById('reviewVehicleTitle').innerText.replace("Avis : ", "");
+            
+            if(user && text) {
+                const now = new Date();
+                const dateStr = now.toLocaleDateString() + " " + now.toLocaleTimeString().slice(0,5);
+                push(ref(db, 'avis/' + title.replace(/[^a-zA-Z0-9]/g, '_')), { user, text, date: dateStr })
+                .then(() => document.getElementById('reviewText').value = "")
+                .catch(e => alert("Erreur"));
+            }
+        };
+    </script>
+
+    <script>
+        // LISTE VÉHICULES COMPLETE
         const vehicles = [
-            /* --- BOITE 2 --- */
-            { slot: 1, name: "Ocelot Virtue", garage: "boite2", wheel: "Benny's", plate: "Yankton", color1: "Vert", color2: "Vert" },
-            { slot: 2, name: "Emperor Vectre", garage: "boite2", wheel: "Benny's", plate: "Yankton", color1: "Vert", color2: "Vert" },
-            { slot: 3, name: "Karin S95", garage: "boite2", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
-            { slot: 4, name: "Grotti Itali GTO", garage: "boite2", wheel: "Benny's", plate: "Liberty", color1: "Bleu", color2: "Bleu" },
-            { slot: 5, name: "Emperor ETR1", garage: "boite2", wheel: "Benny's", plate: "Las venturas", color1: "Bleu", color2: "Bleu" },
-            { slot: 6, name: "Ubermacht Cypher", garage: "boite2", wheel: "Benny's", plate: "Exempt", color1: "Bleu", color2: "Bleu" },
-            { slot: 7, name: "Canis Castigator", garage: "boite2", wheel: "F1", plate: "Exempt", color1: "Vert", color2: "Vert" },
-            { slot: 8, name: "Benefactor Panto", garage: "boite2", wheel: "F1", plate: "Exempt", color1: "Vert", color2: "Vert" },
-            { slot: 9, name: "Roosevelt Valor", garage: "boite2", wheel: "F1", plate: "Exempt", color1: "Violet", color2: "Violet" },
-            { slot: 10, name: "Canis Kalahari", garage: "boite2", wheel: "Benny's", plate: "Exempt", color1: "Rose", color2: "Rose" },
+            { slot: 1, name: "Ocelot Virtue", garage: "boite2", wheel: "Benny's", plateBackground: "Yankton", color1: "Vert", color2: "Vert" },
+            { slot: 2, name: "Emperor Vectre", garage: "boite2", wheel: "Benny's", plateBackground: "Yankton", color1: "Vert", color2: "Vert" },
+            { slot: 3, name: "Karin S95", garage: "boite2", wheel: "Benny's", plateBackground: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 4, name: "Grotti Itali GTO", garage: "boite2", wheel: "Benny's", plateBackground: "Liberty", color1: "Bleu", color2: "Bleu" },
+            { slot: 5, name: "Emperor ETR1", garage: "boite2", wheel: "Benny's", plateBackground: "Las venturas", color1: "Bleu", color2: "Bleu" },
+            { slot: 6, name: "Ubermacht Cypher", garage: "boite2", wheel: "Benny's", plateBackground: "Exempt", color1: "Bleu", color2: "Bleu" },
+            { slot: 7, name: "Canis Castigator", garage: "boite2", wheel: "F1", plateBackground: "Exempt", color1: "Vert", color2: "Vert" },
+            { slot: 8, name: "Benefactor Panto", garage: "boite2", wheel: "F1", plateBackground: "Exempt", color1: "Vert", color2: "Vert" },
+            { slot: 9, name: "Roosevelt Valor", garage: "boite2", wheel: "F1", plateBackground: "Exempt", color1: "Violet", color2: "Violet" },
+            { slot: 10, name: "Canis Kalahari", garage: "boite2", wheel: "Benny's", plateBackground: "Exempt", color1: "Rose", color2: "Rose" },
 
-            /* --- BOITE 3 --- */
-            { slot: 1, name: "Karin 190z", garage: "boite3", wheel: "F1", plate: "Yankton", color1: "Vert", color2: "Vert" },
-            { slot: 2, name: "Schlagen GT", garage: "boite3", wheel: "Benny's", plate: "Exempt", color1: "Rose", color2: "Rose" },
-            { slot: 3, name: "Elegy Rétro Custom", garage: "boite3", wheel: "Basic", plate: "Exempt", color1: "Violet", color2: "Violet" },
-            { slot: 4, name: "Benefactor Krieger", garage: "boite3", wheel: "F1", plate: "Exempt", color1: "Violet", color2: "Violet" },
-            { slot: 5, name: "Ocelot XA-21", garage: "boite3", wheel: "Benny's", plate: "Exempt", color1: "Vert", color2: "Vert" },
-            { slot: 6, name: "Annis Euros X32", garage: "boite3", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
-            { slot: 7, name: "Överflöd Pipistrello", garage: "boite3", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
-            { slot: 8, name: "Karin Sultan RS Classique", garage: "boite3", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
-            { slot: 9, name: "Emperor Vectre", garage: "boite3", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
-            { slot: 10, name: "Pfister Comet S2", garage: "boite3", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 1, name: "Karin 190z", garage: "boite3", wheel: "F1", plateBackground: "Yankton", color1: "Vert", color2: "Vert" },
+            { slot: 2, name: "Schlagen GT", garage: "boite3", wheel: "Benny's", plateBackground: "Exempt", color1: "Rose", color2: "Rose" },
+            { slot: 3, name: "Elegy Rétro Custom", garage: "boite3", wheel: "Basic", plateBackground: "Exempt", color1: "Violet", color2: "Violet" },
+            { slot: 4, name: "Benefactor Krieger", garage: "boite3", wheel: "F1", plateBackground: "Exempt", color1: "Violet", color2: "Violet" },
+            { slot: 5, name: "Ocelot XA-21", garage: "boite3", wheel: "Benny's", plateBackground: "Exempt", color1: "Vert", color2: "Vert" },
+            { slot: 6, name: "Annis Euros X32", garage: "boite3", wheel: "Benny's", plateBackground: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 7, name: "Överflöd Pipistrello", garage: "boite3", wheel: "Benny's", plateBackground: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 8, name: "Karin Sultan RS Classique", garage: "boite3", wheel: "Benny's", plateBackground: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 9, name: "Emperor Vectre", garage: "boite3", wheel: "Benny's", plateBackground: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 10, name: "Pfister Comet S2", garage: "boite3", wheel: "Benny's", plateBackground: "Yankton", color1: "Rose", color2: "Rose" },
 
-            /* --- BOITE 4 --- */
-            { slot: 1, name: "Dinka Jester RR", garage: "boite4", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
-            { slot: 2, name: "Annis Euros", garage: "boite4", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
-            { slot: 3, name: "Vapid Dominator ASP", garage: "boite4", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
-            { slot: 4, name: "Dinka RT3000", garage: "boite4", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
-            { slot: 5, name: "Vulkar Warrener HKR", garage: "boite4", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
-            { slot: 6, name: "Obey Tailgater S", garage: "boite4", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
-            { slot: 7, name: "Annis Remus", garage: "boite4", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
-            { slot: 8, name: "Karin Futo GTX", garage: "boite4", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
-            { slot: 9, name: "Annis ZR350", garage: "boite4", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
-            { slot: 10, name: "Karin Calico GTF", garage: "boite4", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 1, name: "Dinka Jester RR", garage: "boite4", wheel: "Benny's", plateBackground: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 2, name: "Annis Euros", garage: "boite4", wheel: "Benny's", plateBackground: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 3, name: "Vapid Dominator ASP", garage: "boite4", wheel: "Benny's", plateBackground: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 4, name: "Dinka RT3000", garage: "boite4", wheel: "Benny's", plateBackground: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 5, name: "Vulkar Warrener HKR", garage: "boite4", wheel: "Benny's", plateBackground: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 6, name: "Obey Tailgater S", garage: "boite4", wheel: "Benny's", plateBackground: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 7, name: "Annis Remus", garage: "boite4", wheel: "Benny's", plateBackground: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 8, name: "Karin Futo GTX", garage: "boite4", wheel: "Benny's", plateBackground: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 9, name: "Annis ZR350", garage: "boite4", wheel: "Benny's", plateBackground: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 10, name: "Karin Calico GTF", garage: "boite4", wheel: "Benny's", plateBackground: "Yankton", color1: "Rose", color2: "Rose" },
 
-            /* --- FONCTION 2 --- */
-            { slot: 1, name: "Coquette D10", garage: "fonction2", wheel: "F1", plate: "Yankton", color1: "Bleu", color2: "Blanc" },
-            { slot: 2, name: "Vysser Neo", garage: "fonction2", wheel: "Basic", plate: "Yankton", color1: "Violet", color2: "Violet" },
-            { slot: 3, name: "Zentorno", garage: "fonction2", wheel: "F1", plate: "Exempt", color1: "Bleu", color2: "Vert" },
-            { slot: 4, name: "Zentorno v2", garage: "fonction2", wheel: "Basic", plate: "Exempt", color1: "Jaune", color2: "Noir" },
-            { slot: 5, name: "Itali RSX", garage: "fonction2", wheel: "Benny's", plate: "Yankton", color1: "Rouge", color2: "Blanc" },
-            { slot: 6, name: "Krieger v2", garage: "fonction2", wheel: "Benny's", plate: "Exempt", color1: "Violet", color2: "Caméléon" },
-            { slot: 7, name: "Eudora", garage: "fonction2", wheel: "Benny's", plate: "Yankton", color1: "Jaune", color2: "Jaune" },
-            { slot: 8, name: "Dynasty", garage: "fonction2", wheel: "Benny's", plate: "Yankton", color1: "Jaune", color2: "Jaune" },
-            { slot: 9, name: "Zhaba", garage: "fonction2", wheel: "Benny's", plate: "Basic", color1: "Bleu", color2: "Bleu" },
-            { slot: 10, name: "Itali RSX v2", garage: "fonction2", wheel: "Benny's", plate: "Exempt", color1: "Violet", color2: "Violet" },
-            { slot: 11, name: "Albany Brigham", garage: "fonction2", wheel: "Benny's", plate: "Yankton", color1: "Chrome", color2: "Blanc" },
-            { slot: 12, name: "Romero", garage: "fonction2", wheel: "Benny's", plate: "Yankton", color1: "Vert", color2: "Bleu" },
-            { slot: 13, name: "Rat-Loader", garage: "fonction2", wheel: "Basic", plate: "Yankton", color1: "Blanc", color2: "Blanc" },
-            { slot: 14, name: "Itali GTO", garage: "fonction2", wheel: "F1", plate: "Yankton", color1: "Noir", color2: "Noir" },
-            { slot: 15, name: "BF Raptor", garage: "fonction2", wheel: "F1", plate: "Yankton", color1: "Bleu", color2: "Bleu" },
-            { slot: 16, name: "Pipistrello", garage: "fonction2", wheel: "F1", plate: "Yankton", color1: "Bleu", color2: "Bleu" },
-            { slot: 17, name: "Caddie", garage: "fonction2", wheel: "Basic", plate: "Yankton", color1: "Vert", color2: "Vert" },
-            { slot: 18, name: "Coquette D5", garage: "fonction2", wheel: "Benny's", plate: "Yankton", color1: "Rouge", color2: "Rouge" },
-            { slot: 19, name: "Paragon S", garage: "fonction2", wheel: "Benny's", plate: "Los santos", color1: "Caméléon", color2: "Rose" },
+            { slot: 1, name: "Coquette D10", garage: "fonction2", wheel: "F1", plateBackground: "Yankton", color1: "Bleu", color2: "Blanc" },
+            { slot: 2, name: "Vysser Neo", garage: "fonction2", wheel: "Basic", plateBackground: "Yankton", color1: "Violet", color2: "Violet" },
+            { slot: 3, name: "Zentorno", garage: "fonction2", wheel: "F1", plateBackground: "Exempt", color1: "Bleu", color2: "Vert" },
+            { slot: 4, name: "Zentorno v2", garage: "fonction2", wheel: "Basic", plateBackground: "Exempt", color1: "Jaune", color2: "Noir" },
+            { slot: 5, name: "Itali RSX", garage: "fonction2", wheel: "Benny's", plateBackground: "Yankton", color1: "Rouge", color2: "Blanc" },
+            { slot: 6, name: "Krieger v2", garage: "fonction2", wheel: "Benny's", plateBackground: "Exempt", color1: "Violet", color2: "Caméléon" },
+            { slot: 7, name: "Eudora", garage: "fonction2", wheel: "Benny's", plateBackground: "Yankton", color1: "Jaune", color2: "Jaune" },
+            { slot: 8, name: "Dynasty", garage: "fonction2", wheel: "Benny's", plateBackground: "Yankton", color1: "Jaune", color2: "Jaune" },
+            { slot: 9, name: "Zhaba", garage: "fonction2", wheel: "Benny's", plateBackground: "Basic", color1: "Bleu", color2: "Bleu" },
+            { slot: 10, name: "Itali RSX v2", garage: "fonction2", wheel: "Benny's", plateBackground: "Exempt", color1: "Violet", color2: "Violet" },
+            { slot: 11, name: "Albany Brigham", garage: "fonction2", wheel: "Benny's", plateBackground: "Yankton", color1: "Chrome", color2: "Blanc" },
+            { slot: 12, name: "Romero", garage: "fonction2", wheel: "Benny's", plateBackground: "Yankton", color1: "Vert", color2: "Bleu" },
+            { slot: 13, name: "Rat-Loader", garage: "fonction2", wheel: "Basic", plateBackground: "Yankton", color1: "Blanc", color2: "Blanc" },
+            { slot: 14, name: "Itali GTO", garage: "fonction2", wheel: "F1", plateBackground: "Yankton", color1: "Noir", color2: "Noir" },
+            { slot: 15, name: "BF Raptor", garage: "fonction2", wheel: "F1", plateBackground: "Yankton", color1: "Bleu", color2: "Bleu" },
+            { slot: 16, name: "Pipistrello", garage: "fonction2", wheel: "F1", plateBackground: "Yankton", color1: "Bleu", color2: "Bleu" },
+            { slot: 17, name: "Caddie", garage: "fonction2", wheel: "Basic", plateBackground: "Yankton", color1: "Vert", color2: "Vert" },
+            { slot: 18, name: "Coquette D5", garage: "fonction2", wheel: "Benny's", plateBackground: "Yankton", color1: "Rouge", color2: "Rouge" },
+            { slot: 19, name: "Paragon S", garage: "fonction2", wheel: "Benny's", plateBackground: "Los santos", color1: "Caméléon", color2: "Rose" },
 
-            /* --- FONCTION 3 --- */
-            { slot: 1, name: "Blazer Street", garage: "fonction3", wheel: "Benny's", plate: "Yankton", color1: "Violet", color2: "Violet" },
-            { slot: 2, name: "Hot Rod Blazer", garage: "fonction3", wheel: "Basic", plate: "Yankton", color1: "Blanc", color2: "Blanc" },
-            { slot: 3, name: "Hot Rod Blazer v2", garage: "fonction3", wheel: "Basic", plate: "Yankton", color1: "Bleu", color2: "Bleu" },
-            { slot: 4, name: "Revolter", garage: "fonction3", wheel: "Benny's", plate: "Yankton", color1: "Violet", color2: "Violet" },
-            { slot: 5, name: "Bodhi", garage: "fonction3", wheel: "Benny's", plate: "Yankton", color1: "Gris", color2: "Gris" },
-            { slot: 6, name: "Monkey Blista", garage: "fonction3", wheel: "Benny's", plate: "Yankton", color1: "Noir", color2: "Noir" },
-            { slot: 7, name: "Sugoi", garage: "fonction3", wheel: "Basic", plate: "Yankton", color1: "Gris", color2: "Gris" },
-            { slot: 8, name: "Calico GTF", garage: "fonction3", wheel: "Basic", plate: "Yankton", color1: "Noir", color2: "Noir" },
-            { slot: 9, name: "Vectre v2", garage: "fonction3", wheel: "Benny's", plate: "Yankton", color1: "Caméléon", color2: "Caméléon" },
-            { slot: 10, name: "Verlierer", garage: "fonction3", wheel: "Benny's", plate: "Yankton", color1: "Gris", color2: "Gris" },
-            { slot: 11, name: "Blista Kanjo", garage: "fonction3", wheel: "Benny's", plate: "Yankton", color1: "Noir", color2: "Noir" },
-            { slot: 12, name: "Schlagen GT v2", garage: "fonction3", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
-            { slot: 13, name: "Cyclone", garage: "fonction3", wheel: "Benny's", plate: "Yankton", color1: "Bleu", color2: "Noir" },
-            { slot: 14, name: "Dune", garage: "fonction3", wheel: "Benny's", plate: "Yankton", color1: "Jaune", color2: "Jaune" },
-            { slot: 15, name: "Nightshade", garage: "fonction3", wheel: "F1", plate: "Yankton", color1: "Rouge", color2: "Rouge" },
-            { slot: 16, name: "Jester RR", garage: "fonction3", wheel: "Basic", plate: "Exempt", color1: "Rose", color2: "Noir" },
-            { slot: 17, name: "Turismo Classique", garage: "fonction3", wheel: "Basic", plate: "Exempt", color1: "Noir", color2: "Noir" },
-            { slot: 18, name: "Hotknife", garage: "fonction3", wheel: "Benny's", plate: "Yankton", color1: "Vert", color2: "Beige" },
-            { slot: 19, name: "Cyclone II", garage: "fonction3", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Blanc" },
+            { slot: 1, name: "Blazer Street", garage: "fonction3", wheel: "Benny's", plateBackground: "Yankton", color1: "Violet", color2: "Violet" },
+            { slot: 2, name: "Hot Rod Blazer", garage: "fonction3", wheel: "Basic", plateBackground: "Yankton", color1: "Blanc", color2: "Blanc" },
+            { slot: 3, name: "Hot Rod Blazer v2", garage: "fonction3", wheel: "Basic", plateBackground: "Yankton", color1: "Bleu", color2: "Bleu" },
+            { slot: 4, name: "Revolter", garage: "fonction3", wheel: "Benny's", plateBackground: "Yankton", color1: "Violet", color2: "Violet" },
+            { slot: 5, name: "Bodhi", garage: "fonction3", wheel: "Benny's", plateBackground: "Yankton", color1: "Gris", color2: "Gris" },
+            { slot: 6, name: "Monkey Blista", garage: "fonction3", wheel: "Benny's", plateBackground: "Yankton", color1: "Noir", color2: "Noir" },
+            { slot: 7, name: "Sugoi", garage: "fonction3", wheel: "Basic", plateBackground: "Yankton", color1: "Gris", color2: "Gris" },
+            { slot: 8, name: "Calico GTF", garage: "fonction3", wheel: "Basic", plateBackground: "Yankton", color1: "Noir", color2: "Noir" },
+            { slot: 9, name: "Vectre v2", garage: "fonction3", wheel: "Benny's", plateBackground: "Yankton", color1: "Caméléon", color2: "Caméléon" },
+            { slot: 10, name: "Verlierer", garage: "fonction3", wheel: "Benny's", plateBackground: "Yankton", color1: "Gris", color2: "Gris" },
+            { slot: 11, name: "Blista Kanjo", garage: "fonction3", wheel: "Benny's", plateBackground: "Yankton", color1: "Noir", color2: "Noir" },
+            { slot: 12, name: "Schlagen GT v2", garage: "fonction3", wheel: "Benny's", plateBackground: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 13, name: "Cyclone", garage: "fonction3", wheel: "Benny's", plateBackground: "Yankton", color1: "Bleu", color2: "Noir" },
+            { slot: 14, name: "Dune", garage: "fonction3", wheel: "Benny's", plateBackground: "Yankton", color1: "Jaune", color2: "Jaune" },
+            { slot: 15, name: "Nightshade", garage: "fonction3", wheel: "F1", plateBackground: "Yankton", color1: "Rouge", color2: "Rouge" },
+            { slot: 16, name: "Jester RR", garage: "fonction3", wheel: "Basic", plateBackground: "Exempt", color1: "Rose", color2: "Noir" },
+            { slot: 17, name: "Turismo Classique", garage: "fonction3", wheel: "Basic", plateBackground: "Exempt", color1: "Noir", color2: "Noir" },
+            { slot: 18, name: "Hotknife", garage: "fonction3", wheel: "Benny's", plateBackground: "Yankton", color1: "Vert", color2: "Beige" },
+            { slot: 19, name: "Cyclone II", garage: "fonction3", wheel: "Benny's", plateBackground: "Yankton", color1: "Rose", color2: "Blanc" },
 
-            /* --- ARENE RDC --- */
-            { slot: 2, name: "10F large", garage: "arenerdc", wheel: "Benny's", plate: "Yankton", color1: "Or", color2: "Rouge" },
-            { slot: 3, name: "Pariah", garage: "arenerdc", wheel: "F1", plate: "Yankton", color1: "Or", color2: "Or" },
-            { slot: 4, name: "8F Drafter", garage: "arenerdc", wheel: "F1", plate: "Exempt", color1: "Bleu", color2: "Bleu" },
-            { slot: 5, name: "Zentorno RDC", garage: "arenerdc", wheel: "Basic", plate: "Exempt", color1: "Blanc", color2: "Bleu" },
-            { slot: 6, name: "Niobe", garage: "arenerdc", wheel: "Benny's", plate: "Yankton", color1: "Bleu", color2: "Rose" },
-            { slot: 7, name: "Keitora", garage: "arenerdc", wheel: "F1", plate: "Liberty", color1: "Vert", color2: "Blanc" },
-            { slot: 8, name: "Vivanite", garage: "arenerdc", wheel: "Benny's", plate: "Yankton", color1: "Vert", color2: "Vert" },
-            { slot: 9, name: "Cypher RDC", garage: "arenerdc", wheel: "Benny's", plate: "Yankton", color1: "Gris", color2: "Rouge" },
-            { slot: 10, name: "Cinquemila", garage: "arenerdc", wheel: "Benny's", plate: "Yankton", color1: "Violet", color2: "Rose" },
+            { slot: 2, name: "10F large", garage: "arenerdc", wheel: "Benny's", plateBackground: "Yankton", color1: "Or", color2: "Rouge" },
+            { slot: 3, name: "Pariah", garage: "arenerdc", wheel: "F1", plateBackground: "Yankton", color1: "Or", color2: "Or" },
+            { slot: 4, name: "8F Drafter", garage: "arenerdc", wheel: "F1", plateBackground: "Exempt", color1: "Bleu", color2: "Bleu" },
+            { slot: 5, name: "Zentorno RDC", garage: "arenerdc", wheel: "Basic", plateBackground: "Exempt", color1: "Blanc", color2: "Bleu" },
+            { slot: 6, name: "Niobe", garage: "arenerdc", wheel: "Benny's", plateBackground: "Yankton", color1: "Bleu", color2: "Rose" },
+            { slot: 7, name: "Keitora", garage: "arenerdc", wheel: "F1", plateBackground: "Liberty", color1: "Vert", color2: "Blanc" },
+            { slot: 8, name: "Vivanite", garage: "arenerdc", wheel: "Benny's", plateBackground: "Yankton", color1: "Vert", color2: "Vert" },
+            { slot: 9, name: "Cypher RDC", garage: "arenerdc", wheel: "Benny's", plateBackground: "Yankton", color1: "Gris", color2: "Rouge" },
+            { slot: 10, name: "Cinquemila", garage: "arenerdc", wheel: "Benny's", plateBackground: "Yankton", color1: "Violet", color2: "Rose" },
 
-            /* --- ARENE 1 --- */
-            { slot: 1, name: "Cerberus", garage: "arene1", wheel: "F1", plate: "Yankton", color1: "Bleu", color2: "Noir" },
-            { slot: 2, name: "Bruiser", garage: "arene1", wheel: "F1", plate: "Yankton", color1: "Rouge", color2: "Bleu" },
-            { slot: 3, name: "Scarab", garage: "arene1", wheel: "F1", plate: "Yankton", color1: "Violet", color2: "Or" },
-            { slot: 4, name: "ZR350 rouge", garage: "arene1", wheel: "Benny's", plate: "Yankton", color1: "Rouge", color2: "Rouge" },
-            { slot: 5, name: "ZR350 violet", garage: "arene1", wheel: "Benny's", plate: "Yankton", color1: "Violet", color2: "Violet" },
-            { slot: 6, name: "ZR350 bleu", garage: "arene1", wheel: "F1", plate: "Yankton", color1: "Bleu", color2: "Bleu" },
+            { slot: 1, name: "Cerberus", garage: "arene1", wheel: "F1", plateBackground: "Yankton", color1: "Bleu", color2: "Noir" },
+            { slot: 2, name: "Bruiser", garage: "arene1", wheel: "F1", plateBackground: "Yankton", color1: "Rouge", color2: "Bleu" },
+            { slot: 3, name: "Scarab", garage: "arene1", wheel: "F1", plateBackground: "Yankton", color1: "Violet", color2: "Or" },
+            { slot: 4, name: "ZR350 rouge", garage: "arene1", wheel: "Benny's", plateBackground: "Yankton", color1: "Rouge", color2: "Rouge" },
+            { slot: 5, name: "ZR350 violet", garage: "arene1", wheel: "Benny's", plateBackground: "Yankton", color1: "Violet", color2: "Violet" },
+            { slot: 6, name: "ZR350 bleu", garage: "arene1", wheel: "F1", plateBackground: "Yankton", color1: "Bleu", color2: "Bleu" },
 
-            /* --- ARENE 2 --- */
-            { slot: 2, name: "Schlagen GT A2", garage: "arene2", wheel: "Benny's", plate: "Yankton", color1: "Violet", color2: "Bleu" },
-            { slot: 3, name: "Rhinehart", garage: "arene2", wheel: "F1", plate: "Exempt", color1: "Vert", color2: "Noir" },
-            { slot: 4, name: "Vigilante", garage: "arene2", wheel: "Benny's", plate: "Yankton", color1: "Caméléon", color2: "Beige" },
-            { slot: 5, name: "T20", garage: "arene2", wheel: "Benny's", plate: "Exempt", color1: "Violet", color2: "Violet" },
-            { slot: 6, name: "Niobe A2", garage: "arene2", wheel: "Benny's", plate: "Yankton", color1: "Bleu", color2: "Blanc" },
-            { slot: 7, name: "Vagner", garage: "arene2", wheel: "F1", plate: "Yankton", color1: "Noir", color2: "Noir" },
-            { slot: 8, name: "Dubsta", garage: "arene2", wheel: "Benny's", plate: "Yankton", color1: "Caméléon", color2: "Blanc" },
-            { slot: 9, name: "Hermes", garage: "arene2", wheel: "F1", plate: "Yankton", color1: "Rouge", color2: "Rouge" },
-            { slot: 10, name: "Reaper", garage: "arene2", wheel: "Benny's", plate: "Yankton", color1: "Blanc", color2: "Blanc" }
+            { slot: 2, name: "Schlagen GT A2", garage: "arene2", wheel: "Benny's", plateBackground: "Yankton", color1: "Violet", color2: "Bleu" },
+            { slot: 3, name: "Rhinehart", garage: "arene2", wheel: "F1", plateBackground: "Exempt", color1: "Vert", color2: "Noir" },
+            { slot: 4, name: "Vigilante", garage: "arene2", wheel: "Benny's", plateBackground: "Yankton", color1: "Caméléon", color2: "Beige" },
+            { slot: 5, name: "T20", garage: "arene2", wheel: "Benny's", plateBackground: "Exempt", color1: "Violet", color2: "Violet" },
+            { slot: 6, name: "Niobe A2", garage: "arene2", wheel: "Benny's", plateBackground: "Yankton", color1: "Bleu", color2: "Blanc" },
+            { slot: 7, name: "Vagner", garage: "arene2", wheel: "F1", plateBackground: "Yankton", color1: "Noir", color2: "Noir" },
+            { slot: 8, name: "Dubsta", garage: "arene2", wheel: "Benny's", plateBackground: "Yankton", color1: "Caméléon", color2: "Blanc" },
+            { slot: 9, name: "Hermes", garage: "arene2", wheel: "F1", plateBackground: "Yankton", color1: "Rouge", color2: "Rouge" },
+            { slot: 10, name: "Reaper", garage: "arene2", wheel: "Benny's", plateBackground: "Yankton", color1: "Blanc", color2: "Blanc" }
         ];
 
-        // Génération automatique des chemins d'images (garages/nom_garage/1/1.jpg)
-        vehicles.forEach(v => {
-            v.images = [
-                `garages/${v.garage}/${v.slot}/1.jpg`,
-                `garages/${v.garage}/${v.slot}/2.jpg`,
-                `garages/${v.garage}/${v.slot}/3.jpg`,
-                `garages/${v.garage}/${v.slot}/4.jpg`
-            ];
-        });
-
-        let currentVehicle = null;
-        let currentImageIndex = 0;
+        // LOGIQUE INTERFACE
+        let selectedVehicles = [];
+        let currentFilters = { wheel: 'all', plateBackground: 'all', color: 'all' };
         let currentGarage = 'all';
-        let currentFilters = { wheel: 'all', plate: 'all', color: 'all' };
-        window.selectedVehicles = [];
+        let currentVehicle, currentImageIndex = 0;
 
         const grid = document.getElementById('galleryGrid');
-        const searchInput = document.getElementById('searchInput');
-        const tabBtns = document.querySelectorAll('.tab-btn');
-        const modal = document.getElementById("vehicleModal");
-        const modalImg = document.getElementById("modalImg");
-        const modalTitle = document.getElementById("modalTitle");
-        const modalDesc = document.getElementById("modalDesc");
-        const filterModal = document.getElementById('filterModal');
-        const openFilterBtn = document.getElementById('openFilterBtn');
         const validateBtn = document.getElementById('validateBtn');
+        const searchInput = document.getElementById('searchInput');
 
-        window.toggleSelection = function(vehicleIndex) {
-            const v = vehicles[vehicleIndex];
-            const idx = selectedVehicles.findIndex(sv => sv.name === v.name && sv.garage === v.garage);
-            if (idx > -1) selectedVehicles.splice(idx, 1);
-            else if (selectedVehicles.length < 10) selectedVehicles.push(v);
-            else alert("Max 10 !");
-            updateValidateBtn(); render();
-        }
-
-        function updateValidateBtn() {
-            validateBtn.textContent = `Ma liste (${selectedVehicles.length}/10)`;
-            if (selectedVehicles.length > 0) validateBtn.classList.remove('disabled');
-            else validateBtn.classList.add('disabled');
-        }
-
-        validateBtn.onclick = () => {
-            if (selectedVehicles.length === 0) return;
-            let text = "Salut itsmto, voici ma commande :\n" + selectedVehicles.map(v => `- ${v.name} (${v.garage.toUpperCase()}, Slot ${v.slot})`).join('\n');
-            navigator.clipboard.writeText(text).then(() => alert("Copié ! Envoie sur Discord : itsmto"));
-        };
-
-        window.openImageModal = (i) => {
-            currentVehicle = vehicles[i]; currentImageIndex = 0;
-            modal.style.display = "block"; updateImageModal();
-        };
-
-        function updateImageModal() {
-            modalImg.src = currentVehicle.images[currentImageIndex];
-            modalTitle.innerText = currentVehicle.name;
-            modalDesc.innerText = `${currentVehicle.color1} • ${currentVehicle.wheel} • ${currentVehicle.plate}`;
-            const count = document.getElementById('imgCounter') || document.createElement('div');
-            count.id = 'imgCounter'; count.className = 'img-counter';
-            count.innerText = `${currentImageIndex + 1}/4`;
-            document.querySelector('.modal-img-container').appendChild(count);
-        }
-
-        window.changeImage = (d) => {
-            currentImageIndex = (currentImageIndex + d + 4) % 4;
-            updateImageModal();
-        };
-
-        window.closeModal = () => modal.style.display = "none";
-
-        window.openReviews = (name) => {
-            document.getElementById('reviewVehicleTitle').innerText = name;
-            document.getElementById('reviewModal').classList.add('active');
-            const refAvis = ref(db, 'avis/' + name.replace(/ /g, '_'));
-            onValue(refAvis, (snap) => {
-                const list = document.getElementById('reviewList');
-                list.innerHTML = "";
-                const data = snap.val();
-                if(data) Object.values(data).reverse().forEach(a => {
-                    list.innerHTML += `<div class="single-review"><div class="sr-user">${a.user}</div><div class="sr-text">${a.text}</div></div>`;
-                });
-            });
-        };
-
-        document.getElementById('sendReviewBtn').onclick = () => {
-            const u = document.getElementById('reviewPseudo').value;
-            const t = document.getElementById('reviewText').value;
-            const n = document.getElementById('reviewVehicleTitle').innerText;
-            if(u && t) push(ref(db, 'avis/' + n.replace(/ /g, '_')), { user: u, text: t });
-        };
-
-        function render() {
-            grid.innerHTML = "";
-            const s = searchInput.value.toLowerCase();
-            vehicles.forEach((v, i) => {
-                const matchGarage = currentGarage === 'all' || v.garage === currentGarage;
-                const matchSearch = v.name.toLowerCase().includes(s);
-                const matchWheel = currentFilters.wheel === 'all' || v.wheel.includes(currentFilters.wheel);
-                const matchPlate = currentFilters.plate === 'all' || v.plate.includes(currentFilters.plate);
-                const matchColor = currentFilters.color === 'all' || v.color1.includes(currentFilters.color);
-
-                if (matchGarage && matchSearch && matchWheel && matchPlate && matchColor) {
-                    const sel = selectedVehicles.some(sv => sv.name === v.name && sv.garage === v.garage);
-                    const card = document.createElement('div');
-                    card.className = `vehicle-card ${sel ? 'selected' : ''}`;
-                    card.innerHTML = `
-                        <img src="garages/${v.garage}/${v.slot}/1.jpg" class="vehicle-img" onclick="openImageModal(${i})" onerror="this.src='https://via.placeholder.com/300x200?text=No+Photo'">
-                        <div class="vehicle-info">
-                            <div class="garage-badge"><span class="vehicle-garage">${v.garage}</span><span class="vehicle-slot">${v.slot}/10</span></div>
-                            <h3 class="vehicle-name">${v.name}</h3>
-                            <div class="vehicle-tag">${v.color1} • ${v.wheel}</div>
-                            <button class="cssbuttons-io-button" onclick="openReviews('${v.name}')">Avis <div class="icon">★</div></button>
-                            <button class="cssbuttons-io-button ${sel ? 'selected' : ''}" onclick="toggleSelection(${i})">${sel ? 'OK' : 'Ajouter'} <div class="icon">+</div></button>
-                        </div>
-                    `;
-                    grid.appendChild(card);
-                }
-            });
-        }
-
-        searchInput.oninput = render;
-        tabBtns.forEach(b => b.onclick = () => {
-            tabBtns.forEach(x => x.classList.remove('active'));
-            b.classList.add('active');
-            currentGarage = b.dataset.garage; render();
+        // Initialisation des images
+        vehicles.forEach(v => {
+            v.images = [];
+            for(let i=1; i<=4; i++) v.images.push(`garages/${v.garage}/${v.slot}/${i}.jpg`);
         });
 
-        openFilterBtn.onclick = () => filterModal.classList.add('active');
-        document.getElementById('closeFilter').onclick = () => filterModal.classList.remove('active');
-        document.getElementById('closeReview').onclick = () => document.getElementById('reviewModal').classList.remove('active');
+        // Toggle Menu Mobile
+        function toggleMobileMenu() {
+            document.querySelector('.mobile-menu').classList.toggle('active');
+        }
+        document.querySelector('.menu-toggle').onclick = toggleMobileMenu;
+        document.querySelector('.close-menu').onclick = toggleMobileMenu;
 
+        // Fonction Rendu
+        function render() {
+            grid.innerHTML = "";
+            const search = searchInput.value.toLowerCase();
+            
+            vehicles.forEach((v, index) => {
+                // Filtres
+                if(currentGarage !== 'all' && v.garage !== currentGarage) return;
+                if(search && !v.name.toLowerCase().includes(search)) return;
+                if(currentFilters.wheel !== 'all' && !v.wheel.includes(currentFilters.wheel)) return;
+                if(currentFilters.plateBackground !== 'all' && !v.plateBackground.includes(currentFilters.plateBackground)) return;
+                if(currentFilters.color !== 'all' && !v.color1.includes(currentFilters.color)) return;
+
+                const isSelected = selectedVehicles.includes(v);
+                const card = document.createElement('div');
+                card.className = `vehicle-card ${isSelected ? 'selected' : ''}`;
+                
+                card.innerHTML = `
+                    <img src="${v.images[0]}" class="vehicle-img" onclick="openImageModal(${index})" onerror="this.src='https://via.placeholder.com/300x200?text=No+Image'">
+                    <div class="vehicle-info">
+                        <div class="garage-badge">
+                            <span class="vehicle-garage">${v.garage}</span>
+                            <span class="vehicle-slot">#${v.slot}</span>
+                        </div>
+                        <h3 class="vehicle-name">${v.name}</h3>
+                        <div class="vehicle-tag">${v.color1} • ${v.wheel}</div>
+                        <button class="cssbuttons-io-button" onclick="window.openReviews('${v.name}')">
+                            Avis <div class="icon">★</div>
+                        </button>
+                        <button class="cssbuttons-io-button ${isSelected ? 'selected' : ''}" onclick="toggleSelection(${index})">
+                            ${isSelected ? 'Retirer' : 'Ajouter'} <div class="icon">+</div>
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Panier
+        window.toggleSelection = (idx) => {
+            const v = vehicles[idx];
+            if(selectedVehicles.includes(v)) selectedVehicles = selectedVehicles.filter(i => i !== v);
+            else {
+                if(selectedVehicles.length >= 10) return alert("Maximum 10 véhicules !");
+                selectedVehicles.push(v);
+            }
+            render();
+            validateBtn.textContent = `Ma liste (${selectedVehicles.length}/10)`;
+            if(selectedVehicles.length > 0) validateBtn.classList.remove('disabled');
+            else validateBtn.classList.add('disabled');
+        };
+
+        validateBtn.onclick = () => {
+            if(selectedVehicles.length === 0) return;
+            const text = "Salut itsmto, voici ma commande :\n" + selectedVehicles.map(v => `- ${v.name} (${v.garage}, Slot ${v.slot})`).join('\n');
+            navigator.clipboard.writeText(text).then(() => alert("Liste copiée !"));
+        };
+
+        // Modal Image
+        const modal = document.getElementById('vehicleModal');
+        window.openImageModal = (idx) => {
+            currentVehicle = vehicles[idx];
+            currentImageIndex = 0;
+            updateImage();
+            modal.classList.add('show');
+        };
+        window.changeImage = (dir) => {
+            currentImageIndex = (currentImageIndex + dir + 4) % 4;
+            updateImage();
+        };
+        function updateImage() {
+            document.getElementById('modalImg').src = currentVehicle.images[currentImageIndex];
+            document.getElementById('modalTitle').innerText = currentVehicle.name;
+            document.getElementById('modalDesc').innerText = `${currentImageIndex+1}/4`;
+        }
+        window.closeModal = () => modal.classList.remove('show');
+
+        // Filtres
+        const filterModal = document.getElementById('filterModal');
+        document.getElementById('openFilterBtn').onclick = () => filterModal.classList.add('active');
+        document.getElementById('closeFilter').onclick = () => filterModal.classList.remove('active');
         document.getElementById('filterForm').onsubmit = (e) => {
             e.preventDefault();
             const d = new FormData(e.target);
-            currentFilters.wheel = d.get('wheel');
-            currentFilters.plate = d.get('plate');
-            currentFilters.color = d.get('color');
+            currentFilters = {
+                wheel: d.get('wheel'),
+                plateBackground: d.get('plateBackground'),
+                color: d.get('color')
+            };
+            filterModal.classList.remove('active');
+            render();
+        };
+        window.resetFilters = () => {
+            currentFilters = { wheel: 'all', plateBackground: 'all', color: 'all' };
             filterModal.classList.remove('active');
             render();
         };
 
+        // Tabs & Recherche
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.onclick = () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentGarage = btn.dataset.garage;
+                render();
+            };
+        });
+        searchInput.oninput = render;
+
+        // Fermer les modales au clic extérieur
+        document.querySelectorAll('.review-modal, .filter-modal, .modal').forEach(m => {
+            m.onclick = (e) => { if(e.target === m) m.classList.remove('active', 'show'); }
+        });
+        document.getElementById('closeReview').onclick = () => document.querySelector('.review-modal').classList.remove('active');
+
+        // Lancement
         render();
     </script>
 </body>
