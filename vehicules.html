@@ -50,11 +50,7 @@
 
         /* --- RECHERCHE --- */
         .search-section { margin-top: 160px; text-align: center; padding: 0 20px; }
-        
-        .search-wrapper {
-            display: flex; justify-content: center; margin-bottom: 25px;
-        }
-
+        .search-wrapper { display: flex; justify-content: center; margin-bottom: 25px; }
         .search-input {
             width: 100%; max-width: 500px; padding: 15px 25px; border-radius: 50px;
             border: 2px solid var(--card-border); background: #ffffff; color: var(--text-main);
@@ -68,8 +64,6 @@
             position: fixed; bottom: 30px; left: 30px; z-index: 1000;
             display: flex; gap: 15px; align-items: center;
         }
-
-        /* Bouton Filtre */
         .advanced-filter-btn {
             background-color: #ffffff; color: var(--btn-color); font-size: 15px; font-weight: 600;
             padding: 0 25px; height: 50px; border: 2px solid var(--card-border); border-radius: 50px; cursor: pointer;
@@ -79,7 +73,6 @@
         .advanced-filter-btn:hover { background-color: var(--btn-color); color: white; border-color: var(--btn-color); }
         .advanced-filter-btn.active-filter { background-color: var(--btn-color); color: white; }
 
-        /* Bouton Valider */
         #validateBtn {
             background: var(--btn-color); color: white;
             border: none; padding: 0 25px; height: 50px; border-radius: 50px; cursor: pointer; font-weight: 600;
@@ -87,15 +80,7 @@
             display: flex; align-items: center; justify-content: center;
         }
         #validateBtn:hover { background: #5a3a9a; transform: scale(1.05); }
-        
-        /* État désactivé du bouton valider */
-        #validateBtn.disabled {
-            background-color: #94a3b8; /* Gris */
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-            opacity: 0.7;
-        }
+        #validateBtn.disabled { background-color: #94a3b8; cursor: not-allowed; transform: none; box-shadow: none; opacity: 0.7; }
 
         /* --- TABS --- */
         .garage-tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
@@ -119,10 +104,9 @@
         .vehicle-card:hover { transform: scale(1.02); border-color: var(--btn-color); }
         .vehicle-card.selected { border-color: var(--btn-color); box-shadow: 0 10px 25px -5px rgba(114, 90, 193, 0.4); }
         .vehicle-card:active { transform: scale(0.98); transition: 0.1s; }
-        .vehicle-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; background-color: #e0e7ff; user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
+        .vehicle-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; background-color: #e0e7ff; user-select: none; }
         .vehicle-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 8px; }
         
-        /* Badge Garage + Slot */
         .garage-badge {
             display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;
         }
@@ -135,61 +119,26 @@
         .vehicle-name { margin: 0; font-size: 18px; font-weight: 700; color: var(--text-main); }
         .vehicle-tag { font-size: 12px; color: var(--text-muted); margin-top: 0px; font-weight: 500; line-height: 1.4; }
 
-        /* --- BOUTONS STYLISÉS (Avis & Ajouter) --- */
+        /* Boutons Card */
         .cssbuttons-io-button {
-            background: #a370f0;
-            color: white;
-            font-family: inherit;
-            padding: 0.35em;
-            padding-left: 1.2em;
-            font-size: 15px;
-            font-weight: 500;
-            border-radius: 0.9em;
-            border: none;
-            letter-spacing: 0.05em;
-            display: flex;
-            align-items: center;
+            background: #a370f0; color: white; padding: 0.35em; padding-left: 1.2em; font-size: 15px; font-weight: 500;
+            border-radius: 0.9em; border: none; display: flex; align-items: center; position: relative; height: 2.8em;
+            padding-right: 3.3em; cursor: pointer; width: 100%; margin-top: 5px; transition: all 0.3s;
             box-shadow: inset 0 0 1.6em -0.6em #714da6;
-            overflow: hidden;
-            position: relative;
-            height: 2.8em;
-            padding-right: 3.3em;
-            cursor: pointer;
-            width: 100%;
-            box-sizing: border-box;
-            margin-top: 5px;
-            transition: all 0.3s;
         }
         .cssbuttons-io-button .icon {
-            background: white;
-            margin-left: 1em;
-            position: absolute;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 2.2em;
-            width: 2.2em;
-            border-radius: 0.7em;
+            background: white; margin-left: 1em; position: absolute; display: flex; align-items: center; justify-content: center;
+            height: 2.2em; width: 2.2em; border-radius: 0.7em; right: 0.3em; transition: all 0.3s;
             box-shadow: 0.1em 0.1em 0.6em 0.2em #7b52b9;
-            right: 0.3em;
-            transition: all 0.3s;
         }
         .cssbuttons-io-button:hover .icon { width: calc(100% - 0.6em); }
         .cssbuttons-io-button .icon svg { width: 1.1em; transition: transform 0.3s; color: #7b52b9; }
         .cssbuttons-io-button:hover .icon svg { transform: translateX(0.1em); }
         .cssbuttons-io-button:active .icon { transform: scale(0.95); }
 
-        /* VARIANTE : BOUTON SÉLECTIONNÉ (Vert) */
-        .cssbuttons-io-button.selected {
-            background: var(--success-color);
-            box-shadow: inset 0 0 1.6em -0.6em var(--success-shadow);
-        }
-        .cssbuttons-io-button.selected .icon {
-            box-shadow: 0.1em 0.1em 0.6em 0.2em var(--success-shadow);
-        }
-        .cssbuttons-io-button.selected .icon svg {
-            color: var(--success-color);
-        }
+        .cssbuttons-io-button.selected { background: var(--success-color); box-shadow: inset 0 0 1.6em -0.6em var(--success-shadow); }
+        .cssbuttons-io-button.selected .icon { box-shadow: 0.1em 0.1em 0.6em 0.2em var(--success-shadow); }
+        .cssbuttons-io-button.selected .icon svg { color: var(--success-color); }
 
         /* --- MODALES --- */
         .modal, .filter-modal, .review-modal {
@@ -198,60 +147,30 @@
             animation: fadeIn 0.3s ease-out;
         }
         .modal.show, .filter-modal.active, .review-modal.active { display: block; }
-        
-        .review-modal { 
-            background: rgba(0, 0, 0, 0.5);
-            padding-top: 0;
-            display: none; 
-            align-items: center; 
-            justify-content: center; 
-        }
+        .review-modal { background: rgba(0, 0, 0, 0.5); padding-top: 0; display: none; align-items: center; justify-content: center; }
         .review-modal.active { display: flex; }
 
-        .modal-content-wrapper, .filter-box, .review-box {
-            position: relative; margin: auto; animation: slideUp 0.4s ease-out;
-        }
+        .modal-content-wrapper, .filter-box, .review-box { position: relative; margin: auto; animation: slideUp 0.4s ease-out; }
+        .filter-box, .review-box { background: white; width: 90%; max-width: 500px; border-radius: 20px; padding: 30px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); max-height: 80vh; overflow-y: auto; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(-50%); opacity: 1; } }
-        
-        .filter-box, .review-box { animation: popIn 0.3s ease; }
-        @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
         .modal-img-container { position: relative; width: 100%; display: flex; align-items: center; justify-content: center; }
-        .modal-img {
-            width: 100%; max-height: 70vh; object-fit: contain; border-radius: 12px;
-            border: 1px solid #ffffff30; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            transition: transform 0.3s ease;
-        }
+        .modal-img { width: 100%; max-height: 70vh; object-fit: contain; border-radius: 12px; border: 1px solid #ffffff30; box-shadow: 0 20px 50px rgba(0,0,0,0.5); transition: transform 0.3s ease; }
         .nav-btn {
             position: absolute; top: 50%; transform: translateY(-50%);
             background: rgba(0,0,0,0.7); color: white; border: 2px solid rgba(255,255,255,0.3);
             width: 60px; height: 60px; border-radius: 50%; font-size: 28px; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; z-index: 2010; transition: all 0.3s;
-            backdrop-filter: blur(10px);
+            display: flex; align-items: center; justify-content: center; z-index: 2010; transition: all 0.3s; backdrop-filter: blur(10px);
         }
         .nav-btn:hover { background: var(--btn-color); border-color: var(--btn-color); transform: translateY(-50%) scale(1.1); }
         .prev-btn { left: 20px; } .next-btn { right: 20px; }
         .modal-details { margin-top: 20px; color: white; text-align: center; }
-        .modal-desc {
-            font-size: 16px; color: var(--btn-color); background: #ffffff;
-            display: inline-block; padding: 8px 20px; border-radius: 50px; font-weight: 600; margin-top: 10px;
-        }
+        .modal-desc { font-size: 16px; color: var(--btn-color); background: #ffffff; display: inline-block; padding: 8px 20px; border-radius: 50px; font-weight: 600; margin-top: 10px; }
         .close { position: absolute; top: 20px; right: 30px; color: #f1f1f1; font-size: 50px; cursor: pointer; z-index: 2001; transition: all 0.3s; }
         .close:hover { color: var(--btn-color); transform: scale(1.2); }
-        .img-counter {
-            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
-            background: rgba(0,0,0,0.8); color: white; padding: 8px 16px; border-radius: 20px;
-            font-size: 14px; font-weight: 600; backdrop-filter: blur(10px);
-        }
+        .img-counter { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 600; backdrop-filter: blur(10px); }
 
-        /* --- CONTENU MODALES --- */
-        .filter-box, .review-box {
-            background: white; width: 90%; max-width: 500px; border-radius: 20px; padding: 30px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            max-height: 80vh; overflow-y: auto;
-        }
-        
         .filter-header, .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #f3f4f6; padding-bottom: 15px; }
         .filter-header h2, .review-header h2 { font-size: 20px; font-weight: 700; margin: 0; color: var(--text-main); }
         .close-filter, .close-review { background: none; border: none; font-size: 24px; color: var(--text-muted); cursor: pointer; }
@@ -259,48 +178,23 @@
         .filter-group-title { font-size: 13px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; margin-top: 15px; }
         .options-grid { display: flex; flex-wrap: wrap; gap: 8px; }
         .options-grid input[type="radio"] { display: none; }
-        .options-grid label {
-            padding: 8px 16px; background-color: #f9fafb; border: 1px solid #e5e7eb;
-            border-radius: 50px; font-size: 14px; color: var(--text-main); cursor: pointer; transition: all 0.2s;
-        }
+        .options-grid label { padding: 8px 16px; background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 50px; font-size: 14px; color: var(--text-main); cursor: pointer; transition: all 0.2s; }
         .options-grid label:hover { background-color: #f3f4f6; border-color: var(--card-border); }
-        .options-grid input[type="radio"]:checked + label {
-            background-color: var(--btn-color); border-color: var(--btn-color); color: white;
-        }
+        .options-grid input[type="radio"]:checked + label { background-color: var(--btn-color); border-color: var(--btn-color); color: white; }
         .filter-actions { margin-top: 30px; display: flex; justify-content: flex-end; gap: 10px; }
-        .btn-reset { 
-            background: #e2e8f0; border: none; padding: 10px 24px; border-radius: 8px; 
-            cursor: pointer; font-weight: 600; color: var(--text-main); margin-right: 10px;
-        }
-        .btn-reset:hover { background: #cbd5e1; }
+        .btn-reset { background: #e2e8f0; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-weight: 600; color: var(--text-main); }
         .btn-apply { background: var(--text-main); border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-weight: 600; color: white; }
 
-        /* Styles spécifiques aux Avis */
         .review-list { background: #f9fafb; border-radius: 10px; padding: 15px; max-height: 300px; overflow-y: auto; margin-bottom: 20px; display: flex; flex-direction: column; gap: 10px; }
         .single-review { background: white; padding: 10px; border-radius: 8px; border: 1px solid #e5e7eb; font-size: 14px; }
         .sr-user { font-weight: 700; color: var(--btn-color); font-size: 12px; margin-bottom: 2px; }
         .sr-text { color: var(--text-main); line-height: 1.4; }
         .review-input-group { display: flex; gap: 10px; flex-direction: column; }
-        .review-input-group input, .review-input-group textarea {
-            padding: 10px; border: 1px solid #c4b5fd; border-radius: 8px; font-family: inherit; width: 100%; box-sizing: border-box;
-        }
-        
-        /* Message d'avertissement pseudo */
-        .pseudo-warning {
-            font-size: 11px; color: var(--danger-color); font-weight: 600; margin-bottom: 2px;
-        }
-
+        .review-input-group input, .review-input-group textarea { padding: 10px; border: 1px solid #c4b5fd; border-radius: 8px; font-family: inherit; width: 100%; box-sizing: border-box; }
+        .pseudo-warning { font-size: 11px; color: var(--danger-color); font-weight: 600; margin-bottom: 2px; }
         .btn-send-review { background: var(--btn-color); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
         .btn-send-review:hover { background: #5a3a9a; }
-        
-        /* Style pour input désactivé (quand pseudo déjà choisi) */
-        input:disabled {
-            background-color: #f1f5f9;
-            color: #64748b;
-            cursor: not-allowed;
-            border-color: #cbd5e1;
-        }
-
+        input:disabled { background-color: #f1f5f9; color: #64748b; cursor: not-allowed; border-color: #cbd5e1; }
     </style>
 </head>
 <body>
@@ -327,11 +221,9 @@
     <div class="container">
         <div class="search-section">
             <h1 style="margin-bottom: 20px; color:var(--text-main);">Mon Catalogue</h1>
-            
             <div class="search-wrapper">
                 <input type="text" id="searchInput" class="search-input" placeholder="Rechercher une voiture...">
             </div>
-            
             <div class="garage-tabs">
                 <button class="tab-btn active" data-garage="all">Tous</button>
                 <button class="tab-btn" data-garage="arenerdc">Arène RDC</button>
@@ -345,17 +237,12 @@
                 <button class="tab-btn" data-garage="fonction3">Fonction 3</button>
             </div>
         </div>
-
-        <div id="galleryGrid" class="vehicle-grid">
-        </div>
+        <div id="galleryGrid" class="vehicle-grid"></div>
     </div>
 
     <div class="bottom-controls">
         <button id="openFilterBtn" class="advanced-filter-btn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-            </svg>
-            Filtres
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg> Filtres
         </button>
         <button id="validateBtn" class="disabled">Ma liste (0/10)</button>
     </div>
@@ -377,73 +264,40 @@
 
     <div id="filterModal" class="filter-modal">
         <div class="filter-box">
-            <div class="filter-header">
-                <h2>Filtres Avancés</h2>
-                <button id="closeFilter" class="close-filter">&times;</button>
-            </div>
+            <div class="filter-header"><h2>Filtres Avancés</h2><button id="closeFilter" class="close-filter">&times;</button></div>
             <form id="filterForm">
-                
-                <div class="filter-group-title">Couleur Principale (1ère)</div>
+                <div class="filter-group-title">Couleur</div>
                 <div class="options-grid">
-                    <input type="radio" id="c1-all" name="color1" value="all" checked><label for="c1-all">Toutes</label>
-                    <input type="radio" id="c1-noir" name="color1" value="Noir"><label for="c1-noir">Noir</label>
-                    <input type="radio" id="c1-blanc" name="color1" value="Blanc"><label for="c1-blanc">Blanc</label>
-                    <input type="radio" id="c1-bleu" name="color1" value="Bleu"><label for="c1-bleu">Bleu</label>
-                    <input type="radio" id="c1-rouge" name="color1" value="Rouge"><label for="c1-rouge">Rouge</label>
-                    <input type="radio" id="c1-violet" name="color1" value="Violet"><label for="c1-violet">Violet</label>
-                    <input type="radio" id="c1-vert" name="color1" value="Vert"><label for="c1-vert">Vert</label>
-                    <input type="radio" id="c1-rose" name="color1" value="Rose"><label for="c1-rose">Rose</label>
-                    <input type="radio" id="c1-or" name="color1" value="Or"><label for="c1-or">Or</label>
-                    <input type="radio" id="c1-gris" name="color1" value="Gris"><label for="c1-gris">Gris</label>
-                    <input type="radio" id="c1-cameleon" name="color1" value="Caméléon"><label for="c1-cameleon">Caméléon</label>
-                    <input type="radio" id="c1-jaune" name="color1" value="Jaune"><label for="c1-jaune">Jaune</label>
+                    <input type="radio" id="c-all" name="color" value="all" checked><label for="c-all">Toutes</label>
+                    <input type="radio" id="c-noir" name="color" value="Noir"><label for="c-noir">Noir</label>
+                    <input type="radio" id="c-blanc" name="color" value="Blanc"><label for="c-blanc">Blanc</label>
+                    <input type="radio" id="c-bleu" name="color" value="Bleu"><label for="c-bleu">Bleu</label>
+                    <input type="radio" id="c-rouge" name="color" value="Rouge"><label for="c-rouge">Rouge</label>
+                    <input type="radio" id="c-violet" name="color" value="Violet"><label for="c-violet">Violet</label>
+                    <input type="radio" id="c-vert" name="color" value="Vert"><label for="c-vert">Vert</label>
+                    <input type="radio" id="c-rose" name="color" value="Rose"><label for="c-rose">Rose</label>
+                    <input type="radio" id="c-or" name="color" value="Or"><label for="c-or">Or</label>
+                    <input type="radio" id="c-gris" name="color" value="Gris"><label for="c-gris">Gris</label>
+                    <input type="radio" id="c-cameleon" name="color" value="Caméléon"><label for="c-cameleon">Caméléon</label>
+                    <input type="radio" id="c-jaune" name="color" value="Jaune"><label for="c-jaune">Jaune</label>
+                    <input type="radio" id="c-chrome" name="color" value="Chrome"><label for="c-chrome">Chrome</label>
                 </div>
-
-                <div class="filter-group-title">Couleur Secondaire (2ème)</div>
-                <div class="options-grid">
-                    <input type="radio" id="c2-all" name="color2" value="all" checked><label for="c2-all">Toutes</label>
-                    <input type="radio" id="c2-indifferent" name="color2" value="Indifférent"><label for="c2-indifferent">Indifférent</label>
-                    <input type="radio" id="c2-noir" name="color2" value="Noir"><label for="c2-noir">Noir</label>
-                    <input type="radio" id="c2-blanc" name="color2" value="Blanc"><label for="c2-blanc">Blanc</label>
-                    <input type="radio" id="c2-bleu" name="color2" value="Bleu"><label for="c2-bleu">Bleu</label>
-                    <input type="radio" id="c2-rouge" name="color2" value="Rouge"><label for="c2-rouge">Rouge</label>
-                    <input type="radio" id="c2-violet" name="color2" value="Violet"><label for="c2-violet">Violet</label>
-                    <input type="radio" id="c2-vert" name="color2" value="Vert"><label for="c2-vert">Vert</label>
-                    <input type="radio" id="c2-rose" name="color2" value="Rose"><label for="c2-rose">Rose</label>
-                    <input type="radio" id="c2-or" name="color2" value="Or"><label for="c2-or">Or</label>
-                </div>
-
                 <div class="filter-group-title">Type de Roues</div>
                 <div class="options-grid">
                     <input type="radio" id="w-all" name="wheel" value="all" checked><label for="w-all">Toutes</label>
                     <input type="radio" id="w-f1" name="wheel" value="F1"><label for="w-f1">F1</label>
                     <input type="radio" id="w-benny" name="wheel" value="Benny"><label for="w-benny">Benny's</label>
                     <input type="radio" id="w-sport" name="wheel" value="Sport"><label for="w-sport">Sport</label>
-                    <input type="radio" id="w-origine" name="wheel" value="Origine"><label for="w-origine">Origine</label>
+                    <input type="radio" id="w-basic" name="wheel" value="Basic"><label for="w-basic">Basic</label>
                 </div>
-
-                <div class="filter-group-title">Contenu de la Plaque</div>
+                <div class="filter-group-title">Plaque</div>
                 <div class="options-grid">
-                    <input type="radio" id="pc-all" name="plateContent" value="all" checked><label for="pc-all">Tous</label>
-                    <input type="radio" id="pc-al" name="plateContent" value="Al"><label for="pc-al">Aléatoire (Al)</label>
-                    <input type="radio" id="pc-pe" name="plateContent" value="Pe"><label for="pc-pe">Personnalisé (Pe)</label>
-                    <input type="radio" id="pc-vi" name="plateContent" value="Vi"><label for="pc-vi">Vide (Vi)</label>
+                    <input type="radio" id="p-all" name="plate" value="all" checked><label for="p-all">Tous</label>
+                    <input type="radio" id="p-yank" name="plate" value="Yankton"><label for="p-yank">Yankton</label>
+                    <input type="radio" id="p-sa" name="plate" value="Exempt"><label for="p-sa">Exempt</label>
+                    <input type="radio" id="p-lib" name="plate" value="Liberty"><label for="p-lib">Liberty</label>
+                    <input type="radio" id="p-las" name="plate" value="Las venturas"><label for="p-las">Las Venturas</label>
                 </div>
-
-                <div class="filter-group-title">Fond de la Plaque</div>
-                <div class="options-grid">
-                    <input type="radio" id="pb-all" name="plateBackground" value="all" checked><label for="pb-all">Tous</label>
-                    <input type="radio" id="pb-yank" name="plateBackground" value="Yankton"><label for="pb-yank">Yankton</label>
-                    <input type="radio" id="pb-sa" name="plateBackground" value="SA EXEMPT"><label for="pb-sa">SA EXEMPT</label>
-                    <input type="radio" id="pb-lib" name="plateBackground" value="Liberty"><label for="pb-lib">Liberty</label>
-                    <input type="radio" id="pb-las" name="plateBackground" value="Las venturas"><label for="pb-las">Las Venturas</label>
-                    <input type="radio" id="pb-basic" name="plateBackground" value="Basic"><label for="pb-basic">Basic</label>
-                    <input type="radio" id="pb-blanc" name="plateBackground" value="Blanc"><label for="pb-blanc">Blanc</label>
-                    <input type="radio" id="pb-bleu" name="plateBackground" value="Bleu"><label for="pb-bleu">Bleu</label>
-                    <input type="radio" id="pb-noir" name="plateBackground" value="Noir"><label for="pb-noir">Noir</label>
-                    <input type="radio" id="pb-violet" name="plateBackground" value="Violet"><label for="pb-violet">Violet</label>
-                </div>
-
                 <div class="filter-actions">
                     <button type="button" class="btn-reset" onclick="resetFilters()">Réinitialiser</button>
                     <button type="submit" class="btn-apply">Appliquer</button>
@@ -454,30 +308,20 @@
 
     <div id="reviewModal" class="review-modal">
         <div class="review-box">
-            <div class="review-header">
-                <h2 id="reviewVehicleTitle">Avis</h2>
-                <button id="closeReview" class="close-review">&times;</button>
-            </div>
-            
-            <div id="reviewList" class="review-list">
-                <div style="text-align:center; color:#999; margin-top:10px;">Chargement des avis...</div>
-            </div>
-
+            <div class="review-header"><h2 id="reviewVehicleTitle">Avis</h2><button id="closeReview" class="close-review">&times;</button></div>
+            <div id="reviewList" class="review-list"><div style="text-align:center; color:#999; margin-top:10px;">Chargement...</div></div>
             <div class="review-input-group">
-                <div id="pseudoWarning" class="pseudo-warning">Attention : Votre pseudo est définitif.</div>
-                <input type="text" id="reviewPseudo" placeholder="Votre Pseudo (ex: Tonio)" maxlength="15">
-                <textarea id="reviewText" rows="2" placeholder="Votre avis sur ce véhicule..." maxlength="140"></textarea>
-                <button id="sendReviewBtn" class="btn-send-review">Envoyer l'avis</button>
+                <input type="text" id="reviewPseudo" placeholder="Pseudo" maxlength="15">
+                <textarea id="reviewText" rows="2" placeholder="Message..." maxlength="140"></textarea>
+                <button id="sendReviewBtn" class="btn-send-review">Envoyer</button>
             </div>
         </div>
     </div>
 
     <script type="module">
-        // 1. IMPORT FIREBASE
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
         import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
 
-        // 2. CONFIGURATION FIREBASE
         const firebaseConfig = {
             apiKey: "AIzaSyDTBFPsJpzIVA0oWLG_QZ4curscfoDNM2o",
             authDomain: "avis-86b9e.firebaseapp.com",
@@ -485,514 +329,264 @@
             storageBucket: "avis-86b9e.firebasestorage.app",
             messagingSenderId: "832229592256",
             appId: "1:832229592256:web:ac8e079fa0a92f71ef3125",
-            measurementId: "G-V14JREKZ3C",
             databaseURL: "https://avis-86b9e-default-rtdb.europe-west1.firebasedatabase.app"
         };
 
-        // 3. INITIALISATION
-        let app, db;
-        try {
-            app = initializeApp(firebaseConfig);
-            db = getDatabase(app);
-            console.log("Firebase connecté !");
-        } catch (e) {
-            console.error("Erreur Firebase :", e);
-        }
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
 
-        // --- GESTION DES AVIS ---
-        const reviewModal = document.getElementById('reviewModal');
-        const reviewList = document.getElementById('reviewList');
-        const reviewPseudo = document.getElementById('reviewPseudo');
-        const reviewText = document.getElementById('reviewText');
-        const sendReviewBtn = document.getElementById('sendReviewBtn');
-        const closeReviewBtn = document.getElementById('closeReview');
-        const pseudoWarning = document.getElementById('pseudoWarning');
-        let activeReviewVehicleName = "";
-
-        // --- LISTE NOIRE (MODÉRATION) ---
-        const blackList = [
-            "admin", "staff", "modo", "itsmto", "owner", "proprietaire",
-            "merde", "connard", "connasse", "salope", "pute", "pd", "encule", "fdp", "ntm",
-            "nique", "batard", "suce", "bite", "couille", "chienne", "foutre", "con",
-            "debile", "abruti", "bouffon", "triso", "handicape", "mongol", "sex", "porno", "zizi"
-        ];
-
-        function containsForbiddenContent(text) {
-            if(!text) return false;
-            const lowerText = text.toLowerCase();
-            return blackList.some(word => lowerText.includes(word));
-        }
-
-        window.openReviews = function(vehicleName) {
-            activeReviewVehicleName = vehicleName;
-            document.getElementById('reviewVehicleTitle').innerText = "Avis : " + vehicleName;
-            reviewModal.classList.add('active');
-            reviewList.innerHTML = '<div style="text-align:center; padding:20px;">Chargement...</div>';
-
-            const savedPseudo = localStorage.getItem('userPseudo');
-            if(savedPseudo) {
-                reviewPseudo.value = savedPseudo;
-                reviewPseudo.disabled = true;
-                pseudoWarning.style.display = 'none';
-            } else {
-                reviewPseudo.value = "";
-                reviewPseudo.disabled = false;
-                pseudoWarning.style.display = 'block';
-            }
-
-            if(db) {
-                const vehicleKey = vehicleName.replace(/[^a-zA-Z0-9]/g, '_');
-                const reviewsRef = ref(db, 'avis/' + vehicleKey);
-                
-                onValue(reviewsRef, (snapshot) => {
-                    reviewList.innerHTML = "";
-                    const data = snapshot.val();
-                    if (data) {
-                        const reviews = Object.values(data).reverse();
-                        reviews.forEach(r => {
-                            const div = document.createElement('div');
-                            div.className = 'single-review';
-                            div.innerHTML = `<div class="sr-user">${r.user} <span style="font-weight:400; color:#999; font-size:10px;">- ${r.date}</span></div><div class="sr-text">${r.text}</div>`;
-                            reviewList.appendChild(div);
-                        });
-                    } else {
-                        reviewList.innerHTML = '<div style="text-align:center; color:#999; padding:20px; font-style:italic;">Aucun avis pour le moment.</div>';
-                    }
-                });
-            } else {
-                reviewList.innerHTML = '<div style="color:red; text-align:center;">Erreur de connexion Database.</div>';
-            }
-        };
-
-        sendReviewBtn.onclick = function() {
-            let user = reviewPseudo.value.trim();
-            const text = reviewText.value.trim();
-            
-            if(reviewPseudo.disabled) {
-                 user = localStorage.getItem('userPseudo');
-            }
-
-            if(!user || !text) { alert("Merci de mettre un pseudo et un message !"); return; }
-            
-            if (containsForbiddenContent(user)) {
-                alert("Ce pseudo est interdit ou réservé. Veuillez en choisir un autre.");
-                reviewPseudo.value = "";
-                return;
-            }
-
-            if (containsForbiddenContent(text)) {
-                alert("Votre message contient des termes inappropriés. Merci de rester respectueux.");
-                return;
-            }
-
-            localStorage.setItem('userPseudo', user);
-            reviewPseudo.disabled = true;
-            pseudoWarning.style.display = 'none';
-
-            if(db) {
-                const vehicleKey = activeReviewVehicleName.replace(/[^a-zA-Z0-9]/g, '_');
-                const reviewsRef = ref(db, 'avis/' + vehicleKey);
-                const now = new Date();
-                const dateStr = now.toLocaleDateString() + " " + now.toLocaleTimeString().slice(0,5);
-
-                push(reviewsRef, {
-                    user: user,
-                    text: text,
-                    date: dateStr
-                }).then(() => {
-                    reviewText.value = "";
-                }).catch(err => alert("Erreur d'envoi : " + err));
-            }
-        };
-
-        closeReviewBtn.onclick = function() {
-            reviewModal.classList.remove('active');
-        };
-
-        // --- CODE NAVIGATION & VÉHICULES ---
-        
-        function toggleMobileMenu() {
-            const m = document.getElementById('mobileMenu');
-            m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
-        }
-        window.toggleMobileMenu = toggleMobileMenu;
-
-        // --- LISTE ANCIENNE VERSION + AJOUT SLOT ---
         const vehicles = [
-            // --- BOITE 2 ---
-            { slot: 1, name: "Pegassi Zentorno", images: ["boite2/Zentorno.jpg", "boite2/Zentorno1.jpg", "boite2/Zentorno2.jpg", "boite2/Zentorno3.jpg"], color1: "Bleu / Vert", color2: "Bleu / Vert", wheel: "F1", plateContent: "Al", plateBackground: "SA EXEMPT", garage: "boite2" },
-            { slot: 2, name: "Emperor Vectre", images: ["boite2/Vectre.jpg", "boite2/Vectre1.jpg", "boite2/Vectre2.jpg", "boite2/Vectre3.jpg"], color1: "Vert", color2: "Vert", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "boite2" },
-            { slot: 3, name: "Karin S95", images: ["boite2/S95.jpg", "boite2/S951.jpg", "boite2/S952.jpg", "boite2/S953.jpg"], color1: "Rose", color2: "Rose", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "boite2" },
-            { slot: 4, name: "Grotti Itali GTO", images: ["boite2/Itali GTO.jpg", "boite2/Itali GTO1.jpg", "boite2/Itali GTO2.jpg", "boite2/Itali GTO3.jpg"], color1: "Bleu", color2: "Bleu", wheel: "Benny's", plateContent: "Al", plateBackground: "Liberty", garage: "boite2" },
-            { slot: 5, name: "Emperor ETR1", images: ["boite2/ETR.jpg", "boite2/ETR1.jpg", "boite2/ETR2.jpg", "boite2/ETR3.jpg"], color1: "Bleu", color2: "Bleu", wheel: "Benny's", plateContent: "Al", plateBackground: "Las venturas", garage: "boite2" },
+            /* --- BOITE 2 --- */
+            { slot: 1, name: "Ocelot Virtue", garage: "boite2", wheel: "Benny's", plate: "Yankton", color1: "Vert", color2: "Vert" },
+            { slot: 2, name: "Emperor Vectre", garage: "boite2", wheel: "Benny's", plate: "Yankton", color1: "Vert", color2: "Vert" },
+            { slot: 3, name: "Karin S95", garage: "boite2", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 4, name: "Grotti Itali GTO", garage: "boite2", wheel: "Benny's", plate: "Liberty", color1: "Bleu", color2: "Bleu" },
+            { slot: 5, name: "Emperor ETR1", garage: "boite2", wheel: "Benny's", plate: "Las venturas", color1: "Bleu", color2: "Bleu" },
+            { slot: 6, name: "Ubermacht Cypher", garage: "boite2", wheel: "Benny's", plate: "Exempt", color1: "Bleu", color2: "Bleu" },
+            { slot: 7, name: "Canis Castigator", garage: "boite2", wheel: "F1", plate: "Exempt", color1: "Vert", color2: "Vert" },
+            { slot: 8, name: "Benefactor Panto", garage: "boite2", wheel: "F1", plate: "Exempt", color1: "Vert", color2: "Vert" },
+            { slot: 9, name: "Roosevelt Valor", garage: "boite2", wheel: "F1", plate: "Exempt", color1: "Violet", color2: "Violet" },
+            { slot: 10, name: "Canis Kalahari", garage: "boite2", wheel: "Benny's", plate: "Exempt", color1: "Rose", color2: "Rose" },
 
-            // --- FONCTION 2 ---
-            { slot: 1, name: "Canis Kalahari", images: ["fonction2/Kalahari.jpg", "fonction2/Kalahari1.jpg", "fonction2/Kalahari2.jpg", "fonction2/Kalahari3.jpg"], color1: "Rose", color2: "Rose", wheel: "F1", plateContent: "Al", plateBackground: "Yankton", garage: "fonction2" },
-            { slot: 2, name: "Albany Roosevelt Valor", images: ["fonction2/Roosevelt.jpg", "fonction2/Roosevelt1.jpg", "fonction2/Roosevelt2.jpg", "fonction2/Roosevelt3.jpg"], color1: "Violet", color2: "Violet", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
-            { slot: 3, name: "Ubermacht Cypher", images: ["fonction2/Cypher.jpg", "fonction2/Cypher1.jpg", "fonction2/Cypher2.jpg", "fonction2/Cypher3.jpg"], color1: "Bleu", color2: "Bleu", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
-            { slot: 4, name: "Karin 190z", images: ["fonction2/190z.jpg", "fonction2/190z1.jpg", "fonction2/190z2.jpg", "fonction2/190z3.jpg"], color1: "Vert", color2: "Vert", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
-            { slot: 5, name: "Benefactor Schlagen GT", images: ["fonction2/Schlagen.jpg", "fonction2/Schlagen1.jpg", "fonction2/Schlagen2.jpg", "fonction2/Schlagen3.jpg"], color1: "Violet", color2: "Violet", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
-            { slot: 6, name: "Elegy Rétro Custom", images: ["fonction2/elegy.jpg", "fonction2/elegy1.jpg", "fonction2/elegy2.jpg", "fonction2/elegy3.jpg"], color1: "Gris", color2: "Gris", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
-            { slot: 7, name: "Willard Eudora", images: ["fonction2/Eudora.jpg", "fonction2/Eudora1.jpg", "fonction2/Eudora2.jpg"], color1: "Jaune", color2: "Jaune", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "fonction2" },
-            { slot: 8, name: "Weeny Dynasty", images: ["fonction2/Dynasty.jpg", "fonction2/Dynasty1.jpg", "fonction2/Dynasty2.jpg"], color1: "Jaune", color2: "Jaune", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "fonction2" },
-            { slot: 9, name: "RUNE Zhaba", images: ["fonction2/Zhaba.jpg", "fonction2/Zhaba1.jpg", "fonction2/Zhaba2.jpg", "fonction2/Zhaba3.jpg"], color1: "Bleu", color2: "Bleu", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
-            { slot: 10, name: "Grotti Itali RSX", images: ["fonction2/Itali RSX.jpg", "fonction2/Itali RSX1.jpg", "fonction2/Itali RSX2.jpg", "fonction2/Itali RSX3.jpg"], color1: "Violet", color2: "Violet", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
-            { slot: 11, name: "Albany Brigham", images: ["fonction2/Brigham.jpg", "fonction2/Brigham1.jpg", "fonction2/Brigham2.jpg"], color1: "Noir", color2: "Noir", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
-            { slot: 12, name: "Corbillard Romero", images: ["fonction2/Corbillard Romero.jpg", "fonction2/Corbillard Romero1.jpg", "fonction2/Corbillard Romero2.jpg", "fonction2/Corbillard Romero3.jpg"], color1: "Vert", color2: "Vert", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
-            { slot: 13, name: "Bravado Rat-Loader", images: ["fonction2/Rat-loader.jpg", "fonction2/Rat-loader1.jpg", "fonction2/Rat-loader2.jpg", "fonction2/Rat-loader3.jpg"], color1: "Blanc", color2: "Blanc", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
-            { slot: 14, name: "Grotti Itali GTO", images: ["fonction2/Itali GTO.jpg", "fonction2/Itali GTO1.jpg", "fonction2/Itali GTO2.jpg", "fonction2/Itali GTO3.jpg"], color1: "Noir", color2: "Noir", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
-            { slot: 15, name: "BF Raptor", images: ["fonction2/Raptor.jpg", "fonction2/Raptor1.jpg", "fonction2/Raptor2.jpg", "fonction2/Raptor3.jpg"], color1: "Bleu", color2: "Bleu", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
-            { slot: 16, name: "Overflod Pipistrello", images: ["fonction2/Pipistrello.jpg", "fonction2/Pipistrello1.jpg", "fonction2/Pipistrello2.jpg", "fonction2/Pipistrello3.jpg"], color1: "Bleu", color2: "Bleu", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
-            { slot: 17, name: "Ocelot XA-21", images: ["fonction2/XA.jpg", "fonction2/XA1.jpg", "fonction2/XA2.jpg", "fonction2/XA3.jpg"], color1: "Vert", color2: "Vert", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
-            { slot: 18, name: "Caddie", images: ["fonction2/Caddie.jpg", "fonction2/Caddie1.jpg", "fonction2/Caddie2.jpg", "fonction2/Caddie3.jpg"], color1: "Vert", color2: "Vert", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
-            { slot: 19, name: "Invetero Coquette D5", images: ["fonction2/D5.jpg", "fonction2/D51.jpg", "fonction2/D52.jpg", "fonction2/D53.jpg"], color1: "Rouge", color2: "Rouge", wheel: "F1", plateContent: "Vi", plateBackground: "Yankton", garage: "fonction2" },
-            { slot: 20, name: "Enus Paragon S", images: ["fonction2/Paragon S.jpg", "fonction2/Paragon S1.jpg", "fonction2/Paragon S2.jpg", "fonction2/Paragon S3.jpg"], color1: "Rose", color2: "Rose", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction2" },
+            /* --- BOITE 3 --- */
+            { slot: 1, name: "Karin 190z", garage: "boite3", wheel: "F1", plate: "Yankton", color1: "Vert", color2: "Vert" },
+            { slot: 2, name: "Schlagen GT", garage: "boite3", wheel: "Benny's", plate: "Exempt", color1: "Rose", color2: "Rose" },
+            { slot: 3, name: "Elegy Rétro Custom", garage: "boite3", wheel: "Basic", plate: "Exempt", color1: "Violet", color2: "Violet" },
+            { slot: 4, name: "Benefactor Krieger", garage: "boite3", wheel: "F1", plate: "Exempt", color1: "Violet", color2: "Violet" },
+            { slot: 5, name: "Ocelot XA-21", garage: "boite3", wheel: "Benny's", plate: "Exempt", color1: "Vert", color2: "Vert" },
+            { slot: 6, name: "Annis Euros X32", garage: "boite3", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 7, name: "Överflöd Pipistrello", garage: "boite3", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 8, name: "Karin Sultan RS Classique", garage: "boite3", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 9, name: "Emperor Vectre", garage: "boite3", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 10, name: "Pfister Comet S2", garage: "boite3", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
 
-            // --- FONCTION 3 ---
-            { slot: 1, name: "Blazer Street", images: ["fonction3/street.jpg"], color1: "Violet", color2: "Violet", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { slot: 2, name: "Hot Rod Blazer", images: ["fonction3/Blazer.jpg"], color1: "Bleu", color2: "Bleu", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { slot: 3, name: "Ubermacht Revolter", images: ["fonction3/Revolter.jpg"], color1: "Violet", color2: "Violet", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { slot: 4, name: "Canis Bodhi", images: ["fonction3/Bodhi.jpg"], color1: "Gris", color2: "Gris", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { slot: 5, name: "Go Go Monkey Blista", images: ["fonction3/monkey.jpg"], color1: "Noir", color2: "Noir", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { slot: 6, name: "Dinka Sugoi", images: ["fonction3/Sugoi.jpg"], color1: "Gris", color2: "Gris", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { slot: 7, name: "Karin Calico GTF", images: ["fonction3/Calico GTF.jpg"], color1: "Noir", color2: "Noir", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { slot: 8, name: "Emperor Vectre", images: ["fonction3/Vectre.jpg"], color1: "Caméléon", color2: "Caméléon", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { slot: 9, name: "Bravado Verlierer", images: ["fonction3/Verlierer.jpg"], color1: "Gris", color2: "Gris", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { slot: 10, name: "Canis Castigator", images: ["fonction3/Castigator.jpg"], color1: "Vert", color2: "Vert", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { slot: 11, name: "Coil Cyclone II", images: ["fonction3/Cyclone II.jpg"], color1: "Rose", color2: "Rose", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { slot: 12, name: "MTL Dune", images: ["fonction3/Dune.jpg"], color1: "Or", color2: "Or", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { slot: 13, name: "Vapid Hotknife", images: ["fonction3/Hotknife.jpg"], color1: "Gris", color2: "Gris", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { slot: 14, name: "Imponte Nightshade", images: ["fonction3/Nightshade.jpg"], color1: "Rouge", color2: "Rouge", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { slot: 15, name: "Benefactor Panto", images: ["fonction3/Panto.jpg"], color1: "Vert", color2: "Vert", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { slot: 16, name: "HVY Scarab", images: ["fonction3/Scarab anticipation.jpg"], color1: "Or", color2: "Or", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { slot: 17, name: "Turismo Classique", images: ["fonction3/Turismo classique.jpg"], color1: "Noir", color2: "Noir", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { slot: 18, name: "ZR380 Anticipation", images: ["fonction3/ZR380 anticipation.jpg"], color1: "Rouge", color2: "Rouge", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
-            { slot: 19, name: "Blista Kanjo", images: ["fonction3/Blista Kanjo.jpg"], color1: "Noir", color2: "Noir", wheel: "F1", plateContent: "Indifférent", plateBackground: "Yankton", garage: "fonction3" },
+            /* --- BOITE 4 --- */
+            { slot: 1, name: "Dinka Jester RR", garage: "boite4", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 2, name: "Annis Euros", garage: "boite4", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 3, name: "Vapid Dominator ASP", garage: "boite4", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 4, name: "Dinka RT3000", garage: "boite4", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 5, name: "Vulkar Warrener HKR", garage: "boite4", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 6, name: "Obey Tailgater S", garage: "boite4", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 7, name: "Annis Remus", garage: "boite4", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 8, name: "Karin Futo GTX", garage: "boite4", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 9, name: "Annis ZR350", garage: "boite4", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 10, name: "Karin Calico GTF", garage: "boite4", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
 
-            // --- ARENE RDC ---
-            { slot: 1, name: "Obey 8F Drafter", images: ["arenerdc/8F Drafter.jpg", "arenerdc/8F Drafter1.jpg", "arenerdc/8F Drafter2.jpg", "arenerdc/8F Drafter3.jpg"], color1: "Bleu", color2: "Bleu", wheel: "F1", plateContent: "Al", plateBackground: "bleu", garage: "arenerdc" },
-            { slot: 2, name: "Obey 10F Widebody", images: ["arenerdc/10f large.jpg", "arenerdc/10f large1.jpg", "arenerdc/10f large2.jpg", "arenerdc/10f large3.jpg"], color1: "Or", color2: "Rouge", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "arenerdc" },
-            { slot: 3, name: "Lampadati Cinquemila", images: ["arenerdc/Cinquemila.jpg", "arenerdc/Cinquemila1.jpg", "arenerdc/Cinquemila2.jpg", "arenerdc/Cinquemila3.jpg"], color1: "Violet", color2: "Rose", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "arenerdc" },
-            { slot: 4, name: "Ubermacht Cypher", images: ["arenerdc/Cypher.jpg", "arenerdc/Cypher1.jpg", "arenerdc/Cypher2.jpg", "arenerdc/Cypher3.jpg"], color1: "Gris", color2: "Rouge", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "arenerdc" },
-            { slot: 5, name: "Karin Keitora", images: ["arenerdc/Keitora.jpg", "arenerdc/Keitora1.jpg", "arenerdc/Keitora2.jpg", "arenerdc/Keitora3.jpg"], color1: "Vert", color2: "Blanc", wheel: "F1", plateContent: "Vi", plateBackground: "Liberty", garage: "arenerdc" },
-            { slot: 6, name: "Ubermacht Niobe", images: ["arenerdc/Niobe.jpg", "arenerdc/Niobe1.jpg", "arenerdc/Niobe2.jpg", "arenerdc/Niobe3.jpg", "arenerdc/Niobe4.jpg"], color1: "Bleu", color2: "Rose", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "arenerdc" },
-            { slot: 7, name: "Ocelot Pariah", images: ["arenerdc/Pariah.jpg", "arenerdc/Pariah1.jpg", "arenerdc/Pariah2.jpg", "arenerdc/Pariah3.jpg"], color1: "Or", color2: "Or", wheel: "F1", plateContent: "Al", plateBackground: "Yankton", garage: "arenerdc" },
-            { slot: 8, name: "Karin Vivanite", images: ["arenerdc/Vivanite.jpg", "arenerdc/Vivanite1.jpg", "arenerdc/Vivanite2.jpg", "arenerdc/Vivanite3.jpg"], color1: "Vert", color2: "Vert", wheel: "Benny's", plateContent: "Pe", plateBackground: "Yankton", garage: "arenerdc" },
-            { slot: 9, name: "Pegassi Zentorno", images: ["arenerdc/Zentorno.jpg", "arenerdc/Zentorno1.jpg", "arenerdc/Zentorno2.jpg", "arenerdc/Zentorno3.jpg"], color1: "Gris", color2: "Gris", wheel: "Origine", plateContent: "Al", plateBackground: "bleu", garage: "arenerdc" },
+            /* --- FONCTION 2 --- */
+            { slot: 1, name: "Coquette D10", garage: "fonction2", wheel: "F1", plate: "Yankton", color1: "Bleu", color2: "Blanc" },
+            { slot: 2, name: "Vysser Neo", garage: "fonction2", wheel: "Basic", plate: "Yankton", color1: "Violet", color2: "Violet" },
+            { slot: 3, name: "Zentorno", garage: "fonction2", wheel: "F1", plate: "Exempt", color1: "Bleu", color2: "Vert" },
+            { slot: 4, name: "Zentorno v2", garage: "fonction2", wheel: "Basic", plate: "Exempt", color1: "Jaune", color2: "Noir" },
+            { slot: 5, name: "Itali RSX", garage: "fonction2", wheel: "Benny's", plate: "Yankton", color1: "Rouge", color2: "Blanc" },
+            { slot: 6, name: "Krieger v2", garage: "fonction2", wheel: "Benny's", plate: "Exempt", color1: "Violet", color2: "Caméléon" },
+            { slot: 7, name: "Eudora", garage: "fonction2", wheel: "Benny's", plate: "Yankton", color1: "Jaune", color2: "Jaune" },
+            { slot: 8, name: "Dynasty", garage: "fonction2", wheel: "Benny's", plate: "Yankton", color1: "Jaune", color2: "Jaune" },
+            { slot: 9, name: "Zhaba", garage: "fonction2", wheel: "Benny's", plate: "Basic", color1: "Bleu", color2: "Bleu" },
+            { slot: 10, name: "Itali RSX v2", garage: "fonction2", wheel: "Benny's", plate: "Exempt", color1: "Violet", color2: "Violet" },
+            { slot: 11, name: "Albany Brigham", garage: "fonction2", wheel: "Benny's", plate: "Yankton", color1: "Chrome", color2: "Blanc" },
+            { slot: 12, name: "Romero", garage: "fonction2", wheel: "Benny's", plate: "Yankton", color1: "Vert", color2: "Bleu" },
+            { slot: 13, name: "Rat-Loader", garage: "fonction2", wheel: "Basic", plate: "Yankton", color1: "Blanc", color2: "Blanc" },
+            { slot: 14, name: "Itali GTO", garage: "fonction2", wheel: "F1", plate: "Yankton", color1: "Noir", color2: "Noir" },
+            { slot: 15, name: "BF Raptor", garage: "fonction2", wheel: "F1", plate: "Yankton", color1: "Bleu", color2: "Bleu" },
+            { slot: 16, name: "Pipistrello", garage: "fonction2", wheel: "F1", plate: "Yankton", color1: "Bleu", color2: "Bleu" },
+            { slot: 17, name: "Caddie", garage: "fonction2", wheel: "Basic", plate: "Yankton", color1: "Vert", color2: "Vert" },
+            { slot: 18, name: "Coquette D5", garage: "fonction2", wheel: "Benny's", plate: "Yankton", color1: "Rouge", color2: "Rouge" },
+            { slot: 19, name: "Paragon S", garage: "fonction2", wheel: "Benny's", plate: "Los santos", color1: "Caméléon", color2: "Rose" },
 
-            // --- ARENE 1 ---
-            { slot: 1, name: "Apocalypse Bruiser", images: ["arene1/Bruiser anticipation.jpg", "arene1/Bruiser anticipation1.jpg"], color1: "Rouge", color2: "Bleu", wheel: "F1", plateContent: "Indifférent", plateBackground: "Indifférent", garage: "arene1" },
-            { slot: 2, name: "Apocalypse Cerberus", images: ["arene1/Cerberus anticipation.jpg"], color1: "Bleu", color2: "Noir", wheel: "F1", plateContent: "Indifférent", plateBackground: "Indifférent", garage: "arene1" },
-            { slot: 3, name: "Coil Cyclone", images: ["arene1/Cyclone.jpg", "arene1/Cyclone1.jpg"], color1: "Bleu", color2: "Bleu", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "arene1" },
-            { slot: 4, name: "Invetero Coquette D10", images: ["arene1/D10.jpg"], color1: "Noir", color2: "Noir", wheel: "F1", plateContent: "Al", plateBackground: "Basic", garage: "arene1" },
-            { slot: 5, name: "Dinka Jester RR", images: ["arene1/Jester.jpg"], color1: "Rose", color2: "Noir", wheel: "Origine", plateContent: "Indifférent", plateBackground: "Indifférent", garage: "arene1" },
-            { slot: 6, name: "Benefactor Krieger", images: ["arene1/Krieger.jpg", "arene1/Krieger1.jpg", "arene1/Krieger2.jpg"], color1: "Violet", color2: "Violet", wheel: "F1", plateContent: "Pe", plateBackground: "Violet", garage: "arene1" },
-            { slot: 7, name: "Ubermacht Rhinehart", images: ["arene1/Rhinehart.jpg", "arene1/Rhinehart1.jpg", "arene1/Rhinehart2.jpg"], color1: "Vert", color2: "Noir", wheel: "F1", plateContent: "Al", plateBackground: "Noir", garage: "arene1" },
-            { slot: 8, name: "Grotti Itali RSX", images: ["arene1/RSX.jpg", "arene1/RSX1.jpg", "arene1/RSX2.jpg", "arene1/RSX3.jpg"], color1: "Rouge", color2: "Blanc", wheel: "Benny's", plateContent: "Vi", plateBackground: "Yankton", garage: "arene1" },
-            { slot: 9, name: "Pegassi Zentorno", images: ["arene1/Zentorno.jpg", "arene1/Zentorno1.jpg", "arene1/Zentorno2.jpg"], color1: "Jaune", color2: "Noir", wheel: "Origine", plateContent: "Al", plateBackground: "Blanc", garage: "arene1" },
-            { slot: 10, name: "Apocalypse ZR380", images: ["arene1/ZR380 anticipation.jpg", "arene1/ZR380 anticipation1.jpg"], color1: "Rouge", color2: "Rouge", wheel: "Benny's", plateContent: "Pe", plateBackground: "Yankton", garage: "arene1" },
+            /* --- FONCTION 3 --- */
+            { slot: 1, name: "Blazer Street", garage: "fonction3", wheel: "Benny's", plate: "Yankton", color1: "Violet", color2: "Violet" },
+            { slot: 2, name: "Hot Rod Blazer", garage: "fonction3", wheel: "Basic", plate: "Yankton", color1: "Blanc", color2: "Blanc" },
+            { slot: 3, name: "Hot Rod Blazer v2", garage: "fonction3", wheel: "Basic", plate: "Yankton", color1: "Bleu", color2: "Bleu" },
+            { slot: 4, name: "Revolter", garage: "fonction3", wheel: "Benny's", plate: "Yankton", color1: "Violet", color2: "Violet" },
+            { slot: 5, name: "Bodhi", garage: "fonction3", wheel: "Benny's", plate: "Yankton", color1: "Gris", color2: "Gris" },
+            { slot: 6, name: "Monkey Blista", garage: "fonction3", wheel: "Benny's", plate: "Yankton", color1: "Noir", color2: "Noir" },
+            { slot: 7, name: "Sugoi", garage: "fonction3", wheel: "Basic", plate: "Yankton", color1: "Gris", color2: "Gris" },
+            { slot: 8, name: "Calico GTF", garage: "fonction3", wheel: "Basic", plate: "Yankton", color1: "Noir", color2: "Noir" },
+            { slot: 9, name: "Vectre v2", garage: "fonction3", wheel: "Benny's", plate: "Yankton", color1: "Caméléon", color2: "Caméléon" },
+            { slot: 10, name: "Verlierer", garage: "fonction3", wheel: "Benny's", plate: "Yankton", color1: "Gris", color2: "Gris" },
+            { slot: 11, name: "Blista Kanjo", garage: "fonction3", wheel: "Benny's", plate: "Yankton", color1: "Noir", color2: "Noir" },
+            { slot: 12, name: "Schlagen GT v2", garage: "fonction3", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Rose" },
+            { slot: 13, name: "Cyclone", garage: "fonction3", wheel: "Benny's", plate: "Yankton", color1: "Bleu", color2: "Noir" },
+            { slot: 14, name: "Dune", garage: "fonction3", wheel: "Benny's", plate: "Yankton", color1: "Jaune", color2: "Jaune" },
+            { slot: 15, name: "Nightshade", garage: "fonction3", wheel: "F1", plate: "Yankton", color1: "Rouge", color2: "Rouge" },
+            { slot: 16, name: "Jester RR", garage: "fonction3", wheel: "Basic", plate: "Exempt", color1: "Rose", color2: "Noir" },
+            { slot: 17, name: "Turismo Classique", garage: "fonction3", wheel: "Basic", plate: "Exempt", color1: "Noir", color2: "Noir" },
+            { slot: 18, name: "Hotknife", garage: "fonction3", wheel: "Benny's", plate: "Yankton", color1: "Vert", color2: "Beige" },
+            { slot: 19, name: "Cyclone II", garage: "fonction3", wheel: "Benny's", plate: "Yankton", color1: "Rose", color2: "Blanc" },
 
-            // --- ARENE 2 ---
-            { slot: 1, name: "Benefactor Dubsta", images: ["arene2/Dubsta.jpg", "arene2/Dubsta1.jpg", "arene2/Dubsta2.jpg"], color1: "Caméléon", color2: "Blanc", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "arene2" },
-            { slot: 2, name: "Albany Hermes", images: ["arene2/Hermes.jpg", "arene2/Hermes1.jpg", "arene2/Hermes2.jpg"], color1: "Rouge", color2: "Rouge", wheel: "F1", plateContent: "Al", plateBackground: "Yankton", garage: "arene2" },
-            { slot: 3, name: "Ubermacht Niobe", images: ["arene2/Niobe.jpg", "arene2/Niobe1.jpg", "arene2/Niobe2.jpg"], color1: "Bleu", color2: "Blanc", wheel: "Benny's", plateContent: "Pe", plateBackground: "Yankton", garage: "arene2" },
-            { slot: 4, name: "Pegassi Reaper", images: ["arene2/Reaper.jpg", "arene2/Reaper1.jpg", "arene2/Reaper2.jpg"], color1: "Blanc", color2: "Blanc", wheel: "Benny's", plateContent: "Al", plateBackground: "Yankton", garage: "arene2" },
-            { slot: 5, name: "Benefactor Schlagen GT", images: ["arene2/Schlagen GT.jpg", "arene2/Schlagen GT1.jpg", "arene2/Schlagen GT2.jpg"], color1: "Violet", color2: "Bleu", wheel: "Benny's", plateContent: "Pe", plateBackground: "Yankton", garage: "arene2" },
-            { slot: 6, name: "Progen T20", images: ["arene2/T20.jpg", "arene2/T201.jpg"], color1: "Violet", color2: "Violet", wheel: "Benny's", plateContent: "Pe", plateBackground: "Violet", garage: "arene2" },
-            { slot: 7, name: "Dewbauchee Vagner", images: ["arene2/Vagner.jpg"], color1: "Noir", color2: "Noir", wheel: "F1", plateContent: "Al", plateBackground: "Yankton", garage: "arene2" },
-            { slot: 8, name: "Grotti Vigilante", images: ["arene2/Vigilante.jpg"], color1: "Caméléon", color2: "Beige", wheel: "Benny's", plateContent: "Indifférent", plateBackground: "Indifférent", garage: "arene2" },
-            { slot: 9, name: "Apocalypse ZR380", images: ["arene2/ZR380 anticipation.jpg", "arene2/ZR380 anticipation1.jpg", "arene2/ZR380 anticipation2.jpg"], color1: "Bleu", color2: "Bleu", wheel: "Benny's", plateContent: "Pe", plateBackground: "Yankton", garage: "arene2" }
+            /* --- ARENE RDC --- */
+            { slot: 2, name: "10F large", garage: "arenerdc", wheel: "Benny's", plate: "Yankton", color1: "Or", color2: "Rouge" },
+            { slot: 3, name: "Pariah", garage: "arenerdc", wheel: "F1", plate: "Yankton", color1: "Or", color2: "Or" },
+            { slot: 4, name: "8F Drafter", garage: "arenerdc", wheel: "F1", plate: "Exempt", color1: "Bleu", color2: "Bleu" },
+            { slot: 5, name: "Zentorno RDC", garage: "arenerdc", wheel: "Basic", plate: "Exempt", color1: "Blanc", color2: "Bleu" },
+            { slot: 6, name: "Niobe", garage: "arenerdc", wheel: "Benny's", plate: "Yankton", color1: "Bleu", color2: "Rose" },
+            { slot: 7, name: "Keitora", garage: "arenerdc", wheel: "F1", plate: "Liberty", color1: "Vert", color2: "Blanc" },
+            { slot: 8, name: "Vivanite", garage: "arenerdc", wheel: "Benny's", plate: "Yankton", color1: "Vert", color2: "Vert" },
+            { slot: 9, name: "Cypher RDC", garage: "arenerdc", wheel: "Benny's", plate: "Yankton", color1: "Gris", color2: "Rouge" },
+            { slot: 10, name: "Cinquemila", garage: "arenerdc", wheel: "Benny's", plate: "Yankton", color1: "Violet", color2: "Rose" },
+
+            /* --- ARENE 1 --- */
+            { slot: 1, name: "Cerberus", garage: "arene1", wheel: "F1", plate: "Yankton", color1: "Bleu", color2: "Noir" },
+            { slot: 2, name: "Bruiser", garage: "arene1", wheel: "F1", plate: "Yankton", color1: "Rouge", color2: "Bleu" },
+            { slot: 3, name: "Scarab", garage: "arene1", wheel: "F1", plate: "Yankton", color1: "Violet", color2: "Or" },
+            { slot: 4, name: "ZR350 rouge", garage: "arene1", wheel: "Benny's", plate: "Yankton", color1: "Rouge", color2: "Rouge" },
+            { slot: 5, name: "ZR350 violet", garage: "arene1", wheel: "Benny's", plate: "Yankton", color1: "Violet", color2: "Violet" },
+            { slot: 6, name: "ZR350 bleu", garage: "arene1", wheel: "F1", plate: "Yankton", color1: "Bleu", color2: "Bleu" },
+
+            /* --- ARENE 2 --- */
+            { slot: 2, name: "Schlagen GT A2", garage: "arene2", wheel: "Benny's", plate: "Yankton", color1: "Violet", color2: "Bleu" },
+            { slot: 3, name: "Rhinehart", garage: "arene2", wheel: "F1", plate: "Exempt", color1: "Vert", color2: "Noir" },
+            { slot: 4, name: "Vigilante", garage: "arene2", wheel: "Benny's", plate: "Yankton", color1: "Caméléon", color2: "Beige" },
+            { slot: 5, name: "T20", garage: "arene2", wheel: "Benny's", plate: "Exempt", color1: "Violet", color2: "Violet" },
+            { slot: 6, name: "Niobe A2", garage: "arene2", wheel: "Benny's", plate: "Yankton", color1: "Bleu", color2: "Blanc" },
+            { slot: 7, name: "Vagner", garage: "arene2", wheel: "F1", plate: "Yankton", color1: "Noir", color2: "Noir" },
+            { slot: 8, name: "Dubsta", garage: "arene2", wheel: "Benny's", plate: "Yankton", color1: "Caméléon", color2: "Blanc" },
+            { slot: 9, name: "Hermes", garage: "arene2", wheel: "F1", plate: "Yankton", color1: "Rouge", color2: "Rouge" },
+            { slot: 10, name: "Reaper", garage: "arene2", wheel: "Benny's", plate: "Yankton", color1: "Blanc", color2: "Blanc" }
         ];
+
+        // Génération automatique des chemins d'images (garages/nom_garage/1/1.jpg)
+        vehicles.forEach(v => {
+            v.images = [
+                `garages/${v.garage}/${v.slot}/1.jpg`,
+                `garages/${v.garage}/${v.slot}/2.jpg`,
+                `garages/${v.garage}/${v.slot}/3.jpg`,
+                `garages/${v.garage}/${v.slot}/4.jpg`
+            ];
+        });
 
         let currentVehicle = null;
         let currentImageIndex = 0;
         let currentGarage = 'all';
-        let currentFilters = { wheel: 'all', plateContent: 'all', plateBackground: 'all', color1: 'all', color2: 'all' };
-        
-        // Expose la variable selectedVehicles
+        let currentFilters = { wheel: 'all', plate: 'all', color: 'all' };
         window.selectedVehicles = [];
-
-        const garageNames = {
-            'arenerdc': 'Arène RDC',
-            'arene1': 'Arène 1',
-            'arene2': 'Arène 2',
-            'boite2': 'Boîte 2',
-            'boite3': 'Boîte 3',
-            'boite4': 'Boîte 4',
-            'fonction1': 'Fonction 1',
-            'fonction2': 'Fonction 2',
-            'fonction3': 'Fonction 3'
-        };
 
         const grid = document.getElementById('galleryGrid');
         const searchInput = document.getElementById('searchInput');
         const tabBtns = document.querySelectorAll('.tab-btn');
-        
-        // Modal Elements
         const modal = document.getElementById("vehicleModal");
         const modalImg = document.getElementById("modalImg");
         const modalTitle = document.getElementById("modalTitle");
         const modalDesc = document.getElementById("modalDesc");
-        const prevBtn = document.getElementById("prevBtn");
-        const nextBtn = document.getElementById("nextBtn");
-        const modalImgContainer = document.querySelector('.modal-img-container');
-
-        // Filter Modal Elements
         const filterModal = document.getElementById('filterModal');
         const openFilterBtn = document.getElementById('openFilterBtn');
-        const closeFilterBtn = document.getElementById('closeFilter');
-        const filterForm = document.getElementById('filterForm');
+        const validateBtn = document.getElementById('validateBtn');
 
-        // --- GESTION PANIER ---
         window.toggleSelection = function(vehicleIndex) {
-            const vehicle = vehicles[vehicleIndex];
-            const index = selectedVehicles.findIndex(v => v.name === vehicle.name && v.garage === vehicle.garage);
-            if (index > -1) {
-                selectedVehicles.splice(index, 1);
-            } else {
-                if (selectedVehicles.length >= 10) {
-                    alert("Vous ne pouvez sélectionner que 10 véhicules maximum.");
-                    return;
-                }
-                selectedVehicles.push(vehicle);
-            }
-            updateValidateBtn();
-            render();
+            const v = vehicles[vehicleIndex];
+            const idx = selectedVehicles.findIndex(sv => sv.name === v.name && sv.garage === v.garage);
+            if (idx > -1) selectedVehicles.splice(idx, 1);
+            else if (selectedVehicles.length < 10) selectedVehicles.push(v);
+            else alert("Max 10 !");
+            updateValidateBtn(); render();
         }
 
         function updateValidateBtn() {
-            const btn = document.getElementById('validateBtn');
-            btn.textContent = `Ma liste (${selectedVehicles.length}/10)`;
-            if (selectedVehicles.length > 0) {
-                btn.classList.remove('disabled');
-            } else {
-                btn.classList.add('disabled');
-            }
+            validateBtn.textContent = `Ma liste (${selectedVehicles.length}/10)`;
+            if (selectedVehicles.length > 0) validateBtn.classList.remove('disabled');
+            else validateBtn.classList.add('disabled');
         }
 
-        window.validateList = function() {
+        validateBtn.onclick = () => {
             if (selectedVehicles.length === 0) return;
-            let text = "Salut itsmto, voici ma commande :\n";
-            selectedVehicles.forEach(v => {
-                const garageName = garageNames[v.garage] || v.garage.toUpperCase();
-                text += `- ${v.name} (Garage : ${garageName})\n`;
-            });
-            navigator.clipboard.writeText(text).then(() => {
-                alert("Ta liste a été copiée ! Envoie-la moi en message privé sur Discord. Mon pseudo : itsmto");
-            }).catch(err => {
-                console.error('Erreur lors de la copie : ', err);
-                alert("Erreur lors de la copie. Veuillez copier manuellement :\n" + text);
-            });
-        }
-        document.getElementById('validateBtn').addEventListener('click', window.validateList);
+            let text = "Salut itsmto, voici ma commande :\n" + selectedVehicles.map(v => `- ${v.name} (${v.garage.toUpperCase()}, Slot ${v.slot})`).join('\n');
+            navigator.clipboard.writeText(text).then(() => alert("Copié ! Envoie sur Discord : itsmto"));
+        };
 
-        // --- GESTION MODALE IMAGE ---
-        window.openImageModal = function(vehicleIndex) {
-            currentVehicle = vehicles[vehicleIndex];
-            currentImageIndex = 0;
-            updateImageModal();
-            modal.style.display = "block";
-            document.body.style.overflow = 'hidden';
-        }
+        window.openImageModal = (i) => {
+            currentVehicle = vehicles[i]; currentImageIndex = 0;
+            modal.style.display = "block"; updateImageModal();
+        };
 
         function updateImageModal() {
-            if (!currentVehicle) return;
-            modalImg.src = currentVehicle.images[currentImageIndex].replace(/ /g, '%20');
+            modalImg.src = currentVehicle.images[currentImageIndex];
             modalTitle.innerText = currentVehicle.name;
-            let plateText = "";
-            if (currentVehicle.plateBackground !== "Indifférent") {
-               plateText = ` • Fond ${currentVehicle.plateBackground}`;
-               if (currentVehicle.plateContent !== "Indifférent") {
-                   plateText += ` (${currentVehicle.plateContent})`;
-               }
-            }
-            modalDesc.innerText = `${currentVehicle.color1} / ${currentVehicle.color2} • ${currentVehicle.wheel}${plateText}`;
-
-            const counter = document.getElementById("imgCounter");
-            if (counter) counter.remove();
-            if (currentVehicle.images.length > 1) {
-                const newCounter = document.createElement('div');
-                newCounter.id = "imgCounter";
-                newCounter.className = "img-counter";
-                newCounter.innerText = `${currentImageIndex + 1} / ${currentVehicle.images.length}`;
-                modalImgContainer.appendChild(newCounter);
-                prevBtn.style.display = "flex";
-                nextBtn.style.display = "flex";
-            } else {
-                if (document.getElementById("imgCounter")) document.getElementById("imgCounter").remove();
-                prevBtn.style.display = "none";
-                nextBtn.style.display = "none";
-            }
+            modalDesc.innerText = `${currentVehicle.color1} • ${currentVehicle.wheel} • ${currentVehicle.plate}`;
+            const count = document.getElementById('imgCounter') || document.createElement('div');
+            count.id = 'imgCounter'; count.className = 'img-counter';
+            count.innerText = `${currentImageIndex + 1}/4`;
+            document.querySelector('.modal-img-container').appendChild(count);
         }
 
-        window.changeImage = function(direction) {
-            currentImageIndex += direction;
-            if (currentImageIndex >= currentVehicle.images.length) currentImageIndex = 0;
-            else if (currentImageIndex < 0) currentImageIndex = currentVehicle.images.length - 1;
+        window.changeImage = (d) => {
+            currentImageIndex = (currentImageIndex + d + 4) % 4;
             updateImageModal();
-        }
+        };
 
-        window.closeModal = function() {
-            modal.style.display = "none";
-            document.body.style.overflow = 'auto';
-        }
+        window.closeModal = () => modal.style.display = "none";
 
-        document.addEventListener('keydown', function(event) {
-            if (modal.style.display === "block") {
-                if (event.key === 'ArrowLeft') changeImage(-1);
-                else if (event.key === 'ArrowRight') changeImage(1);
-                else if (event.key === 'Escape') closeModal();
-            }
-        });
+        window.openReviews = (name) => {
+            document.getElementById('reviewVehicleTitle').innerText = name;
+            document.getElementById('reviewModal').classList.add('active');
+            const refAvis = ref(db, 'avis/' + name.replace(/ /g, '_'));
+            onValue(refAvis, (snap) => {
+                const list = document.getElementById('reviewList');
+                list.innerHTML = "";
+                const data = snap.val();
+                if(data) Object.values(data).reverse().forEach(a => {
+                    list.innerHTML += `<div class="single-review"><div class="sr-user">${a.user}</div><div class="sr-text">${a.text}</div></div>`;
+                });
+            });
+        };
 
-        window.onclick = function(event) {
-            if (event.target == modal) closeModal();
-        }
+        document.getElementById('sendReviewBtn').onclick = () => {
+            const u = document.getElementById('reviewPseudo').value;
+            const t = document.getElementById('reviewText').value;
+            const n = document.getElementById('reviewVehicleTitle').innerText;
+            if(u && t) push(ref(db, 'avis/' + n.replace(/ /g, '_')), { user: u, text: t });
+        };
 
-        // --- RENDER ---
         function render() {
-            grid.innerHTML = '';
-            const search = searchInput.value.toLowerCase();
-            let count = 0;
+            grid.innerHTML = "";
+            const s = searchInput.value.toLowerCase();
+            vehicles.forEach((v, i) => {
+                const matchGarage = currentGarage === 'all' || v.garage === currentGarage;
+                const matchSearch = v.name.toLowerCase().includes(s);
+                const matchWheel = currentFilters.wheel === 'all' || v.wheel.includes(currentFilters.wheel);
+                const matchPlate = currentFilters.plate === 'all' || v.plate.includes(currentFilters.plate);
+                const matchColor = currentFilters.color === 'all' || v.color1.includes(currentFilters.color);
 
-            vehicles.forEach((v, vehicleIndex) => {
-                const matchSearch = v.name.toLowerCase().includes(search);
-                const matchGarage = (currentGarage === 'all' || v.garage === currentGarage);
-                const matchWheel = (currentFilters.wheel === 'all' || v.wheel === currentFilters.wheel);
-                const matchColor1 = (currentFilters.color1 === 'all' || v.color1.toLowerCase().includes(currentFilters.color1.toLowerCase()));
-                const matchColor2 = (currentFilters.color2 === 'all' || v.color2.toLowerCase().includes(currentFilters.color2.toLowerCase()));
-                const matchPlateContent = (currentFilters.plateContent === 'all' || v.plateContent === currentFilters.plateContent);
-                const matchPlateBackground = (currentFilters.plateBackground === 'all' || v.plateBackground.toLowerCase() === currentFilters.plateBackground.toLowerCase());
-
-                if (matchSearch && matchGarage && matchWheel && matchColor1 && matchColor2 && matchPlateContent && matchPlateBackground) {
+                if (matchGarage && matchSearch && matchWheel && matchPlate && matchColor) {
+                    const sel = selectedVehicles.some(sv => sv.name === v.name && sv.garage === v.garage);
                     const card = document.createElement('div');
-                    card.className = 'vehicle-card';
-                    const isSelected = selectedVehicles.some(sv => sv.name === v.name && sv.garage === v.garage);
-                    if (isSelected) card.classList.add('selected');
-                    
-                    const garageName = v.garage.replace(/(\d)/, ' $1').toUpperCase();
-                    
-                    // Gestion du bouton Ajouter
-                    const btnText = isSelected ? 'Sélectionné' : 'Ajouter';
-                    const btnClass = isSelected ? 'cssbuttons-io-button selected' : 'cssbuttons-io-button';
-                    
-                    // Icones SVG
-                    const iconPlus = `<svg height="24" width="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>`;
-                    const iconCheck = `<svg height="24" width="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
-                    const currentIcon = isSelected ? iconCheck : iconPlus;
-
-                    let displayTag = `${v.color1}`;
-                    if(v.color2 !== v.color1) displayTag += ` / ${v.color2}`;
-                    displayTag += ` • ${v.wheel}`;
-
+                    card.className = `vehicle-card ${sel ? 'selected' : ''}`;
                     card.innerHTML = `
-                        <img src="${v.images[0].replace(/ /g, '%20')}" class="vehicle-img" alt="${v.name}" loading="lazy" 
-                             onclick="window.openImageModal(${vehicleIndex})"
-                             onerror="this.src='https://via.placeholder.com/300x200?text=Image+Introuvable'">
+                        <img src="garages/${v.garage}/${v.slot}/1.jpg" class="vehicle-img" onclick="openImageModal(${i})" onerror="this.src='https://via.placeholder.com/300x200?text=No+Photo'">
                         <div class="vehicle-info">
-                            <div>
-                                <div class="garage-badge">
-                                    <span class="vehicle-garage">${garageName}</span>
-                                    <span class="vehicle-slot">Emplacement : ${v.slot}/10</span>
-                                </div>
-                                <h3 class="vehicle-name">${v.name}</h3>
-                                <div class="vehicle-tag">${displayTag}</div>
-                            </div>
-                            
-                            <button class="cssbuttons-io-button" onclick="window.openReviews('${v.name}')">
-                                Avis
-                                <div class="icon">
-                                    <svg
-                                    height="24"
-                                    width="24"
-                                    viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                    <path d="M0 0h24v24H0z" fill="none"></path>
-                                    <path
-                                        d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"
-                                        fill="currentColor"
-                                    ></path>
-                                    </svg>
-                                </div>
-                            </button>
-
-                            <button class="${btnClass}" onclick="event.stopPropagation(); window.toggleSelection(${vehicleIndex})">
-                                ${btnText}
-                                <div class="icon">
-                                    ${currentIcon}
-                                </div>
-                            </button>
+                            <div class="garage-badge"><span class="vehicle-garage">${v.garage}</span><span class="vehicle-slot">${v.slot}/10</span></div>
+                            <h3 class="vehicle-name">${v.name}</h3>
+                            <div class="vehicle-tag">${v.color1} • ${v.wheel}</div>
+                            <button class="cssbuttons-io-button" onclick="openReviews('${v.name}')">Avis <div class="icon">★</div></button>
+                            <button class="cssbuttons-io-button ${sel ? 'selected' : ''}" onclick="toggleSelection(${i})">${sel ? 'OK' : 'Ajouter'} <div class="icon">+</div></button>
                         </div>
                     `;
                     grid.appendChild(card);
-                    count++;
                 }
             });
-
-            if (count === 0) {
-                grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:40px; color:var(--text-muted);">Aucun véhicule trouvé avec ces critères.</div>';
-            }
         }
 
-        searchInput.addEventListener('input', render);
-
-        tabBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                tabBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentGarage = btn.getAttribute('data-garage');
-                render();
-            });
+        searchInput.oninput = render;
+        tabBtns.forEach(b => b.onclick = () => {
+            tabBtns.forEach(x => x.classList.remove('active'));
+            b.classList.add('active');
+            currentGarage = b.dataset.garage; render();
         });
 
-        openFilterBtn.addEventListener('click', () => { filterModal.classList.add('active'); });
-        closeFilterBtn.addEventListener('click', () => { filterModal.classList.remove('active'); });
+        openFilterBtn.onclick = () => filterModal.classList.add('active');
+        document.getElementById('closeFilter').onclick = () => filterModal.classList.remove('active');
+        document.getElementById('closeReview').onclick = () => document.getElementById('reviewModal').classList.remove('active');
 
-        window.resetFilters = function() {
-            currentFilters = { wheel: 'all', plateContent: 'all', plateBackground: 'all', color1: 'all', color2: 'all' };
-            document.getElementById('c1-all').checked = true;
-            document.getElementById('c2-all').checked = true;
-            document.getElementById('w-all').checked = true;
-            document.getElementById('pc-all').checked = true;
-            document.getElementById('pb-all').checked = true;
+        document.getElementById('filterForm').onsubmit = (e) => {
+            e.preventDefault();
+            const d = new FormData(e.target);
+            currentFilters.wheel = d.get('wheel');
+            currentFilters.plate = d.get('plate');
+            currentFilters.color = d.get('color');
             filterModal.classList.remove('active');
             render();
-            openFilterBtn.classList.remove('active-filter');
-            openFilterBtn.innerHTML = `
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-                </svg> Filtres`;
         };
 
-        filterForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const formData = new FormData(filterForm);
-            currentFilters.wheel = formData.get('wheel');
-            currentFilters.plateContent = formData.get('plateContent');
-            currentFilters.plateBackground = formData.get('plateBackground');
-            currentFilters.color1 = formData.get('color1');
-            currentFilters.color2 = formData.get('color2');
-            
-            filterModal.classList.remove('active');
-            render();
-            
-            if(currentFilters.wheel !== 'all' || currentFilters.plateContent !== 'all' || currentFilters.plateBackground !== 'all' || currentFilters.color1 !== 'all' || currentFilters.color2 !== 'all') {
-                openFilterBtn.classList.add('active-filter');
-                openFilterBtn.innerHTML = `Filtres (Actifs)`;
-            } else {
-                openFilterBtn.classList.remove('active-filter');
-                openFilterBtn.innerHTML = `
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-                    </svg> Filtres`;
-            }
-        });
-
-        // INIT
         render();
-        updateValidateBtn();
-
     </script>
 </body>
 </html>
