@@ -24,11 +24,9 @@
             background: var(--bg-body); 
             color: var(--text-main); 
             overflow-x: hidden;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
         }
 
         /* --- NAVIGATION --- */
@@ -46,7 +44,7 @@
         .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 14px; font-weight: 500; transition: 0.3s; }
         .nav-links a:hover { color: var(--btn-color); }
 
-        /* --- BIENVENUE OVERLAY (MENU D'OUVERTURE) --- */
+        /* --- BIENVENUE OVERLAY --- */
         .welcome-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(10, 5, 30, 0.95); backdrop-filter: blur(15px);
@@ -63,25 +61,46 @@
         }
         .welcome-title { font-size: 28px; font-weight: 800; color: var(--btn-color); margin-bottom: 20px; }
         .welcome-text { font-size: 16px; color: var(--text-main); line-height: 1.6; margin-bottom: 30px; }
-        .welcome-btn {
+        .welcome-btn-close {
             background: var(--btn-color); color: white; border: none; padding: 15px 40px;
             border-radius: 50px; font-size: 18px; font-weight: 700; cursor: pointer;
             transition: all 0.2s; box-shadow: 0 10px 20px -5px rgba(114, 90, 193, 0.4);
         }
-        .welcome-btn:hover { transform: scale(1.05); background: #5a3a9a; }
 
-        /* --- CONTENU DE LA PAGE --- */
-        .main-content { text-align: center; padding: 20px; }
-        h1 { font-size: 48px; font-weight: 800; margin-bottom: 10px; }
-        p { color: var(--text-muted); font-size: 18px; max-width: 600px; line-height: 1.5; }
-        .cta-button {
-            text-decoration: none; display: inline-block;
-            background: var(--btn-color); color: white; border: none; padding: 15px 40px;
-            border-radius: 50px; font-size: 18px; font-weight: 700; cursor: pointer;
-            transition: all 0.2s; box-shadow: 0 10px 20px -5px rgba(114, 90, 193, 0.4);
-            margin-top: 20px;
+        /* --- HERO SECTION --- */
+        .hero {
+            padding: 160px 24px 80px;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
         }
-        .cta-button:hover { transform: scale(1.05); background: #5a3a9a; }
+        .hero h1 { font-size: clamp(40px, 8vw, 72px); font-weight: 800; letter-spacing: -2px; line-height: 1.1; margin-bottom: 24px; }
+        .hero p { font-size: 18px; color: var(--text-muted); line-height: 1.6; margin-bottom: 40px; }
+        
+        .cta-group { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+        .btn-primary { 
+            background: var(--btn-color); color: white; padding: 16px 32px; 
+            border-radius: 16px; text-decoration: none; font-weight: 700; 
+            transition: 0.3s; box-shadow: 0 10px 20px -5px var(--shadow-tone);
+        }
+        .btn-secondary { 
+            background: white; color: var(--text-main); padding: 16px 32px; 
+            border-radius: 16px; text-decoration: none; font-weight: 700; 
+            transition: 0.3s; border: 1px solid var(--card-border);
+        }
+        .btn-primary:hover, .btn-secondary:hover { transform: translateY(-3px); }
+
+        /* --- STATS --- */
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px; max-width: 1000px; margin: 40px auto; width: 90%;
+        }
+        .stat-card {
+            background: var(--card-bg); padding: 30px; border-radius: 24px;
+            border: 1px solid var(--card-border); text-align: center;
+        }
+        .stat-value { font-size: 32px; font-weight: 800; color: var(--btn-color); display: block; }
+        .stat-label { font-size: 14px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
 
         @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
@@ -94,7 +113,7 @@
             <div class="welcome-text">
                 Sélectionne tes véhicules moddés que tu veux, valide ta liste et envoie-la moi directement sur Discord (<strong>itsmto</strong>) pour les trade en jeu.
             </div>
-            <button class="welcome-btn" onclick="closeWelcome()">C'est parti !</button>
+            <button class="welcome-btn-close" onclick="closeWelcome()">C'est parti !</button>
         </div>
     </div>
 
@@ -109,10 +128,29 @@
         </div>
     </nav>
 
-    <div class="main-content">
-        <h1>itsmto Shop</h1>
-        <p>Le meilleur catalogue de véhicules moddés sur GTA Online. Qualité premium, plaques Yankton et roues moddées garanties.</p>
-        <a href="vehicules.html" class="cta-button">Accéder au Catalogue</a>
+    <main class="hero">
+        <h1>Le Garage Moddé de référence</h1>
+        <p>Découvre une collection exclusive de véhicules rares avec plaques Yankton, roues Benny's/F1 et couleurs caméléon uniques sur GTA Online.</p>
+        
+        <div class="cta-group">
+            <a href="vehicules.html" class="btn-primary">Voir le Catalogue</a>
+            <a href="socials.html" class="btn-secondary">Laisser un avis</a>
+        </div>
+    </main>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <span class="stat-value">150+</span>
+            <span class="stat-label">Véhicules</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-value">100%</span>
+            <span class="stat-label">Moddés</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-value">Online</span>
+            <span class="stat-label">Statut</span>
+        </div>
     </div>
 
     <script>
@@ -120,13 +158,11 @@
             const overlay = document.getElementById('welcomeOverlay');
             overlay.style.opacity = '0';
             overlay.style.visibility = 'hidden';
-            // Optionnel : on enregistre qu'on l'a fermé pour ne pas le réafficher à chaque actualisation
-            sessionStorage.setItem('welcomeDisplayed', 'true');
+            sessionStorage.setItem('welcomeSeen', 'true');
         }
-        
-        // Vérifie si le menu doit s'afficher
+
         window.onload = function() {
-            if (sessionStorage.getItem('welcomeDisplayed')) {
+            if (sessionStorage.getItem('welcomeSeen')) {
                 document.getElementById('welcomeOverlay').style.display = 'none';
             }
         };
