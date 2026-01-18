@@ -46,7 +46,7 @@
         .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 14px; font-weight: 500; transition: 0.3s; }
         .nav-links a:hover { color: var(--btn-color); }
 
-        /* --- BIENVENUE OVERLAY --- */
+        /* --- BIENVENUE OVERLAY (MENU D'OUVERTURE) --- */
         .welcome-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(10, 5, 30, 0.95); backdrop-filter: blur(15px);
@@ -70,9 +70,18 @@
         }
         .welcome-btn:hover { transform: scale(1.05); background: #5a3a9a; }
 
+        /* --- CONTENU DE LA PAGE --- */
         .main-content { text-align: center; padding: 20px; }
         h1 { font-size: 48px; font-weight: 800; margin-bottom: 10px; }
         p { color: var(--text-muted); font-size: 18px; max-width: 600px; line-height: 1.5; }
+        .cta-button {
+            text-decoration: none; display: inline-block;
+            background: var(--btn-color); color: white; border: none; padding: 15px 40px;
+            border-radius: 50px; font-size: 18px; font-weight: 700; cursor: pointer;
+            transition: all 0.2s; box-shadow: 0 10px 20px -5px rgba(114, 90, 193, 0.4);
+            margin-top: 20px;
+        }
+        .cta-button:hover { transform: scale(1.05); background: #5a3a9a; }
 
         @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
@@ -81,7 +90,7 @@
 
     <div id="welcomeOverlay" class="welcome-overlay">
         <div class="welcome-box">
-            <div class="welcome-title">Bienvenue sur mon Garage ! 🏎️</div>
+            <div class="welcome-title">Bienvenue sur mon Garage !</div>
             <div class="welcome-text">
                 Sélectionne tes véhicules moddés que tu veux, valide ta liste et envoie-la moi directement sur Discord (<strong>itsmto</strong>) pour les trade en jeu.
             </div>
@@ -103,8 +112,7 @@
     <div class="main-content">
         <h1>itsmto Shop</h1>
         <p>Le meilleur catalogue de véhicules moddés sur GTA Online. Qualité premium, plaques Yankton et roues moddées garanties.</p>
-        <br><br>
-        <a href="vehicules.html" class="welcome-btn" style="text-decoration: none; display: inline-block;">Accéder au Catalogue</a>
+        <a href="vehicules.html" class="cta-button">Accéder au Catalogue</a>
     </div>
 
     <script>
@@ -112,11 +120,11 @@
             const overlay = document.getElementById('welcomeOverlay');
             overlay.style.opacity = '0';
             overlay.style.visibility = 'hidden';
-            // On enregistre qu'on l'a vu pour cette session
+            // Optionnel : on enregistre qu'on l'a fermé pour ne pas le réafficher à chaque actualisation
             sessionStorage.setItem('welcomeDisplayed', 'true');
         }
         
-        // Vérification au chargement
+        // Vérifie si le menu doit s'afficher
         window.onload = function() {
             if (sessionStorage.getItem('welcomeDisplayed')) {
                 document.getElementById('welcomeOverlay').style.display = 'none';
