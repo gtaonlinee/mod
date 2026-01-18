@@ -52,7 +52,7 @@
             background-color: rgba(10, 5, 30, 0.95); backdrop-filter: blur(15px);
             z-index: 9999;
             display: flex; align-items: center; justify-content: center;
-            animation: fadeIn 0.5s ease-out;
+            transition: opacity 0.5s ease, visibility 0.5s;
         }
         .welcome-box {
             background: white; width: 90%; max-width: 500px; padding: 40px;
@@ -67,15 +67,13 @@
             background: var(--btn-color); color: white; border: none; padding: 15px 40px;
             border-radius: 50px; font-size: 18px; font-weight: 700; cursor: pointer;
             transition: all 0.2s; box-shadow: 0 10px 20px -5px rgba(114, 90, 193, 0.4);
-            text-decoration: none; display: inline-block;
         }
         .welcome-btn:hover { transform: scale(1.05); background: #5a3a9a; }
 
-        .main-content { text-align: center; }
+        .main-content { text-align: center; padding: 20px; }
         h1 { font-size: 48px; font-weight: 800; margin-bottom: 10px; }
-        p { color: var(--text-muted); font-size: 18px; }
+        p { color: var(--text-muted); font-size: 18px; max-width: 600px; line-height: 1.5; }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
 </head>
@@ -87,7 +85,7 @@
             <div class="welcome-text">
                 Sélectionne tes véhicules moddés que tu veux, valide ta liste et envoie-la moi directement sur Discord (<strong>itsmto</strong>) pour les trade en jeu.
             </div>
-            <button class="welcome-btn" onclick="window.location.href='index.html'">C'est parti !</button>
+            <button class="welcome-btn" onclick="closeWelcome()">C'est parti !</button>
         </div>
     </div>
 
@@ -104,27 +102,26 @@
 
     <div class="main-content">
         <h1>itsmto Shop</h1>
-        <p>Le meilleur catalogue de véhicules moddés sur GTA Online.</p>
-        <br>
-        <a href="vehicules.html" class="welcome-btn">Voir les véhicules</a>
+        <p>Le meilleur catalogue de véhicules moddés sur GTA Online. Qualité premium, plaques Yankton et roues moddées garanties.</p>
+        <br><br>
+        <a href="vehicules.html" class="welcome-btn" style="text-decoration: none; display: inline-block;">Accéder au Catalogue</a>
     </div>
 
     <script>
-        // Si on arrive sur index.html avec l'overlay affiché, 
-        // cette fonction peut servir à le masquer manuellement si besoin.
         function closeWelcome() {
-            document.getElementById('welcomeOverlay').style.display = 'none';
+            const overlay = document.getElementById('welcomeOverlay');
+            overlay.style.opacity = '0';
+            overlay.style.visibility = 'hidden';
+            // On enregistre qu'on l'a vu pour cette session
+            sessionStorage.setItem('welcomeDisplayed', 'true');
         }
         
-        // Empêcher le message de revenir en boucle si on clique sur "C'est parti !"
-        // On peut utiliser le sessionStorage pour ne l'afficher qu'une fois par session.
-        if (sessionStorage.getItem('welcomeDisplayed')) {
-            document.getElementById('welcomeOverlay').style.display = 'none';
-        }
-
-        document.querySelector('.welcome-btn').addEventListener('click', () => {
-            sessionStorage.setItem('welcomeDisplayed', 'true');
-        });
+        // Vérification au chargement
+        window.onload = function() {
+            if (sessionStorage.getItem('welcomeDisplayed')) {
+                document.getElementById('welcomeOverlay').style.display = 'none';
+            }
+        };
     </script>
 </body>
 </html>
