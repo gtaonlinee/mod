@@ -133,7 +133,7 @@
         .cssbuttons-io-button.selected { background: var(--success-color); box-shadow: inset 0 0 1.6em -0.6em var(--success-shadow); }
         .cssbuttons-io-button.selected .icon { box-shadow: 0.1em 0.1em 0.6em 0.2em var(--success-shadow); color: var(--success-color); }
 
-        /* --- MODALES (Display: none important pour ne pas bloquer les clics) --- */
+        /* --- MODALES --- */
         .modal, .filter-modal, .review-modal {
             display: none; position: fixed; z-index: 7000; padding-top: 50px; left: 0; top: 0;
             width: 100%; height: 100%; background-color: rgba(10, 5, 20, 0.95); backdrop-filter: blur(8px);
@@ -270,11 +270,11 @@
                 </div>
                 <div class="filter-group-title">Plaque</div>
                 <div class="options-grid">
-                    <input type="radio" id="p-all" name="plate" value="all" checked><label for="p-all">Tous</label>
-                    <input type="radio" id="p-yank" name="plate" value="Yankton"><label for="p-yank">Yankton</label>
-                    <input type="radio" id="p-sa" name="plate" value="Exempt"><label for="p-sa">Exempt</label>
-                    <input type="radio" id="p-lib" name="plate" value="Liberty"><label for="p-lib">Liberty</label>
-                    <input type="radio" id="p-las" name="plate" value="Las venturas"><label for="p-las">Las Venturas</label>
+                    <input type="radio" id="p-all" name="plateBackground" value="all" checked><label for="p-all">Tous</label>
+                    <input type="radio" id="p-yank" name="plateBackground" value="Yankton"><label for="p-yank">Yankton</label>
+                    <input type="radio" id="p-sa" name="plateBackground" value="Exempt"><label for="p-sa">Exempt</label>
+                    <input type="radio" id="p-lib" name="plateBackground" value="Liberty"><label for="p-lib">Liberty</label>
+                    <input type="radio" id="p-las" name="plateBackground" value="Las venturas"><label for="p-las">Las Venturas</label>
                 </div>
                 <div class="filter-actions">
                     <button type="button" class="btn-reset" onclick="resetFilters()">Réinitialiser</button>
@@ -508,7 +508,7 @@
                 if(s && !v.name.toLowerCase().includes(s)) return;
                 if(currentFilters.wheel !== 'all' && v.wheel && !v.wheel.includes(currentFilters.wheel)) return;
                 if(currentFilters.plateBackground !== 'all' && v.plateBackground && !v.plateBackground.includes(currentFilters.plateBackground)) return;
-                if(currentFilters.color !== 'all' && v.color1 && !v.color1.includes(currentFilters.color)) return;
+                if(currentFilters.color !== 'all' && v.color1 && !v.color1.toLowerCase().includes(currentFilters.color.toLowerCase())) return;
 
                 const isSelected = selectedVehicles.includes(v);
                 const card = document.createElement('div');
