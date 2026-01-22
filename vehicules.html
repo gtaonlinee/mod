@@ -6,15 +6,17 @@
     <title>itsmto • Garage</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        /* --- VARIABLES DARK MODE --- */
         :root {
-            --bg-body: #f5f3ff;
-            --text-main: #1e1b4b;
-            --text-muted: #64748b;
-            --nav-bg: #ffffff;
-            --card-bg: #ffffff;
-            --card-border: #c4b5fd;
-            --btn-color: #725AC1;
-            --shadow-tone: rgba(114, 90, 193, 0.15);
+            --bg-body: #000000;
+            --text-main: #ffffff;
+            --text-muted: #a1a1aa;
+            --nav-bg: #0a0a0a;
+            --card-bg: #111111;
+            --card-border: #333333;
+            --input-bg: #1a1a1a;
+            --btn-color: #8b5cf6;
+            --shadow-tone: rgba(139, 92, 246, 0.2);
             --danger-color: #ef4444;
             --success-color: #28a745;
             --success-shadow: #218838;
@@ -29,7 +31,7 @@
             width: 95%; max-width: 1200px; border-radius: 30px;
             background: var(--nav-bg); padding: 10px 30px; z-index: 5000;
             border: 1px solid var(--card-border);
-            box-shadow: 0 10px 30px -10px var(--shadow-tone);
+            box-shadow: 0 10px 30px -10px black;
             box-sizing: border-box;
         }
         .nav-inner { display: flex; justify-content: space-between; align-items: center; }
@@ -60,11 +62,11 @@
         .search-wrapper { display: flex; justify-content: center; margin-bottom: 25px; }
         .search-input {
             width: 100%; max-width: 500px; padding: 15px 25px; border-radius: 50px;
-            border: 2px solid var(--card-border); background: #ffffff; color: var(--text-main);
+            border: 2px solid var(--card-border); background: var(--input-bg); color: var(--text-main);
             font-size: 16px; outline: none; text-align: center;
-            box-shadow: 0 10px 20px -10px var(--shadow-tone); transition: 0.3s;
+            box-shadow: 0 10px 20px -10px black; transition: 0.3s;
         }
-        .search-input:focus { border-color: var(--btn-color); box-shadow: 0 10px 25px -5px rgba(114, 90, 193, 0.3); }
+        .search-input:focus { border-color: var(--btn-color); box-shadow: 0 10px 25px -5px rgba(139, 92, 246, 0.3); }
 
         /* --- CONTROLES FLOTTANTS --- */
         .bottom-controls {
@@ -72,21 +74,21 @@
             display: flex; gap: 15px; align-items: center;
         }
         .advanced-filter-btn {
-            background-color: #ffffff; color: var(--btn-color); font-size: 15px; font-weight: 600;
+            background-color: var(--card-bg); color: var(--btn-color); font-size: 15px; font-weight: 600;
             padding: 0 25px; height: 50px; border: 2px solid var(--card-border); border-radius: 50px; cursor: pointer;
             display: flex; align-items: center; gap: 8px; transition: all 0.2s;
-            box-shadow: 0 10px 20px -10px var(--shadow-tone);
+            box-shadow: 0 10px 20px -10px black;
         }
         .advanced-filter-btn.active-filter { background-color: var(--btn-color); color: white; }
 
         #validateBtn {
             background: var(--btn-color); color: white;
             border: none; padding: 0 25px; height: 50px; border-radius: 50px; cursor: pointer; font-weight: 600;
-            font-size: 15px; box-shadow: 0 10px 20px -10px var(--shadow-tone); transition: 0.3s;
+            font-size: 15px; box-shadow: 0 10px 20px -10px black; transition: 0.3s;
             display: flex; align-items: center; justify-content: center;
         }
         #validateBtn:hover { transform: scale(1.05); }
-        #validateBtn.disabled { background-color: #94a3b8; cursor: not-allowed; transform: none; box-shadow: none; opacity: 0.7; }
+        #validateBtn.disabled { background-color: #333; cursor: not-allowed; transform: none; box-shadow: none; opacity: 0.7; }
 
         /* --- TABS --- */
         .garage-tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; position: relative; z-index: 6; }
@@ -104,17 +106,17 @@
         .vehicle-card {
             background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px;
             overflow: hidden; transition: 0.3s; cursor: pointer;
-            box-shadow: 0 10px 20px -10px var(--shadow-tone); display: flex; flex-direction: column;
+            box-shadow: 0 10px 20px -10px black; display: flex; flex-direction: column;
             position: relative;
         }
         .vehicle-card:hover { transform: scale(1.02); border-color: var(--btn-color); }
-        .vehicle-card.selected { border-color: var(--btn-color); box-shadow: 0 10px 25px -5px rgba(114, 90, 193, 0.4); }
-        .vehicle-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; background-color: #e0e7ff; }
+        .vehicle-card.selected { border-color: var(--btn-color); box-shadow: 0 10px 25px -5px rgba(139, 92, 246, 0.4); }
+        .vehicle-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; background-color: #1a1a1a; }
         .vehicle-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 8px; }
         
         .garage-badge { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px; }
         .vehicle-garage { color: var(--btn-color); font-size: 11px; font-weight: 800; text-transform: uppercase; }
-        .vehicle-slot { background: #f0ebff; color: var(--btn-color); font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; border: 1px solid #c4b5fd; }
+        .vehicle-slot { background: #1a1a1a; color: var(--btn-color); font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; border: 1px solid var(--card-border); }
         .vehicle-name { margin: 0; font-size: 18px; font-weight: 700; color: var(--text-main); }
         .vehicle-tag { font-size: 12px; color: var(--text-muted); margin-top: 0px; font-weight: 500; line-height: 1.4; }
 
@@ -136,16 +138,16 @@
         /* --- MODALES --- */
         .modal, .filter-modal, .review-modal {
             display: none; position: fixed; z-index: 7000; padding-top: 50px; left: 0; top: 0;
-            width: 100%; height: 100%; background-color: rgba(10, 5, 20, 0.95); backdrop-filter: blur(8px);
+            width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.95); backdrop-filter: blur(8px);
         }
         .modal.show, .filter-modal.active, .review-modal.active { display: block; }
         .review-modal.active { display: flex; align-items: center; justify-content: center; padding-top: 0; }
 
         .modal-content-wrapper, .filter-box, .review-box { position: relative; margin: auto; }
-        .filter-box, .review-box { background: white; width: 90%; max-width: 500px; border-radius: 20px; padding: 30px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); max-height: 80vh; overflow-y: auto; }
+        .filter-box, .review-box { background: var(--card-bg); width: 90%; max-width: 500px; border-radius: 20px; padding: 30px; box-shadow: 0 25px 50px -12px black; max-height: 80vh; overflow-y: auto; border: 1px solid var(--card-border); }
 
         .modal-img-container { position: relative; width: 100%; display: flex; align-items: center; justify-content: center; }
-        .modal-img { width: 100%; max-height: 70vh; object-fit: contain; border-radius: 12px; border: 1px solid #ffffff30; }
+        .modal-img { width: 100%; max-height: 70vh; object-fit: contain; border-radius: 12px; border: 1px solid #333; }
         
         .nav-btn {
             position: absolute; top: 50%; transform: translateY(-50%);
@@ -155,28 +157,28 @@
         }
         .prev-btn { left: 20px; } .next-btn { right: 20px; }
         .modal-details { margin-top: 20px; color: white; text-align: center; }
-        .modal-desc { font-size: 16px; color: var(--btn-color); background: #ffffff; display: inline-block; padding: 8px 20px; border-radius: 50px; font-weight: 600; margin-top: 10px; }
+        .modal-desc { font-size: 16px; color: var(--btn-color); background: #1a1a1a; display: inline-block; padding: 8px 20px; border-radius: 50px; font-weight: 600; margin-top: 10px; }
         .close { position: absolute; top: 20px; right: 30px; color: #f1f1f1; font-size: 50px; cursor: pointer; z-index: 2001; }
         .img-counter { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 600; backdrop-filter: blur(10px); }
         
         /* FILTRES & AVIS */
-        .filter-header, .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #f3f4f6; padding-bottom: 15px; }
+        .filter-header, .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--card-border); padding-bottom: 15px; }
         .filter-header h2, .review-header h2 { font-size: 20px; font-weight: 700; margin: 0; color: var(--text-main); }
         .close-filter, .close-review { background: none; border: none; font-size: 24px; color: var(--text-muted); cursor: pointer; }
         .filter-group-title { font-size: 13px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; margin-top: 15px; }
         .options-grid { display: flex; flex-wrap: wrap; gap: 8px; }
         .options-grid input[type="radio"] { display: none; }
-        .options-grid label { padding: 8px 16px; background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 50px; font-size: 14px; color: var(--text-main); cursor: pointer; }
+        .options-grid label { padding: 8px 16px; background-color: #1a1a1a; border: 1px solid var(--card-border); border-radius: 50px; font-size: 14px; color: var(--text-main); cursor: pointer; }
         .options-grid input[type="radio"]:checked + label { background-color: var(--btn-color); border-color: var(--btn-color); color: white; }
         .filter-actions { margin-top: 30px; display: flex; justify-content: flex-end; gap: 10px; }
-        .btn-reset { background: #e2e8f0; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-weight: 600; }
-        .btn-apply { background: var(--text-main); border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-weight: 600; color: white; }
+        .btn-reset { background: #333; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-weight: 600; color: #fff; }
+        .btn-apply { background: var(--text-main); border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-weight: 600; color: black; }
 
-        .review-list { background: #f9fafb; border-radius: 10px; padding: 15px; max-height: 300px; overflow-y: auto; margin-bottom: 20px; }
-        .single-review { background: white; padding: 10px; border-radius: 8px; border: 1px solid #e5e7eb; font-size: 14px; margin-bottom: 10px; }
+        .review-list { background: var(--input-bg); border-radius: 10px; padding: 15px; max-height: 300px; overflow-y: auto; margin-bottom: 20px; }
+        .single-review { background: var(--card-bg); padding: 10px; border-radius: 8px; border: 1px solid var(--card-border); font-size: 14px; margin-bottom: 10px; }
         .sr-user { font-weight: 700; color: var(--btn-color); font-size: 12px; margin-bottom: 2px; }
         .review-input-group { display: flex; gap: 10px; flex-direction: column; }
-        .review-input-group input, .review-input-group textarea { padding: 10px; border: 1px solid #c4b5fd; border-radius: 8px; width: 100%; box-sizing: border-box; }
+        .review-input-group input, .review-input-group textarea { padding: 10px; border: 1px solid var(--card-border); border-radius: 8px; width: 100%; box-sizing: border-box; background: var(--input-bg); color: white; }
         .btn-send-review { background: var(--btn-color); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
