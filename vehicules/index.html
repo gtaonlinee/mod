@@ -18,8 +18,6 @@
             --danger-color: #ef4444;
             --success-color: #28a745;
             --success-shadow: #218838;
-            --neon-pink: #ff00ff;
-            --neon-blue: #00ffff;
         }
 
         body { 
@@ -66,7 +64,7 @@
             top: 0; 
             left: 0; 
             width: 100%; 
-            padding: 25px 30px; 
+            padding: 35px 60px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center;
@@ -77,17 +75,18 @@
 
         .logo { 
             font-weight: 800; 
-            font-size: 24px; 
+            font-size: 26px; 
             color: white; 
             text-decoration: none; 
             letter-spacing: 2px; 
             text-transform: uppercase;
-            flex-shrink: 0;
+            transition: 0.3s;
         }
+        .logo:hover { color: var(--btn-color); }
 
         .nav-links { 
             display: flex; 
-            gap: 25px; 
+            gap: 45px; 
             list-style: none; 
             margin: 0; 
             padding: 0; 
@@ -96,12 +95,11 @@
         .nav-links a { 
             text-decoration: none; 
             color: #dddddd; 
-            font-size: 12px; 
+            font-size: 13px; 
             font-weight: 600; 
             text-transform: uppercase; 
-            letter-spacing: 1px;
+            letter-spacing: 1.2px;
             transition: color 0.3s ease;
-            white-space: nowrap;
         }
         .nav-links a:hover, .nav-links a.active { color: var(--btn-color); }
         
@@ -289,21 +287,22 @@
     </div>
 
     <nav class="navbar">
-<ul class="nav-links">
-    <li><a href="/accueil">Accueil</a></li>
-    <li><a href="/vehicules">Garage</a></li>
-    <li><a href="/fonctionnement">Fonctionnement</a></li>
-    <li><a href="/socials">Contact</a></li>
-</ul>
+        <a href="/accueil" class="logo">ITSMTO</a>
+        <ul class="nav-links">
+            <li><a href="/accueil">Accueil</a></li>
+            <li><a href="/vehicules" class="active">Garage</a></li>
+            <li><a href="/fonctionnement">Fonctionnement</a></li>
+            <li><a href="/socials">Contact</a></li>
+        </ul>
         <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
     </nav>
 
     <div id="mobileMenu" class="mobile-menu">
         <button class="close-menu" onclick="toggleMobileMenu()">×</button>
-        <a href="index.html">Accueil</a>
-        <a href="vehicules.html">Garage</a>
-        <a href="fonctionnement.html">Infos</a>
-        <a href="socials.html">Contact</a>
+        <a href="/accueil">Accueil</a>
+        <a href="/vehicules">Garage</a>
+        <a href="/fonctionnement">Fonctionnement</a>
+        <a href="/socials">Contact</a>
     </div>
 
     <div class="container">
@@ -527,7 +526,7 @@
 
         vehicles.forEach(v => {
             v.images = [];
-            for(let i=1; i<=4; i++) v.images.push(`garages/${v.garage}/${v.slot}/${i}.jpg`);
+            for(let i=1; i<=4; i++) v.images.push(`/garages/${v.garage}/${v.slot}/${i}.jpg`);
         });
 
         let selectedVehicles = [];
@@ -622,15 +621,13 @@
                 if(currentGarage !== 'all' && v.garage !== currentGarage) return;
                 if(s && !v.name.toLowerCase().includes(s)) return;
                 
-                // Filtres
                 if(currentFilters.wheel !== 'all' && v.wheel && !v.wheel.includes(currentFilters.wheel)) return;
                 if(currentFilters.plateBackground !== 'all' && v.plateBackground && !v.plateBackground.includes(currentFilters.plateBackground)) return;
                 if(currentFilters.finish !== 'all' && v.finish !== currentFilters.finish) return;
                 if(currentFilters.color !== 'all') {
                     const c = currentFilters.color.toLowerCase();
                     const c1 = v.color1 ? v.color1.toLowerCase() : '';
-                    const c2 = v.color2 ? v.color2.toLowerCase() : '';
-                    if(!c1.includes(c) && !c2.includes(c)) return;
+                    if(!c1.includes(c)) return;
                 }
 
                 const isSelected = selectedVehicles.includes(v);
@@ -711,7 +708,6 @@
         }
         window.closeModal = () => document.getElementById('vehicleModal').classList.remove('show');
 
-        // --- FILTRES LOGIC ---
         const filterModal = document.getElementById('filterModal');
         document.getElementById('openFilterBtn').onclick = () => filterModal.classList.add('active');
         window.closeFilterModal = () => filterModal.classList.remove('active');
@@ -751,7 +747,6 @@
         });
         searchInput.oninput = render;
 
-        // Fermeture des modales au clic extérieur
         document.querySelectorAll('.modal, .filter-modal').forEach(m => {
             m.onclick = (e) => { if(e.target === m) m.classList.remove('show', 'active'); }
         });
