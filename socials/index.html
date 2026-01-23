@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>itsmto • Réseaux</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+    /* --- VARIABLES DARK MODE --- */
+    :root { 
+        --bg-body: #000000; 
+        --text-main: #ffffff; 
+        --text-muted: #a1a1aa; 
+        --nav-bg: #0a0a0a; 
+        --card-bg: #111111; 
+        --card-border: #333333; 
+        --btn-color: #8b5cf6; 
+        --shadow-tone: rgba(139, 92, 246, 0.2); 
+    }
+
+    body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background: var(--bg-body); color: var(--text-main); overflow-x: hidden; }
+    
+    /* --- BACKGROUND BLOBS (Taches violettes) --- */
+    body::before {
+        content: ''; position: fixed; width: 40rem; height: 40rem;
+        right: -10%; top: -15%; z-index: -1;
+        background-color: var(--btn-color);
+        border-radius: 50%; filter: blur(120px); opacity: 0.25;
+        pointer-events: none;
+    }
+    body::after {
+        content: ''; position: fixed; width: 30rem; height: 30rem;
+        left: -5%; bottom: 10%; z-index: -1;
+        background-color: #c4b5fd;
+        border-radius: 50%; filter: blur(100px); opacity: 0.15;
+        pointer-events: none;
+    }
+
+    /* --- MARQUEE BACKGROUND (Texte défilant) --- */
+    .marquee-container { 
+        position: fixed; top: 0; left: 0; 
+        width: 100%; height: 100vh; 
+        display: flex; align-items: center; 
+        pointer-events: none; z-index: -2; 
+        overflow: hidden; 
+    }
+    .marquee-text { 
+        font-size: 16vw; font-weight: 900; 
+        white-space: nowrap; color: transparent; 
+        -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.07); 
+        text-transform: uppercase; will-change: transform; 
+    }
+
+    .container { max-width: 600px; margin: 140px auto; padding: 0 24px; position: relative; z-index: 1; }
+    
+    /* --- NAVIGATION STYLE UNIFIÉ --- */
+    .navbar { 
+        position: fixed; top: 0; left: 0; width: 100%; 
+        padding: 35px 60px; display: flex; justify-content: space-between; align-items: center;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+        z-index: 5000; box-sizing: border-box;
+    }
+    .logo { 
+        font-weight: 800; font-size: 26px; color: white; 
+        text-decoration: none; letter-spacing: 2px; text-transform: uppercase;
+    }
+    .nav-links { display: flex; gap: 45px; list-style: none; margin: 0; padding: 0; }
+    .nav-links a { 
+        text-decoration: none; color: #dddddd; font-size: 13px; 
+        font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; transition: color 0.3s ease;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--btn-color); }
+    
+    .menu-toggle { display: none; background: none; border: none; font-size: 28px; color: white; cursor: pointer; }
+    
+    .mobile-menu { 
+        display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+        background: var(--bg-body); z-index: 6000; 
+        flex-direction: column; align-items: center; justify-content: center; gap: 40px; 
+    }
+    .mobile-menu.active { display: flex !important; }
+    .mobile-menu a { font-size: 32px; font-weight: 800; text-decoration: none; color: var(--text-main); }
+    .close-menu { position: absolute; top: 30px; right: 30px; font-size: 40px; border: none; background: none; color: var(--text-main); cursor: pointer; }
+    
+    @media (max-width: 768px) { 
+        .navbar { padding: 20px 24px; }
+        .nav-links { display: none; } 
+        .menu-toggle { display: block; } 
+    }
+
+    .reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    .card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 40px; box-shadow: 0 25px 50px -12px black; }
+    .link { display: flex; align-items: center; justify-content: space-between; background: #1a1a1a; border: 1px solid var(--card-border); padding: 18px; margin-bottom: 12px; border-radius: 12px; text-decoration: none; color: var(--text-main); transition: 0.3s; font-weight: 600; }
+    .link:hover { background: var(--btn-color); color: white; transform: scale(1.02); border-color: var(--btn-color); }
+    .label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; }
+    .link:hover .label { color: #e9d5ff; }
+</style>
+</head>
+<body>
+
+<div class="marquee-container">
+    <div class="marquee-text" id="marquee">
+        ITSMTO GARAGE • EXCLUSIVE • ITSMTO GARAGE • EXCLUSIVE •
+    </div>
+</div>
+
+<nav class="navbar">
+<ul class="nav-links">class="logo">ITSMTO</a>
+    <li><a href="/accueil">Accueil</a></li>
+    <li><a href="/vehicules">Garage</a></li>
+    <li><a href="/fonctionnement">Fonctionnement</a></li>
+    <li><a href="/socials">Contact</a></li>
+</ul>
+    <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
+</nav>
+
+<div id="mobileMenu" class="mobile-menu">
+    <button class="close-menu" onclick="toggleMobileMenu()">×</button>
+    <a href="index.html">Accueil</a>
+    <a href="vehicules.html">Garage</a>
+    <a href="fonctionnement.html">Fonctionnement</a>
+    <a href="socials.html">Contact</a>
+</div>
+
+<div class="container">
+    <div class="card">
+        <h1 style="font-weight:800; margin-bottom: 5px; text-transform: uppercase;">contact</h1>
+        <p style="color:var(--text-muted); margin-bottom:30px;">itsmto_</p>
+        
+        <a href="https://profile.playstation.com/its_MTO" target="_blank" class="link">
+            <div><span class="label">Pour m’ajouter</span><br><span>Pour m'ajouter</span></div><span>➔</span>
+        </a>
+        
+        <a href="https://profile.playstation.com/its_MTO" target="_blank" class="link">
+            <div><span class="label">Psn</span><br><span>its_MTO / ancien : by_math_67</span></div><span>🎮</span>
+        </a>
+        
+        <a href="https://discord.gg/dDNhQwsr5E" target="_blank" class="link">
+            <div><span class="label">Discord Principal</span><br><span>Rejoindre le serveur</span></div><span>➔</span>
+        </a>
+
+        <div class="link">
+            <div><span class="label">Plateformes</span><br><span>PS5 (& Pc & Ps4)</span></div><span>🚀</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleMobileMenu() {
+        const menu = document.getElementById('mobileMenu');
+        menu.classList.toggle('active');
+    }
+
+    // Marquee Scroll
+    const marquee = document.getElementById("marquee");
+    window.addEventListener("scroll", () => {
+        const scroll = window.scrollY;
+        if (marquee) marquee.style.transform = `translateX(calc(-5% - ${scroll * 1.5}px))`;
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+</script>
+</body>
+</html>
