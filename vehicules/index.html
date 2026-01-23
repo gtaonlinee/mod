@@ -6,6 +6,9 @@
     <title>itsmto • Garage</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        /* =========================================
+           VARIABLES & RESET
+           ========================================= */
         :root {
             --bg-body: #000000;
             --text-main: #ffffff;
@@ -28,6 +31,11 @@
             overflow-x: hidden; 
         }
 
+        * { box-sizing: border-box; }
+
+        /* =========================================
+           BACKGROUND ANIMATIONS (Blobs & Marquee)
+           ========================================= */
         body::before {
             content: ''; position: fixed; width: 40rem; height: 40rem;
             right: -10%; top: -15%; z-index: -1;
@@ -57,8 +65,18 @@
             text-transform: uppercase; will-change: transform; 
         }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; padding-bottom: 100px; }
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 0 24px; 
+            position: relative; 
+            z-index: 1; 
+            padding-bottom: 100px; 
+        }
 
+        /* =========================================
+           NAVIGATION (Style Unifié)
+           ========================================= */
         .navbar { 
             position: fixed; 
             top: 0; 
@@ -70,7 +88,6 @@
             align-items: center;
             background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
             z-index: 5000; 
-            box-sizing: border-box;
         }
 
         .logo { 
@@ -120,36 +137,26 @@
             .menu-toggle { display: block; }
         }
 
-        .search-section { margin-top: 180px; text-align: center; padding: 0 20px; position: relative; z-index: 5; }
+        /* =========================================
+           SEARCH & FILTERS
+           ========================================= */
+        .search-section { 
+            margin-top: 180px; 
+            text-align: center; 
+            padding: 0 20px; 
+            position: relative; 
+            z-index: 5; 
+        }
         .search-wrapper { display: flex; justify-content: center; margin-bottom: 25px; }
+        
         .search-input {
             width: 100%; max-width: 500px; padding: 15px 25px; border-radius: 50px;
             border: 2px solid var(--card-border); background: var(--card-bg); color: var(--text-main);
             font-size: 16px; outline: none; text-align: center;
             box-shadow: 0 10px 20px -10px var(--shadow-tone); transition: 0.3s;
+            margin-bottom: 30px;
         }
         .search-input:focus { border-color: var(--btn-color); box-shadow: 0 10px 25px -5px rgba(139, 92, 246, 0.3); }
-
-        .bottom-controls {
-            position: fixed; bottom: 30px; left: 30px; z-index: 4000;
-            display: flex; gap: 15px; align-items: center;
-        }
-        .advanced-filter-btn {
-            background-color: var(--card-bg); color: var(--btn-color); font-size: 15px; font-weight: 600;
-            padding: 0 25px; height: 50px; border: 2px solid var(--card-border); border-radius: 50px; cursor: pointer;
-            display: flex; align-items: center; gap: 8px; transition: all 0.2s;
-            box-shadow: 0 10px 20px -10px var(--shadow-tone);
-        }
-        .advanced-filter-btn.active-filter { background-color: var(--btn-color); color: white; }
-
-        #validateBtn {
-            background: var(--btn-color); color: white;
-            border: none; padding: 0 25px; height: 50px; border-radius: 50px; cursor: pointer; font-weight: 600;
-            font-size: 15px; box-shadow: 0 10px 20px -10px var(--shadow-tone); transition: 0.3s;
-            display: flex; align-items: center; justify-content: center;
-        }
-        #validateBtn:hover { transform: scale(1.05); }
-        #validateBtn.disabled { background-color: #333333; cursor: not-allowed; transform: none; box-shadow: none; opacity: 0.7; }
 
         .garage-tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; position: relative; z-index: 6; }
         .tab-btn {
@@ -158,9 +165,12 @@
         }
         .tab-btn.active, .tab-btn:hover { background: var(--btn-color); color: white; border-color: var(--btn-color); }
 
+        /* =========================================
+           VEHICLE CARDS (Style Rockstar)
+           ========================================= */
         .vehicle-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 24px; padding: 40px 0 80px; position: relative; z-index: 5;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px; padding: 40px 0 80px; position: relative; z-index: 5;
         }
         .vehicle-card {
             background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px;
@@ -171,19 +181,14 @@
         .vehicle-card:hover { transform: scale(1.02); border-color: var(--btn-color); }
         .vehicle-card.selected { border-color: var(--btn-color); box-shadow: 0 10px 25px -5px rgba(139, 92, 246, 0.4); }
         
+        /* Slideshow */
         .slideshow-container {
-            width: 100%;
-            aspect-ratio: 16/9;
-            position: relative;
-            background-color: #1a1a1a;
-            overflow: hidden;
+            width: 100%; aspect-ratio: 16/9; position: relative;
+            background-color: #1a1a1a; overflow: hidden;
         }
         .vehicle-slide {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: cover;
-            opacity: 0;
-            transition: opacity 0.8s ease-in-out;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;
             pointer-events: none;
         }
         .vehicle-slide.active { opacity: 1; pointer-events: auto; }
@@ -194,8 +199,7 @@
             background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255, 255, 255, 0.2);
             color: white; border-radius: 50%; width: 32px; height: 32px;
             display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: 0.2s;
-            font-size: 12px;
+            cursor: pointer; transition: 0.2s; font-size: 12px;
         }
         .pause-btn:hover { background: var(--btn-color); border-color: var(--btn-color); }
 
@@ -209,6 +213,7 @@
             transition: width 0.1s linear;
         }
 
+        /* Infos Véhicule */
         .vehicle-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 8px; }
         
         .garage-badge { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px; }
@@ -216,23 +221,17 @@
         .vehicle-slot { background: #2a2a2a; color: var(--btn-color); font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; border: 1px solid var(--card-border); }
         
         .vehicle-name { 
-            margin: 0; 
-            font-size: 19px; 
-            font-weight: 900; 
-            color: #fff; 
-            text-transform: uppercase;
-            text-shadow: 0 0 10px rgba(139, 92, 246, 0.7);
-            letter-spacing: 0.5px;
+            margin: 0; font-size: 19px; font-weight: 900; 
+            color: #fff; text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(139, 92, 246, 0.7); letter-spacing: 0.5px;
         }
-        
         .vehicle-tag { font-size: 12px; color: var(--text-muted); margin-top: 0px; font-weight: 500; line-height: 1.4; }
 
         .cssbuttons-io-button {
             background: #a370f0; color: white; padding: 0.35em 3.3em 0.35em 1.2em; font-size: 15px; font-weight: 500;
             border-radius: 0.9em; border: none; display: flex; align-items: center; position: relative; height: 2.8em;
             cursor: pointer; width: 100%; margin-top: 5px; transition: all 0.3s;
-            box-shadow: inset 0 0 1.6em -0.6em #714da6;
-            justify-content: center;
+            box-shadow: inset 0 0 1.6em -0.6em #714da6; justify-content: center;
         }
         .cssbuttons-io-button .icon {
             background: white; margin-left: 1em; position: absolute; display: flex; align-items: center; justify-content: center;
@@ -242,6 +241,9 @@
         .cssbuttons-io-button.selected { background: var(--success-color); box-shadow: inset 0 0 1.6em -0.6em var(--success-shadow); }
         .cssbuttons-io-button.selected .icon { box-shadow: 0.1em 0.1em 0.6em 0.2em var(--success-shadow); color: var(--success-color); }
 
+        /* =========================================
+           MODALES (Image & Filtres)
+           ========================================= */
         .modal, .filter-modal {
             display: none; position: fixed; z-index: 7000; padding-top: 50px; left: 0; top: 0;
             width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.95); backdrop-filter: blur(8px);
@@ -276,6 +278,27 @@
         .filter-actions { margin-top: 30px; display: flex; justify-content: flex-end; gap: 10px; }
         .btn-reset { background: #3a3a3a; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-weight: 600; color: var(--text-main); }
         .btn-apply { background: var(--text-main); border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-weight: 600; color: var(--bg-body); }
+
+        .bottom-controls {
+            position: fixed; bottom: 30px; left: 30px; z-index: 4000;
+            display: flex; gap: 15px; align-items: center;
+        }
+        .advanced-filter-btn {
+            background-color: var(--card-bg); color: var(--btn-color); font-size: 15px; font-weight: 600;
+            padding: 0 25px; height: 50px; border: 2px solid var(--card-border); border-radius: 50px; cursor: pointer;
+            display: flex; align-items: center; gap: 8px; transition: all 0.2s;
+            box-shadow: 0 10px 20px -10px var(--shadow-tone);
+        }
+        .advanced-filter-btn.active-filter { background-color: var(--btn-color); color: white; }
+
+        #validateBtn {
+            background: var(--btn-color); color: white;
+            border: none; padding: 0 25px; height: 50px; border-radius: 50px; cursor: pointer; font-weight: 600;
+            font-size: 15px; box-shadow: 0 10px 20px -10px var(--shadow-tone); transition: 0.3s;
+            display: flex; align-items: center; justify-content: center;
+        }
+        #validateBtn:hover { transform: scale(1.05); }
+        #validateBtn.disabled { background-color: #333333; cursor: not-allowed; transform: none; box-shadow: none; opacity: 0.7; }
     </style>
 </head>
 <body>
@@ -287,22 +310,22 @@
     </div>
 
     <nav class="navbar">
-        <a href="/accueil" class="logo">ITSMTO</a>
+        <a href="index.html" class="logo">ITSMTO</a>
         <ul class="nav-links">
-            <li><a href="/accueil">Accueil</a></li>
-            <li><a href="/vehicules" class="active">Garage</a></li>
-            <li><a href="/fonctionnement">Fonctionnement</a></li>
-            <li><a href="/socials">Contact</a></li>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="vehicules.html" class="active">Garage</a></li>
+            <li><a href="fonctionnement.html">Fonctionnement</a></li>
+            <li><a href="socials.html">Contact</a></li>
         </ul>
         <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
     </nav>
 
     <div id="mobileMenu" class="mobile-menu">
         <button class="close-menu" onclick="toggleMobileMenu()">×</button>
-        <a href="/accueil">Accueil</a>
-        <a href="/vehicules">Garage</a>
-        <a href="/fonctionnement">Fonctionnement</a>
-        <a href="/socials">Contact</a>
+        <a href="index.html">Accueil</a>
+        <a href="vehicules.html">Garage</a>
+        <a href="fonctionnement.html">Fonctionnement</a>
+        <a href="socials.html">Contact</a>
     </div>
 
     <div class="container">
@@ -311,6 +334,7 @@
             <div class="search-wrapper">
                 <input type="text" id="searchInput" class="search-input" placeholder="Rechercher une voiture...">
             </div>
+            
             <div class="garage-tabs">
                 <button class="tab-btn active" data-garage="all">Tous</button>
                 <button class="tab-btn" data-garage="arenerdc">Arène RDC</button>
@@ -325,12 +349,13 @@
                 <button class="tab-btn" data-garage="Eclipse Tower n°9">Eclipse Tower n°9</button>
             </div>
         </div>
+
         <div id="galleryGrid" class="vehicle-grid"></div>
     </div>
 
     <div class="bottom-controls">
         <button id="openFilterBtn" class="advanced-filter-btn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg> Filtres
+            Filtres
         </button>
         <button id="validateBtn" class="disabled">Ma liste (0/10)</button>
     </div>
@@ -390,6 +415,7 @@
                 <input type="radio" name="wheel" id="w_f1" value="F1"><label for="w_f1">F1</label>
                 <input type="radio" name="wheel" id="w_basic" value="Basic"><label for="w_basic">Basic</label>
             </div>
+
             <div class="filter-group-title">Fond de Plaque</div>
             <div class="options-grid">
                 <input type="radio" name="plate" id="p_all" value="all" checked><label for="p_all">Tout</label>
@@ -398,6 +424,7 @@
                 <input type="radio" name="plate" id="p_las" value="Las venturas"><label for="p_las">Las Venturas</label>
                 <input type="radio" name="plate" id="p_exempt" value="Exempt"><label for="p_exempt">Exempt</label>
             </div>
+
             <div class="filter-actions">
                 <button class="btn-reset" onclick="resetFilters()">Réinitialiser</button>
                 <button class="btn-apply" onclick="applyFilters()">Appliquer</button>
@@ -425,108 +452,1000 @@
 
     <script>
         const vehicles = [
-            { slot: 1, name: "Ocelot Virtue", garage: "boite2", wheel: "Benny's", plateBackground: "Yankton", color1: "Vert", color2: "Vert", finish: "Chromée" },
-            { slot: 2, name: "Emperor Vectre", garage: "boite2", wheel: "Benny's", plateBackground: "Yankton", color1: "Vert", color2: "Vert", finish: "Chromée" },
-            { slot: 3, name: "Karin S95", garage: "boite2", wheel: "Benny's", plateBackground: "Yankton", color1: "Rose", color2: "Rose", finish: "Chromée" },
-            { slot: 4, name: "Grotti Itali GTO", garage: "boite2", wheel: "Benny's", plateBackground: "Liberty", color1: "Bleu", color2: "Bleu", finish: "Chromée" },
-            { slot: 5, name: "Emperor ETR1", garage: "boite2", wheel: "Benny's", plateBackground: "Las venturas", color1: "Bleu", color2: "Bleu", finish: "Mat" },
-            { slot: 6, name: "Ubermacht Cypher", garage: "boite2", wheel: "Benny's", plateBackground: "Exempt", color1: "Bleu", color2: "Bleu", finish: "Chromée" },
-            { slot: 7, name: "Canis Castigator", garage: "boite2", wheel: "F1", plateBackground: "Exempt", color1: "Vert", color2: "Vert", finish: "Chromée" },
-            { slot: 8, name: "Benefactor Panto", garage: "boite2", wheel: "F1", plateBackground: "Exempt", color1: "Vert", color2: "Vert", finish: "Chromée" },
-            { slot: 9, name: "Albany Roosevelt Valor", garage: "boite2", wheel: "F1", plateBackground: "Exempt", color1: "Violet", color2: "Violet", finish: "Chromée" },
-            { slot: 10, name: "Canis Kalahari", garage: "boite2", wheel: "Benny's", plateBackground: "Exempt", color1: "Rose", color2: "Rose", finish: "Chromée" },
-            { slot: 1, name: "Karin 190z", garage: "boite3", wheel: "F1", plateBackground: "Yankton", color1: "Vert", color2: "Vert", finish: "Chromée" },
-            { slot: 2, name: "Benefactor Schlagen GT", garage: "boite3", wheel: "Benny's", plateBackground: "Exempt", color1: "Rose", color2: "Rose", finish: "Chromée" },
-            { slot: 3, name: "Keitora", garage: "boite3", wheel: "F1", plateBackground: "Liberty", color1: "Jaune", color2: "Bleu", finish: "Mat" },
-            { slot: 4, name: "Keitora", garage: "boite3", wheel: "F1", plateBackground: "Liberty", color1: "Noir", color2: "Rouge", finish: "Mat" },
-            { slot: 5, name: "Keitora", garage: "boite3", wheel: "F1", plateBackground: "Liberty", color1: "Vert", color2: "Blanc", finish: "Mat" },
-            { slot: 6, name: "Benefactor Krieger", garage: "boite3", wheel: "F1", plateBackground: "Exempt", color1: "Violet", color2: "Violet", finish: "Chromée" },
-            { slot: 7, name: "Ocelot XA-21", garage: "boite3", wheel: "Benny's", plateBackground: "Exempt", color1: "Vert", color2: "Vert", finish: "Chromée" },
-            { slot: 8, name: "Keitora", garage: "boite3", wheel: "F1", plateBackground: "Liberty", color1: "Jaune", color2: "Bleu", finish: "Mat" },
-            { slot: 9, name: "Keitora", garage: "boite3", wheel: "F1", plateBackground: "Liberty", color1: "Noir", color2: "Rouge", finish: "Mat" },
-            { slot: 10, name: "Keitora", garage: "boite3", wheel: "F1", plateBackground: "Liberty", color1: "Vert", color2: "Blanc", finish: "Mat" },
-            { slot: 1, name: "Ubermacht Niobe", garage: "boite4", wheel: "Basic", plateBackground: "Exempt", color1: "Noir", color2: "Rose", finish: "Mat" },
-            { slot: 2, name: "Overflod Suzuzme", garage: "boite4", wheel: "Basic", plateBackground: "Exempt", color1: "Rouge", color2: "Noir", finish: "Mat" },
-            { slot: 3, name: "Pegassi Reaper", garage: "boite4", wheel: "Benny's", plateBackground: "Exempt", color1: "Vert", color2: "Vert", finish: "Mat" },
-            { slot: 4, name: "Pegassi Zentorno", garage: "boite4", wheel: "Basic", plateBackground: "Exempt", color1: "Vert", color2: "Jaune", finish: "Chromée" },
-            { slot: 5, name: "Pegassi Ignus armée", garage: "boite4", wheel: "Benny's", plateBackground: "Exempt", color1: "Noir", color2: "Vert", finish: "Classique" },
-            { slot: 6, name: "Overflod Tyrant", garage: "boite4", wheel: "Basic", plateBackground: "Exempt", color1: "Rouge", color2: "Noir", finish: "Classique" },
-            { slot: 7, name: "Overflod Pipistrello", garage: "boite4", wheel: "Basic", plateBackground: "Exempt", color1: "Violet", color2: "Caméléon", finish: "Classique" },
-            { slot: 8, name: "Elegy Rétro Custom", garage: "boite4", wheel: "Basic", plateBackground: "Exempt", color1: "Violet", color2: "Violet", finish: "Chromée" },
-            { slot: 9, name: "Pegassi Tempesta", garage: "boite4", wheel: "Benny's", plateBackground: "Sprunk", color1: "Vert", color2: "Chromé", finish: "Chromée" },
-            { slot: 10, name: "Invetero Coquette D10", garage: "boite4", wheel: "Benny's", plateBackground: "Yankton", color1: "Bleu", color2: "Chromé", finish: "Chromée" },
-            { slot: 1, name: "Bravado Buffalo STX de poursuite", garage: "fonction1", wheel: "Basic", plateBackground: "Las venturas", color1: "Blanc", color2: "Blanc", finish: "Classique" },
-            { slot: 2, name: "Bravado Buffalo Cruiser", garage: "fonction1", wheel: "Basic", plateBackground: "Liberty city", color1: "Blanc", color2: "Blanc", finish: "Classique" },
-            { slot: 1, name: "Invetero Coquette D10", garage: "fonction2", wheel: "F1", plateBackground: "-", color1: "Bleu", color2: "Blanc", finish: "Classique" },
-            { slot: 2, name: "Vysser Neo", garage: "fonction2", wheel: "Basic", plateBackground: "Yankton", color1: "Violet", color2: "Violet", finish: "Mat" },
-            { slot: 3, name: "Pegassi Zentorno", garage: "fonction2", wheel: "F1", plateBackground: "Exempt SA", color1: "bleu / vert", color2: "bleu / vert", finish: "Chromée" },
-            { slot: 4, name: "Pegassi Zentorno", garage: "fonction2", wheel: "Basic", plateBackground: "Exempt SA", color1: "Jaune", color2: "Noir", finish: "Chromée" },
-            { slot: 5, name: "Grotti Itali RSX", garage: "fonction2", wheel: "Benny's", plateBackground: "Yankton Vi", color1: "Rouge", color2: "Blanc", finish: "Mat" },
-            { slot: 6, name: "Benefactor Krieger", garage: "fonction2", wheel: "Benny's", plateBackground: "Exempt", color1: "Violet", color2: "Caméléon", finish: "Chromée" },
-            { slot: 7, name: "Willard Eudora", garage: "fonction2", wheel: "Benny's", plateBackground: "Yankton", color1: "Jaune", color2: "Jaune", finish: "Mat" },
-            { slot: 8, name: "Weeny Dynasty", garage: "fonction2", wheel: "Benny's", plateBackground: "Yankton", color1: "Jaune", color2: "Jaune", finish: "Classique" },
-            { slot: 9, name: "RUNE Zhaba", garage: "fonction2", wheel: "Benny's", plateBackground: "Basic", color1: "Bleu", color2: "Bleu", finish: "Chromée" },
-            { slot: 10, name: "Grotti Itali RSX", garage: "fonction2", wheel: "Benny's", plateBackground: "Exempt", color1: "Violet", color2: "Violet", finish: "Chromée" },
-            { slot: 11, name: "Albany Brigham", garage: "fonction2", wheel: "Benny's", plateBackground: "Yankton", color1: "Chrome", color2: "Blanc", finish: "Chromée" },
-            { slot: 12, name: "Corbillard Romero", garage: "fonction2", wheel: "Benny's", plateBackground: "Yankton", color1: "Vert", color2: "Bleu", finish: "Classique" },
-            { slot: 13, name: "Bravado Rat-Loader", garage: "fonction2", wheel: "Basic", plateBackground: "-", color1: "Blanc", color2: "Blanc", finish: "Mat" },
-            { slot: 14, name: "Grotti Itali GTO", garage: "fonction2", wheel: "F1", plateBackground: "Yankton", color1: "Noir", color2: "Noir", finish: "Mat" },
-            { slot: 15, name: "BF Raptor", garage: "fonction2", wheel: "F1", plateBackground: "Yankton", color1: "Bleu", color2: "Bleu", finish: "Mat" },
-            { slot: 16, name: "Overflod Pipistrello", garage: "fonction2", wheel: "F1", plateBackground: "Yankton", color1: "Bleu", color2: "Bleu", finish: "Mat" },
-            { slot: 17, name: "Caddie", garage: "fonction2", wheel: "Basic", plateBackground: "-", color1: "Vert", color2: "Vert", finish: "Classique" },
-            { slot: 18, name: "Invetero Coquette D5", garage: "fonction2", wheel: "Benny's", plateBackground: "Yankton", color1: "Rouge", color2: "Rouge", finish: "Classique" },
-            { slot: 19, name: "Enus Paragon S", garage: "fonction2", wheel: "Benny's", plateBackground: "Los santos", color1: "Caméléon", color2: "Rose", finish: "Classique" },
-            { slot: 20, name: "Annis Hardy Way", garage: "fonction2", wheel: "Basic", plateBackground: "Exempt", color1: "Blanc", color2: "Bleu", finish: "Classique" },
-            { slot: 1, name: "Blazer Street", garage: "fonction3", wheel: "Benny's", plateBackground: "-", color1: "Violet", color2: "Violet", finish: "Chromée" },
-            { slot: 2, name: "Hot Rod Blazer", garage: "fonction3", wheel: "Basic", plateBackground: "-", color1: "Blanc", color2: "Blanc", finish: "Classique" },
-            { slot: 3, name: "Hot Rod Blazer", garage: "fonction3", wheel: "Basic", plateBackground: "-", color1: "Bleu", color2: "Bleu", finish: "Classique" },
-            { slot: 4, name: "Ubermacht Revolter", garage: "fonction3", wheel: "Benny's", plateBackground: "Yankton", color1: "Violet", color2: "Violet", finish: "Classique" },
-            { slot: 5, name: "Canis Bodhi", garage: "fonction3", wheel: "Benny's", plateBackground: "Yankton", color1: "Gris", color2: "Gris", finish: "Mat" },
-            { slot: 6, name: "Go Go Monkey Blista", garage: "fonction3", wheel: "Benny's", plateBackground: "Yankton", color1: "Noir", color2: "Noir", finish: "Classique" },
-            { slot: 7, name: "Dinka Sugoi", garage: "fonction3", wheel: "Basic", plateBackground: "Yankton", color1: "Gris", color2: "Gris", finish: "Classique" },
-            { slot: 8, name: "Karin Calico GTF", garage: "fonction3", wheel: "Basic", plateBackground: "Yankton", color1: "Noir", color2: "Noir", finish: "Mat" },
-            { slot: 9, name: "Emperor Vectre", garage: "fonction3", wheel: "Benny's", plateBackground: "Yankton", color1: "Caméléon", color2: "Caméléon", finish: "Classique" },
-            { slot: 10, name: "Bravado Verlierer", garage: "fonction3", wheel: "Benny's", plateBackground: "Yankton", color1: "Gris", color2: "Gris", finish: "Mat" },
-            { slot: 11, name: "Blista Kanjo", garage: "fonction3", wheel: "Benny's", plateBackground: "Yankton", color1: "Noir", color2: "Noir", finish: "Classique" },
-            { slot: 12, name: "Benefactor Schlagen GT", garage: "fonction3", wheel: "Benny's", plateBackground: "Yankton", color1: "Rose", color2: "Rose", finish: "Classique" },
-            { slot: 13, name: "Coil Cyclone", garage: "fonction3", wheel: "Benny's", plateBackground: "Yankton", color1: "Bleu", color2: "Noir", finish: "Classique" },
-            { slot: 14, name: "MTL Dune", garage: "fonction3", wheel: "Benny's", plateBackground: "Yankton", color1: "Jaune", color2: "Jaune", finish: "Mat" },
-            { slot: 15, name: "Imponte Nightshade", garage: "fonction3", wheel: "F1", plateBackground: "Yankton", color1: "Rouge", color2: "Rouge", finish: "Mat" },
-            { slot: 16, name: "Dinka Jester", garage: "fonction3", wheel: "Basic", plateBackground: "Exempt", color1: "Rose", color2: "Noir", finish: "Mat" },
-            { slot: 17, name: "Turismo Classique", garage: "fonction3", wheel: "Basic", plateBackground: "Exempt", color1: "Noir", color2: "Noir", finish: "Classique" },
-            { slot: 18, name: "Vapid Hotknife", garage: "fonction3", wheel: "Benny's", plateBackground: "Yankton", color1: "Vert", color2: "Beige", finish: "Classique" },
-            { slot: 19, name: "Coil Cyclone II", garage: "fonction3", wheel: "Benny's", plateBackground: "Yankton", color1: "Rose", color2: "Blanc", finish: "Classique" },
-            { slot: 20, name: "Ubermacht Cypher", garage: "fonction3", wheel: "F1", plateBackground: "Yankton", color1: "Violet", color2: "Bleu", finish: "Classique" },
-            { slot: 2, name: "Obey 10F large", garage: "arenerdc", wheel: "Benny's", plateBackground: "Yankton", color1: "Or", color2: "Rouge", finish: "Classique" },
-            { slot: 3, name: "Ocelot Pariah", garage: "arenerdc", wheel: "F1", plateBackground: "Yankton", color1: "Or", color2: "Or", finish: "Chromée" },
-            { slot: 4, name: "Obey 8F Drafter", garage: "arenerdc", wheel: "F1", plateBackground: "Exempt", color1: "Bleu", color2: "Bleu", finish: "Chromée" },
-            { slot: 5, name: "Pegassi Zentorno", garage: "arenerdc", wheel: "Basic", plateBackground: "Exempt", color1: "Blanc", color2: "Bleu", finish: "Mat" },
-            { slot: 6, name: "Ubermacht Niobe", garage: "arenerdc", wheel: "Benny's", plateBackground: "Yankton", color1: "Bleu", color2: "Rose", finish: "Classique" },
-            { slot: 7, name: "Karin Keitora", garage: "arenerdc", wheel: "F1", plateBackground: "Liberty", color1: "Vert", color2: "Blanc", finish: "Classique" },
-            { slot: 8, name: "Karin Vivanite", garage: "arenerdc", wheel: "Benny's", plateBackground: "Yankton", color1: "Vert", color2: "Vert", finish: "Classique" },
-            { slot: 9, name: "Ubermacht Cypher", garage: "arenerdc", wheel: "Benny's", plateBackground: "Yankton", color1: "Gris", color2: "Rouge", finish: "Classique" },
-            { slot: 10, name: "Lampadati Cinquemila", garage: "arenerdc", wheel: "Benny's", plateBackground: "Yankton", color1: "Violet", color2: "Rose", finish: "Classique" },
-            { slot: 1, name: "Apocalypse Cerberus", garage: "arene1", wheel: "-", plateBackground: "-", color1: "Bleu", color2: "Noir", finish: "Chromée" },
-            { slot: 2, name: "Apocalypse Bruiser", garage: "arene1", wheel: "-", plateBackground: "-", color1: "Rouge", color2: "Bleu", finish: "Chromée" },
-            { slot: 3, name: "HVY Scarab", garage: "arene1", wheel: "-", plateBackground: "Yankton", color1: "Violet", color2: "Or", finish: "Chromée" },
-            { slot: 4, name: "ZR350 rouge", garage: "arene1", wheel: "Benny's", plateBackground: "Yankton Pe", color1: "Rouge", color2: "Rouge", finish: "Mat" },
-            { slot: 5, name: "ZR350 violet", garage: "arene1", wheel: "Benny's", plateBackground: "Yankton", color1: "Violet", color2: "Violet", finish: "Chromée" },
-            { slot: 6, name: "ZR350 bleu", garage: "arene1", wheel: "F1", plateBackground: "Yankton", color1: "Bleu", color2: "Bleu", finish: "Chromée" },
-            { slot: 2, name: "Benefactor Schlagen GT", garage: "arene2", wheel: "Benny's", plateBackground: "Yankton", color1: "Violet", color2: "Bleu", finish: "Classique" },
-            { slot: 3, name: "Ubermacht Rhinehart", garage: "arene2", wheel: "F1", plateBackground: "Exempt SA", color1: "Vert", color2: "Noir", finish: "Classique" },
-            { slot: 4, name: "Grotti Vigilante", garage: "arene2", wheel: "Benny's", plateBackground: "-", color1: "Caméléon", color2: "Beige", finish: "Classique" },
-            { slot: 5, name: "Progen T20", garage: "arene2", wheel: "Benny's", plateBackground: "Exempt SA", color1: "Violet", color2: "Violet", finish: "Classique" },
-            { slot: 6, name: "Ubermacht Niobe", garage: "arene2", wheel: "Benny's", plateBackground: "Yankton", color1: "Bleu", color2: "Blanc", finish: "Classique" },
-            { slot: 7, name: "Dewbauchee Vagner", garage: "arene2", wheel: "F1", plateBackground: "Yankton", color1: "Noir", color2: "Noir", finish: "Classique" },
-            { slot: 8, name: "Benefactor Dubsta", garage: "arene2", wheel: "Benny's", plateBackground: "Yankton", color1: "Caméléon", color2: "Blanc", finish: "Mat" },
-            { slot: 9, name: "Albany Hermes", garage: "arene2", wheel: "F1", plateBackground: "Yankton", color1: "Rouge", color2: "Rouge", finish: "Mat" },
-            { slot: 10, name: "Pegassi Reaper", garage: "arene2", wheel: "Benny's", plateBackground: "Yankton", color1: "Blanc", color2: "Blanc", finish: "Mat" },
-            { slot: 1, name: "Invetero Coquette D10", garage: "Eclipse Tower n°9", wheel: "F1", plateBackground: "Yankton", color1: "Beige", color2: "Noir", finish: "Mat" }
+            // --- BOITE 2 ---
+            { 
+                slot: 1, 
+                name: "Ocelot Virtue", 
+                garage: "boite2", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton", 
+                color1: "Vert", 
+                color2: "Vert",
+                finish: "Chromée"
+            },
+            { 
+                slot: 2, 
+                name: "Emperor Vectre", 
+                garage: "boite2", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton", 
+                color1: "Vert", 
+                color2: "Vert",
+                finish: "Chromée"
+            },
+            { 
+                slot: 3, 
+                name: "Karin S95", 
+                garage: "boite2", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton", 
+                color1: "Rose", 
+                color2: "Rose",
+                finish: "Chromée"
+            },
+            { 
+                slot: 4, 
+                name: "Grotti Itali GTO", 
+                garage: "boite2", 
+                wheel: "Benny's", 
+                plateBackground: "Liberty", 
+                color1: "Bleu", 
+                color2: "Bleu",
+                finish: "Chromée"
+            },
+            { 
+                slot: 5, 
+                name: "Emperor ETR1", 
+                garage: "boite2", 
+                wheel: "Benny's", 
+                plateBackground: "Las venturas", 
+                color1: "Bleu", 
+                color2: "Bleu",
+                finish: "Mat"
+            },
+            { 
+                slot: 6, 
+                name: "Ubermacht Cypher", 
+                garage: "boite2", 
+                wheel: "Benny's", 
+                plateBackground: "Exempt", 
+                color1: "Bleu", 
+                color2: "Bleu",
+                finish: "Chromée"
+            },
+            { 
+                slot: 7, 
+                name: "Canis Castigator", 
+                garage: "boite2", 
+                wheel: "F1", 
+                plateBackground: "Exempt", 
+                color1: "Vert", 
+                color2: "Vert",
+                finish: "Chromée"
+            },
+            { 
+                slot: 8, 
+                name: "Benefactor Panto", 
+                garage: "boite2", 
+                wheel: "F1", 
+                plateBackground: "Exempt", 
+                color1: "Vert", 
+                color2: "Vert",
+                finish: "Chromée"
+            },
+            { 
+                slot: 9, 
+                name: "Albany Roosevelt Valor", 
+                garage: "boite2", 
+                wheel: "F1", 
+                plateBackground: "Exempt", 
+                color1: "Violet", 
+                color2: "Violet",
+                finish: "Chromée"
+            },
+            { 
+                slot: 10, 
+                name: "Canis Kalahari", 
+                garage: "boite2", 
+                wheel: "Benny's", 
+                plateBackground: "Exempt", 
+                color1: "Rose", 
+                color2: "Rose",
+                finish: "Chromée"
+            },
+
+            // --- BOITE 3 ---
+            { 
+                slot: 1, 
+                name: "Karin 190z", 
+                garage: "boite3", 
+                wheel: "F1", 
+                plateBackground: "Yankton", 
+                color1: "Vert", 
+                color2: "Vert",
+                finish: "Chromée"
+            },
+            { 
+                slot: 2, 
+                name: "Benefactor Schlagen GT", 
+                garage: "boite3", 
+                wheel: "Benny's", 
+                plateBackground: "Exempt", 
+                color1: "Rose", 
+                color2: "Rose",
+                finish: "Chromée"
+            },
+            { 
+                slot: 3, 
+                name: "Keitora", 
+                garage: "boite3", 
+                wheel: "F1", 
+                plateBackground: "Liberty", 
+                color1: "Jaune", 
+                color2: "Bleu",
+                finish: "Mat"
+            },
+            { 
+                slot: 4, 
+                name: "Keitora", 
+                garage: "boite3", 
+                wheel: "F1", 
+                plateBackground: "Liberty", 
+                color1: "Noir", 
+                color2: "Rouge",
+                finish: "Mat"
+            },
+            { 
+                slot: 5, 
+                name: "Keitora", 
+                garage: "boite3", 
+                wheel: "F1", 
+                plateBackground: "Liberty", 
+                color1: "Vert", 
+                color2: "Blanc",
+                finish: "Mat"
+            },
+            { 
+                slot: 6, 
+                name: "Benefactor Krieger", 
+                garage: "boite3", 
+                wheel: "F1", 
+                plateBackground: "Exempt", 
+                color1: "Violet", 
+                color2: "Violet",
+                finish: "Chromée"
+            },
+            { 
+                slot: 7, 
+                name: "Ocelot XA-21", 
+                garage: "boite3", 
+                wheel: "Benny's", 
+                plateBackground: "Exempt", 
+                color1: "Vert", 
+                color2: "Vert",
+                finish: "Chromée"
+            },
+            { 
+                slot: 8, 
+                name: "Keitora", 
+                garage: "boite3", 
+                wheel: "F1", 
+                plateBackground: "Liberty", 
+                color1: "Jaune", 
+                color2: "Bleu",
+                finish: "Mat"
+            },
+            { 
+                slot: 9, 
+                name: "Keitora", 
+                garage: "boite3", 
+                wheel: "F1", 
+                plateBackground: "Liberty", 
+                color1: "Noir", 
+                color2: "Rouge",
+                finish: "Mat"
+            },
+            { 
+                slot: 10, 
+                name: "Keitora", 
+                garage: "boite3", 
+                wheel: "F1", 
+                plateBackground: "Liberty", 
+                color1: "Vert", 
+                color2: "Blanc",
+                finish: "Mat"
+            },
+
+            // --- BOITE 4 ---
+            { 
+                slot: 1, 
+                name: "Ubermacht Niobe", 
+                garage: "boite4", 
+                wheel: "Basic", 
+                plateBackground: "Exempt", 
+                color1: "Noir", 
+                color2: "Rose",
+                finish: "Mat"
+            },
+            { 
+                slot: 2, 
+                name: "Overflod Suzuzme", 
+                garage: "boite4", 
+                wheel: "Basic", 
+                plateBackground: "Exempt", 
+                color1: "Rouge", 
+                color2: "Noir",
+                finish: "Mat"
+            },
+            { 
+                slot: 3, 
+                name: "Pegassi Reaper", 
+                garage: "boite4", 
+                wheel: "Benny's", 
+                plateBackground: "Exempt", 
+                color1: "Vert", 
+                color2: "Vert",
+                finish: "Mat"
+            },
+            { 
+                slot: 4, 
+                name: "Pegassi Zentorno", 
+                garage: "boite4", 
+                wheel: "Basic", 
+                plateBackground: "Exempt", 
+                color1: "Vert", 
+                color2: "Jaune",
+                finish: "Chromée"
+            },
+            { 
+                slot: 5, 
+                name: "Pegassi Ignus armée", 
+                garage: "boite4", 
+                wheel: "Benny's", 
+                plateBackground: "Exempt", 
+                color1: "Noir", 
+                color2: "Vert",
+                finish: "Classique"
+            },
+            { 
+                slot: 6, 
+                name: "Overflod Tyrant", 
+                garage: "boite4", 
+                wheel: "Basic", 
+                plateBackground: "Exempt", 
+                color1: "Rouge", 
+                color2: "Noir",
+                finish: "Classique"
+            },
+            { 
+                slot: 7, 
+                name: "Overflod Pipistrello", 
+                garage: "boite4", 
+                wheel: "Basic", 
+                plateBackground: "Exempt", 
+                color1: "Violet", 
+                color2: "Caméléon",
+                finish: "Classique"
+            },
+            { 
+                slot: 8, 
+                name: "Elegy Rétro Custom", 
+                garage: "boite4", 
+                wheel: "Basic", 
+                plateBackground: "Exempt", 
+                color1: "Violet", 
+                color2: "Violet",
+                finish: "Chromée"
+            },
+            { 
+                slot: 9, 
+                name: "Pegassi Tempesta", 
+                garage: "boite4", 
+                wheel: "Benny's", 
+                plateBackground: "Sprunk", 
+                color1: "Vert", 
+                color2: "Chromé",
+                finish: "Chromée"
+            },
+            { 
+                slot: 10, 
+                name: "Invetero Coquette D10", 
+                garage: "boite4", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton", 
+                color1: "Bleu", 
+                color2: "Chromé",
+                finish: "Chromée"
+            },
+
+            // --- FONCTION 1 ---
+            { 
+                slot: 1, 
+                name: "Bravado Buffalo STX de poursuite", 
+                garage: "fonction1", 
+                wheel: "Basic", 
+                plateBackground: "Las venturas", 
+                color1: "Blanc", 
+                color2: "Blanc",
+                finish: "Classique"
+            },
+            { 
+                slot: 2, 
+                name: "Bravado Buffalo Cruiser", 
+                garage: "fonction1", 
+                wheel: "Basic", 
+                plateBackground: "Liberty city", 
+                color1: "Blanc", 
+                color2: "Blanc",
+                finish: "Classique"
+            },
+
+            // --- FONCTION 2 ---
+            { 
+                slot: 1, 
+                name: "Invetero Coquette D10", 
+                garage: "fonction2", 
+                wheel: "F1", 
+                plateBackground: "-", 
+                color1: "Bleu", 
+                color2: "Blanc",
+                finish: "Classique"
+            },
+            { 
+                slot: 2, 
+                name: "Vysser Neo", 
+                garage: "fonction2", 
+                wheel: "Basic", 
+                plateBackground: "Yankton", 
+                color1: "Violet", 
+                color2: "Violet",
+                finish: "Mat"
+            },
+            { 
+                slot: 3, 
+                name: "Pegassi Zentorno", 
+                garage: "fonction2", 
+                wheel: "F1", 
+                plateBackground: "Exempt SA", 
+                color1: "bleu / vert", 
+                color2: "bleu / vert",
+                finish: "Chromée"
+            },
+            { 
+                slot: 4, 
+                name: "Pegassi Zentorno", 
+                garage: "fonction2", 
+                wheel: "Basic", 
+                plateBackground: "Exempt SA", 
+                color1: "Jaune", 
+                color2: "Noir",
+                finish: "Chromée"
+            },
+            { 
+                slot: 5, 
+                name: "Grotti Itali RSX", 
+                garage: "fonction2", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton Vi", 
+                color1: "Rouge", 
+                color2: "Blanc",
+                finish: "Mat"
+            },
+            { 
+                slot: 6, 
+                name: "Benefactor Krieger", 
+                garage: "fonction2", 
+                wheel: "Benny's", 
+                plateBackground: "Exempt", 
+                color1: "Violet", 
+                color2: "Caméléon",
+                finish: "Chromée"
+            },
+            { 
+                slot: 7, 
+                name: "Willard Eudora", 
+                garage: "fonction2", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton", 
+                color1: "Jaune", 
+                color2: "Jaune",
+                finish: "Mat"
+            },
+            { 
+                slot: 8, 
+                name: "Weeny Dynasty", 
+                garage: "fonction2", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton", 
+                color1: "Jaune", 
+                color2: "Jaune",
+                finish: "Classique"
+            },
+            { 
+                slot: 9, 
+                name: "RUNE Zhaba", 
+                garage: "fonction2", 
+                wheel: "Benny's", 
+                plateBackground: "Basic", 
+                color1: "Bleu", 
+                color2: "Bleu",
+                finish: "Chromée"
+            },
+            { 
+                slot: 10, 
+                name: "Grotti Itali RSX", 
+                garage: "fonction2", 
+                wheel: "Benny's", 
+                plateBackground: "Exempt", 
+                color1: "Violet", 
+                color2: "Violet",
+                finish: "Chromée"
+            },
+            { 
+                slot: 11, 
+                name: "Albany Brigham", 
+                garage: "fonction2", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton", 
+                color1: "Chrome", 
+                color2: "Blanc",
+                finish: "Chromée"
+            },
+            { 
+                slot: 12, 
+                name: "Corbillard Romero", 
+                garage: "fonction2", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton", 
+                color1: "Vert", 
+                color2: "Bleu",
+                finish: "Classique"
+            },
+            { 
+                slot: 13, 
+                name: "Bravado Rat-Loader", 
+                garage: "fonction2", 
+                wheel: "Basic", 
+                plateBackground: "-", 
+                color1: "Blanc", 
+                color2: "Blanc",
+                finish: "Mat"
+            },
+            { 
+                slot: 14, 
+                name: "Grotti Itali GTO", 
+                garage: "fonction2", 
+                wheel: "F1", 
+                plateBackground: "Yankton", 
+                color1: "Noir", 
+                color2: "Noir",
+                finish: "Mat"
+            },
+            { 
+                slot: 15, 
+                name: "BF Raptor", 
+                garage: "fonction2", 
+                wheel: "F1", 
+                plateBackground: "Yankton", 
+                color1: "Bleu", 
+                color2: "Bleu",
+                finish: "Mat"
+            },
+            { 
+                slot: 16, 
+                name: "Overflod Pipistrello", 
+                garage: "fonction2", 
+                wheel: "F1", 
+                plateBackground: "Yankton", 
+                color1: "Bleu", 
+                color2: "Bleu",
+                finish: "Mat"
+            },
+            { 
+                slot: 17, 
+                name: "Caddie", 
+                garage: "fonction2", 
+                wheel: "Basic", 
+                plateBackground: "-", 
+                color1: "Vert", 
+                color2: "Vert",
+                finish: "Classique"
+            },
+            { 
+                slot: 18, 
+                name: "Invetero Coquette D5", 
+                garage: "fonction2", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton", 
+                color1: "Rouge", 
+                color2: "Rouge",
+                finish: "Classique"
+            },
+            { 
+                slot: 19, 
+                name: "Enus Paragon S", 
+                garage: "fonction2", 
+                wheel: "Benny's", 
+                plateBackground: "Los santos", 
+                color1: "Caméléon", 
+                color2: "Rose",
+                finish: "Classique"
+            },
+            { 
+                slot: 20, 
+                name: "Annis Hardy Way", 
+                garage: "fonction2", 
+                wheel: "Basic", 
+                plateBackground: "Exempt", 
+                color1: "Blanc", 
+                color2: "Bleu",
+                finish: "Classique"
+            },
+
+            // --- FONCTION 3 ---
+            { 
+                slot: 1, 
+                name: "Blazer Street", 
+                garage: "fonction3", 
+                wheel: "Benny's", 
+                plateBackground: "-", 
+                color1: "Violet", 
+                color2: "Violet",
+                finish: "Chromée"
+            },
+            { 
+                slot: 2, 
+                name: "Hot Rod Blazer", 
+                garage: "fonction3", 
+                wheel: "Basic", 
+                plateBackground: "-", 
+                color1: "Blanc", 
+                color2: "Blanc",
+                finish: "Classique"
+            },
+            { 
+                slot: 3, 
+                name: "Hot Rod Blazer", 
+                garage: "fonction3", 
+                wheel: "Basic", 
+                plateBackground: "-", 
+                color1: "Bleu", 
+                color2: "Bleu",
+                finish: "Classique"
+            },
+            { 
+                slot: 4, 
+                name: "Ubermacht Revolter", 
+                garage: "fonction3", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton", 
+                color1: "Violet", 
+                color2: "Violet",
+                finish: "Classique"
+            },
+            { 
+                slot: 5, 
+                name: "Canis Bodhi", 
+                garage: "fonction3", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton", 
+                color1: "Gris", 
+                color2: "Gris",
+                finish: "Mat"
+            },
+            { 
+                slot: 6, 
+                name: "Go Go Monkey Blista", 
+                garage: "fonction3", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton", 
+                color1: "Noir", 
+                color2: "Noir",
+                finish: "Classique"
+            },
+            { 
+                slot: 7, 
+                name: "Dinka Sugoi", 
+                garage: "fonction3", 
+                wheel: "Basic", 
+                plateBackground: "Yankton", 
+                color1: "Gris", 
+                color2: "Gris",
+                finish: "Classique"
+            },
+            { 
+                slot: 8, 
+                name: "Karin Calico GTF", 
+                garage: "fonction3", 
+                wheel: "Basic", 
+                plateBackground: "Yankton", 
+                color1: "Noir", 
+                color2: "Noir",
+                finish: "Mat"
+            },
+            { 
+                slot: 9, 
+                name: "Emperor Vectre", 
+                garage: "fonction3", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton", 
+                color1: "Caméléon", 
+                color2: "Caméléon",
+                finish: "Classique"
+            },
+            { 
+                slot: 10, 
+                name: "Bravado Verlierer", 
+                garage: "fonction3", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton", 
+                color1: "Gris", 
+                color2: "Gris",
+                finish: "Mat"
+            },
+            { 
+                slot: 11, 
+                name: "Blista Kanjo", 
+                garage: "fonction3", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton", 
+                color1: "Noir", 
+                color2: "Noir",
+                finish: "Classique"
+            },
+            { 
+                slot: 12, 
+                name: "Benefactor Schlagen GT", 
+                garage: "fonction3", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton", 
+                color1: "Rose", 
+                color2: "Rose",
+                finish: "Classique"
+            },
+            { 
+                slot: 13, 
+                name: "Coil Cyclone", 
+                garage: "fonction3", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton", 
+                color1: "Bleu", 
+                color2: "Noir",
+                finish: "Classique"
+            },
+            { 
+                slot: 14, 
+                name: "MTL Dune", 
+                garage: "fonction3", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton", 
+                color1: "Jaune", 
+                color2: "Jaune",
+                finish: "Mat"
+            },
+            { 
+                slot: 15, 
+                name: "Imponte Nightshade", 
+                garage: "fonction3", 
+                wheel: "F1", 
+                plateBackground: "Yankton", 
+                color1: "Rouge", 
+                color2: "Rouge",
+                finish: "Mat"
+            },
+            { 
+                slot: 16, 
+                name: "Dinka Jester", 
+                garage: "fonction3", 
+                wheel: "Basic", 
+                plateBackground: "Exempt", 
+                color1: "Rose", 
+                color2: "Noir",
+                finish: "Mat"
+            },
+            { 
+                slot: 17, 
+                name: "Turismo Classique", 
+                garage: "fonction3", 
+                wheel: "Basic", 
+                plateBackground: "Exempt", 
+                color1: "Noir", 
+                color2: "Noir",
+                finish: "Classique"
+            },
+            { 
+                slot: 18, 
+                name: "Vapid Hotknife", 
+                garage: "fonction3", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton", 
+                color1: "Vert", 
+                color2: "Beige",
+                finish: "Classique"
+            },
+            { 
+                slot: 19, 
+                name: "Coil Cyclone II", 
+                garage: "fonction3", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton", 
+                color1: "Rose", 
+                color2: "Blanc",
+                finish: "Classique"
+            },
+            { 
+                slot: 20, 
+                name: "Ubermacht Cypher", 
+                garage: "fonction3", 
+                wheel: "F1", 
+                plateBackground: "Yankton", 
+                color1: "Violet", 
+                color2: "Bleu",
+                finish: "Classique"
+            },
+
+            // --- ARENE RDC ---
+            { 
+                slot: 2, 
+                name: "Obey 10F large", 
+                garage: "arenerdc", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton", 
+                color1: "Or", 
+                color2: "Rouge",
+                finish: "Classique"
+            },
+            { 
+                slot: 3, 
+                name: "Ocelot Pariah", 
+                garage: "arenerdc", 
+                wheel: "F1", 
+                plateBackground: "Yankton", 
+                color1: "Or", 
+                color2: "Or",
+                finish: "Chromée"
+            },
+            { 
+                slot: 4, 
+                name: "Obey 8F Drafter", 
+                garage: "arenerdc", 
+                wheel: "F1", 
+                plateBackground: "Exempt", 
+                color1: "Bleu", 
+                color2: "Bleu",
+                finish: "Chromée"
+            },
+            { 
+                slot: 5, 
+                name: "Pegassi Zentorno", 
+                garage: "arenerdc", 
+                wheel: "Basic", 
+                plateBackground: "Exempt", 
+                color1: "Blanc", 
+                color2: "Bleu",
+                finish: "Mat"
+            },
+            { 
+                slot: 6, 
+                name: "Ubermacht Niobe", 
+                garage: "arenerdc", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton", 
+                color1: "Bleu", 
+                color2: "Rose",
+                finish: "Classique"
+            },
+            { 
+                slot: 7, 
+                name: "Karin Keitora", 
+                garage: "arenerdc", 
+                wheel: "F1", 
+                plateBackground: "Liberty", 
+                color1: "Vert", 
+                color2: "Blanc",
+                finish: "Classique"
+            },
+            { 
+                slot: 8, 
+                name: "Karin Vivanite", 
+                garage: "arenerdc", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton", 
+                color1: "Vert", 
+                color2: "Vert",
+                finish: "Classique"
+            },
+            { 
+                slot: 9, 
+                name: "Ubermacht Cypher", 
+                garage: "arenerdc", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton", 
+                color1: "Gris", 
+                color2: "Rouge",
+                finish: "Classique"
+            },
+            { 
+                slot: 10, 
+                name: "Lampadati Cinquemila", 
+                garage: "arenerdc", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton", 
+                color1: "Violet", 
+                color2: "Rose",
+                finish: "Classique"
+            },
+
+            // --- ARENE 1 ---
+            { 
+                slot: 1, 
+                name: "Apocalypse Cerberus", 
+                garage: "arene1", 
+                wheel: "-", 
+                plateBackground: "-", 
+                color1: "Bleu", 
+                color2: "Noir",
+                finish: "Chromée"
+            },
+            { 
+                slot: 2, 
+                name: "Apocalypse Bruiser", 
+                garage: "arene1", 
+                wheel: "-", 
+                plateBackground: "-", 
+                color1: "Rouge", 
+                color2: "Bleu",
+                finish: "Chromée"
+            },
+            { 
+                slot: 3, 
+                name: "HVY Scarab", 
+                garage: "arene1", 
+                wheel: "-", 
+                plateBackground: "Yankton", 
+                color1: "Violet", 
+                color2: "Or",
+                finish: "Chromée"
+            },
+            { 
+                slot: 4, 
+                name: "ZR350 rouge", 
+                garage: "arene1", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton Pe", 
+                color1: "Rouge", 
+                color2: "Rouge",
+                finish: "Mat"
+            },
+            { 
+                slot: 5, 
+                name: "ZR350 violet", 
+                garage: "arene1", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton", 
+                color1: "Violet", 
+                color2: "Violet",
+                finish: "Chromée"
+            },
+            { 
+                slot: 6, 
+                name: "ZR350 bleu", 
+                garage: "arene1", 
+                wheel: "F1", 
+                plateBackground: "Yankton", 
+                color1: "Bleu", 
+                color2: "Bleu",
+                finish: "Chromée"
+            },
+
+            // --- ARENE 2 ---
+            { 
+                slot: 2, 
+                name: "Benefactor Schlagen GT", 
+                garage: "arene2", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton", 
+                color1: "Violet", 
+                color2: "Bleu",
+                finish: "Classique"
+            },
+            { 
+                slot: 3, 
+                name: "Ubermacht Rhinehart", 
+                garage: "arene2", 
+                wheel: "F1", 
+                plateBackground: "Exempt SA", 
+                color1: "Vert", 
+                color2: "Noir",
+                finish: "Classique"
+            },
+            { 
+                slot: 4, 
+                name: "Grotti Vigilante", 
+                garage: "arene2", 
+                wheel: "Benny's", 
+                plateBackground: "-", 
+                color1: "Caméléon", 
+                color2: "Beige",
+                finish: "Classique"
+            },
+            { 
+                slot: 5, 
+                name: "Progen T20", 
+                garage: "arene2", 
+                wheel: "Benny's", 
+                plateBackground: "Exempt SA", 
+                color1: "Violet", 
+                color2: "Violet",
+                finish: "Classique"
+            },
+            { 
+                slot: 6, 
+                name: "Ubermacht Niobe", 
+                garage: "arene2", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton", 
+                color1: "Bleu", 
+                color2: "Blanc",
+                finish: "Classique"
+            },
+            { 
+                slot: 7, 
+                name: "Dewbauchee Vagner", 
+                garage: "arene2", 
+                wheel: "F1", 
+                plateBackground: "Yankton", 
+                color1: "Noir", 
+                color2: "Noir",
+                finish: "Classique"
+            },
+            { 
+                slot: 8, 
+                name: "Benefactor Dubsta", 
+                garage: "arene2", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton", 
+                color1: "Caméléon", 
+                color2: "Blanc",
+                finish: "Mat"
+            },
+            { 
+                slot: 9, 
+                name: "Albany Hermes", 
+                garage: "arene2", 
+                wheel: "F1", 
+                plateBackground: "Yankton", 
+                color1: "Rouge", 
+                color2: "Rouge",
+                finish: "Mat"
+            },
+            { 
+                slot: 10, 
+                name: "Pegassi Reaper", 
+                garage: "arene2", 
+                wheel: "Benny's", 
+                plateBackground: "Yankton", 
+                color1: "Blanc", 
+                color2: "Blanc",
+                finish: "Mat"
+            },
+            { 
+                slot: 1, 
+                name: "Invetero Coquette D10", 
+                garage: "Eclipse Tower n°9", 
+                wheel: "F1", 
+                plateBackground: "Yankton", 
+                color1: "Beige", 
+                color2: "Noir",
+                finish: "Mat"
+            }
         ];
 
+        // --- CORRECTION CRITIQUE DES CHEMINS D'IMAGES ---
         vehicles.forEach(v => {
             v.images = [];
-            for(let i=1; i<=4; i++) v.images.push(`/garages/${v.garage}/${v.slot}/${i}.jpg`);
+            // Le dossier 'garages' est au même niveau que index.html dans votre dossier 'vehicules'
+            for(let i=1; i<=4; i++) v.images.push('garages/' + v.garage + '/' + v.slot + '/' + i + '.jpg');
         });
 
         let selectedVehicles = [];
@@ -621,13 +1540,15 @@
                 if(currentGarage !== 'all' && v.garage !== currentGarage) return;
                 if(s && !v.name.toLowerCase().includes(s)) return;
                 
+                // Filtres
                 if(currentFilters.wheel !== 'all' && v.wheel && !v.wheel.includes(currentFilters.wheel)) return;
                 if(currentFilters.plateBackground !== 'all' && v.plateBackground && !v.plateBackground.includes(currentFilters.plateBackground)) return;
                 if(currentFilters.finish !== 'all' && v.finish !== currentFilters.finish) return;
                 if(currentFilters.color !== 'all') {
                     const c = currentFilters.color.toLowerCase();
                     const c1 = v.color1 ? v.color1.toLowerCase() : '';
-                    if(!c1.includes(c)) return;
+                    const c2 = v.color2 ? v.color2.toLowerCase() : '';
+                    if(!c1.includes(c) && !c2.includes(c)) return;
                 }
 
                 const isSelected = selectedVehicles.includes(v);
@@ -641,7 +1562,7 @@
 
                 card.innerHTML = `
                     <div class="slideshow-container" id="slideshow-${index}" onclick="openImageModal(${index})">
-                        <button class="pause-btn" id="pause-btn-${index}" onclick="togglePause(event, ${index})" data-paused="false">&#10074;&#10074;</button>
+                        <button class="pause-btn" id="pause-btn-${index}" onclick="event.stopPropagation(); togglePause(event, ${index})" data-paused="false">&#10074;&#10074;</button>
                         ${imagesHTML}
                         <div class="progress-bar-container">
                             <div class="progress-bar" id="bar-${index}"></div>
@@ -661,8 +1582,9 @@
                 `;
                 grid.appendChild(card);
 
+                // --- LANCEMENT DU SLIDESHOW (Boucle auto) ---
                 const bar = document.getElementById(`bar-${index}`);
-                if(bar) bar.style.width = '100%';
+                if(bar) bar.style.width = '100%'; 
                 
                 setTimeout(() => {
                     startSlideshow(index);
@@ -708,6 +1630,7 @@
         }
         window.closeModal = () => document.getElementById('vehicleModal').classList.remove('show');
 
+        // --- FILTRES LOGIC ---
         const filterModal = document.getElementById('filterModal');
         document.getElementById('openFilterBtn').onclick = () => filterModal.classList.add('active');
         window.closeFilterModal = () => filterModal.classList.remove('active');
@@ -747,6 +1670,7 @@
         });
         searchInput.oninput = render;
 
+        // Fermeture des modales au clic extérieur
         document.querySelectorAll('.modal, .filter-modal').forEach(m => {
             m.onclick = (e) => { if(e.target === m) m.classList.remove('show', 'active'); }
         });
