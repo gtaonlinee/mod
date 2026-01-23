@@ -19,6 +19,9 @@
             --danger-color: #ef4444;
             --success-color: #28a745;
             --success-shadow: #218838;
+            /* Rockstar Neon Colors */
+            --neon-pink: #ff00ff;
+            --neon-blue: #00ffff;
         }
 
         body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background: var(--bg-body); color: var(--text-main); overflow-x: hidden; }
@@ -109,13 +112,65 @@
         }
         .vehicle-card:hover { transform: scale(1.02); border-color: var(--btn-color); }
         .vehicle-card.selected { border-color: var(--btn-color); box-shadow: 0 10px 25px -5px rgba(114, 90, 193, 0.4); }
-        .vehicle-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; background-color: #1a1a1a; }
+        
+        /* --- SLIDESHOW ROCKSTAR --- */
+        .slideshow-container {
+            width: 100%;
+            aspect-ratio: 16/9;
+            position: relative;
+            background-color: #1a1a1a;
+            overflow: hidden;
+        }
+        .vehicle-slide {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; /* Remplace background-size cover pour les balises img */
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            pointer-events: none; /* Laisse passer le clic vers le container */
+        }
+        .vehicle-slide.active { opacity: 1; pointer-events: auto; }
+        .vehicle-slide.hidden-slide { display: none !important; }
+
+        /* Bouton Pause */
+        .pause-btn {
+            position: absolute; top: 10px; left: 10px; z-index: 20;
+            background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white; border-radius: 50%; width: 32px; height: 32px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.2s;
+            font-size: 12px;
+        }
+        .pause-btn:hover { background: var(--btn-color); border-color: var(--btn-color); }
+
+        /* Barre de progression */
+        .progress-bar-container {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 4px;
+            background: rgba(0,0,0,0.5); z-index: 10;
+        }
+        .progress-bar {
+            height: 100%; width: 0%;
+            background: var(--btn-color);
+            transition: width 0.1s linear;
+        }
+
         .vehicle-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 8px; }
         
         .garage-badge { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px; }
         .vehicle-garage { color: var(--btn-color); font-size: 11px; font-weight: 800; text-transform: uppercase; }
         .vehicle-slot { background: #2a2a2a; color: var(--btn-color); font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; border: 1px solid var(--card-border); }
-        .vehicle-name { margin: 0; font-size: 18px; font-weight: 700; color: var(--text-main); }
+        
+        /* Titre Néon */
+        .vehicle-name { 
+            margin: 0; 
+            font-size: 19px; 
+            font-weight: 900; 
+            color: #fff; 
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(114, 90, 193, 0.7);
+            letter-spacing: 0.5px;
+        }
+        
         .vehicle-tag { font-size: 12px; color: var(--text-muted); margin-top: 0px; font-weight: 500; line-height: 1.4; }
 
         /* Boutons */
@@ -124,6 +179,7 @@
             border-radius: 0.9em; border: none; display: flex; align-items: center; position: relative; height: 2.8em;
             cursor: pointer; width: 100%; margin-top: 5px; transition: all 0.3s;
             box-shadow: inset 0 0 1.6em -0.6em #714da6;
+            justify-content: center;
         }
         .cssbuttons-io-button .icon {
             background: white; margin-left: 1em; position: absolute; display: flex; align-items: center; justify-content: center;
@@ -171,13 +227,6 @@
         .filter-actions { margin-top: 30px; display: flex; justify-content: flex-end; gap: 10px; }
         .btn-reset { background: #3a3a3a; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-weight: 600; color: var(--text-main); }
         .btn-apply { background: var(--text-main); border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-weight: 600; color: var(--bg-body); }
-
-        .review-list { background: #2a2a2a; border-radius: 10px; padding: 15px; max-height: 300px; overflow-y: auto; margin-bottom: 20px; }
-        .single-review { background: var(--card-bg); padding: 10px; border-radius: 8px; border: 1px solid var(--card-border); font-size: 14px; margin-bottom: 10px; }
-        .sr-user { font-weight: 700; color: var(--btn-color); font-size: 12px; margin-bottom: 2px; }
-        .review-input-group { display: flex; gap: 10px; flex-direction: column; }
-        .review-input-group input, .review-input-group textarea { padding: 10px; border: 1px solid var(--card-border); border-radius: 8px; width: 100%; box-sizing: border-box; background: #2a2a2a; color: var(--text-main); }
-        .btn-send-review { background: var(--btn-color); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -262,27 +311,6 @@
 
         let app = initializeApp(firebaseConfig);
         let db = getDatabase(app);
-
-        window.openReviews = function(vehicleName) {
-            document.getElementById('reviewVehicleTitle').innerText = "Avis : " + vehicleName;
-            document.getElementById('reviewModal').classList.add('active');
-            const list = document.getElementById('reviewList');
-            
-            list.innerHTML = '<div style="padding:20px;text-align:center;">Chargement...</div>';
-            const vehicleKey = vehicleName.replace(/[^a-zA-Z0-9]/g, '_');
-            onValue(ref(db, 'avis/' + vehicleKey), (snapshot) => {
-                list.innerHTML = "";
-                const data = snapshot.val();
-                if (data) {
-                    Object.values(data).reverse().forEach(r => {
-                        const div = document.createElement('div');
-                        div.className = 'single-review';
-                        div.innerHTML = `<div class="sr-user">${r.user} <span style="font-size:10px;color:#999">- ${r.date}</span></div><div class="sr-text">${r.text}</div>`;
-                        list.appendChild(div);
-                    });
-                } else { list.innerHTML = '<div style="padding:20px;text-align:center;color:#999">Aucun avis.</div>'; }
-            });
-        };
     </script>
 
     <script>
@@ -400,7 +428,6 @@
             { slot: 8, name: "Benefactor Dubsta", garage: "arene2", wheel: "Benny's", plateBackground: "Yankton", color1: "Caméléon", color2: "Blanc" },
             { slot: 9, name: "Albany Hermes", garage: "arene2", wheel: "F1", plateBackground: "Yankton", color1: "Rouge", color2: "Rouge" },
             { slot: 10, name: "Pegassi Reaper", garage: "arene2", wheel: "Benny's", plateBackground: "Yankton", color1: "Blanc", color2: "Blanc" },
-            { slot: 1, name: "Invetero Coquette D5", garage: "arene2", wheel: "F1", plateBackground: "Yankton", color1: "Beige", color2: "Noir" },
 
             // Eclipse Tower n°9
             { slot: 1, name: "Invetero Coquette D10", garage: "Eclipse Tower n°9", wheel: "F1", plateBackground: "Yankton", color1: "Beige", color2: "Noir" }
@@ -416,6 +443,7 @@
         let currentFilters = { wheel: 'all', plateBackground: 'all', color: 'all' };
         let currentGarage = 'all';
         let currentVehicle, currentImageIndex = 0;
+        let slideshowIntervals = {}; // Map stockant les intervalles par index de carte
 
         const grid = document.getElementById('galleryGrid');
         const validateBtn = document.getElementById('validateBtn');
@@ -425,7 +453,85 @@
             document.querySelector('.mobile-menu').classList.toggle('active');
         }
 
+        function clearSlideshows() {
+            Object.values(slideshowIntervals).forEach(i => clearInterval(i));
+            slideshowIntervals = {};
+        }
+
+        // --- GESTION DES IMAGES MANQUANTES ---
+        window.handleImageError = (img) => {
+            img.classList.add('hidden-slide'); // Marque l'image comme "cachée"
+            // La logique du slideshow s'adaptera automatiquement à la prochaine boucle
+        };
+
+        // --- GESTION PAUSE ---
+        window.togglePause = (event, cardIndex) => {
+            event.stopPropagation(); // Empêche l'ouverture de la modale
+            
+            const btn = document.getElementById(`pause-btn-${cardIndex}`);
+            const isPaused = btn.getAttribute('data-paused') === 'true';
+
+            if (isPaused) {
+                // Relancer
+                btn.setAttribute('data-paused', 'false');
+                btn.innerHTML = '&#10074;&#10074;'; // Icone Pause
+                startSlideshow(cardIndex);
+            } else {
+                // Mettre en pause
+                if(slideshowIntervals[cardIndex]) clearInterval(slideshowIntervals[cardIndex]);
+                btn.setAttribute('data-paused', 'true');
+                btn.innerHTML = '&#9658;'; // Icone Play
+            }
+        };
+
+        function startSlideshow(index) {
+            // Nettoyage préventif
+            if(slideshowIntervals[index]) clearInterval(slideshowIntervals[index]);
+
+            const interval = setInterval(() => {
+                const container = document.getElementById(`slideshow-${index}`);
+                if (!container) return;
+
+                // Récupérer uniquement les images valides (pas en erreur)
+                const slides = Array.from(container.querySelectorAll('.vehicle-slide:not(.hidden-slide)'));
+                const bar = document.getElementById(`bar-${index}`);
+                
+                // SI MOINS DE 2 PHOTOS : On arrête tout
+                if (slides.length < 2) {
+                    if(bar) bar.style.display = 'none';
+                    if(slides[0]) slides[0].classList.add('active'); // S'assurer que la seule image est visible
+                    clearInterval(slideshowIntervals[index]);
+                    return;
+                }
+
+                // Trouver l'image active actuelle
+                let activeIndex = slides.findIndex(s => s.classList.contains('active'));
+                if (activeIndex === -1) activeIndex = 0;
+
+                // Calculer la suivante
+                const nextIndex = (activeIndex + 1) % slides.length;
+
+                // Animation
+                slides[activeIndex].classList.remove('active');
+                slides[nextIndex].classList.add('active');
+
+                // Reset barre de progression
+                if(bar) {
+                    bar.style.transition = 'none';
+                    bar.style.width = '0%';
+                    // Force reflow
+                    void bar.offsetWidth;
+                    bar.style.transition = 'width 3.5s linear';
+                    bar.style.width = '100%';
+                }
+
+            }, 3500);
+
+            slideshowIntervals[index] = interval;
+        }
+
         function render() {
+            clearSlideshows();
             grid.innerHTML = "";
             const s = searchInput.value.toLowerCase();
             
@@ -440,8 +546,22 @@
                 const card = document.createElement('div');
                 card.className = `vehicle-card ${isSelected ? 'selected' : ''}`;
                 
+                // --- GENERATION DU SLIDESHOW ROCKSTAR ---
+                let imagesHTML = '';
+                v.images.forEach((imgSrc, i) => {
+                    // Utilisation de balises IMG pour gérer onError
+                    // On ajoute onerror="handleImageError(this)" pour détecter si l'image n'existe pas
+                    imagesHTML += `<img class="vehicle-slide ${i===0 ? 'active' : ''}" src="${imgSrc}" onerror="handleImageError(this)">`;
+                });
+
                 card.innerHTML = `
-                    <img src="${v.images[0]}" class="vehicle-img" onclick="openImageModal(${index})" onerror="this.src='https://via.placeholder.com/300x200?text=No+Image'">
+                    <div class="slideshow-container" id="slideshow-${index}" onclick="openImageModal(${index})">
+                        <button class="pause-btn" id="pause-btn-${index}" onclick="togglePause(event, ${index})" data-paused="false">&#10074;&#10074;</button>
+                        ${imagesHTML}
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" id="bar-${index}"></div>
+                        </div>
+                    </div>
                     <div class="vehicle-info">
                         <div class="garage-badge">
                             <span class="vehicle-garage">${v.garage}</span>
@@ -449,15 +569,21 @@
                         </div>
                         <h3 class="vehicle-name">${v.name}</h3>
                         <div class="vehicle-tag">${v.color1} • ${v.wheel || '-'}</div>
-                        <button class="cssbuttons-io-button" onclick="window.openReviews('${v.name}')">
-                            Avis <div class="icon">★</div>
-                        </button>
                         <button class="cssbuttons-io-button ${isSelected ? 'selected' : ''}" onclick="toggleSelection(${index})">
                             ${isSelected ? 'Retirer' : 'Ajouter'} <div class="icon">+</div>
                         </button>
                     </div>
                 `;
                 grid.appendChild(card);
+
+                // --- LANCEMENT DU SLIDESHOW (Boucle auto) ---
+                // Petite latence pour laisser le temps au DOM de s'afficher et aux onerror de se déclencher
+                const bar = document.getElementById(`bar-${index}`);
+                if(bar) bar.style.width = '100%'; // Init visuel
+                
+                setTimeout(() => {
+                    startSlideshow(index);
+                }, 100);
             });
         }
 
@@ -468,7 +594,7 @@
                 if(selectedVehicles.length >= 10) return alert("Maximum 10 véhicules !");
                 selectedVehicles.push(v);
             }
-            render();
+            render(); 
             validateBtn.textContent = `Ma liste (${selectedVehicles.length}/10)`;
             if(selectedVehicles.length > 0) validateBtn.classList.remove('disabled');
             else validateBtn.classList.add('disabled');
@@ -509,7 +635,6 @@
         });
         searchInput.oninput = render;
 
-        // Fermer les modales au clic extérieur
         document.querySelectorAll('.modal, .filter-modal').forEach(m => {
             m.onclick = (e) => { if(e.target === m) m.classList.remove('active', 'show'); }
         });
