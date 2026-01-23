@@ -13,10 +13,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/CustomEase.min.js"></script>
 
     <style>
-        /* ============================================================
-           VARIABLES DE THÈME (DARK MODE NOIR)
-           ============================================================
-        */
         :root { 
             --bg-body: #000000;
             --text-main: #ffffff;
@@ -25,15 +21,11 @@
             --card-bg: #111111;
             --card-border: #333333;
             --input-bg: #1a1a1a;
-            --btn-color: #8b5cf6; /* Couleur Violette Principale */
+            --btn-color: #8b5cf6; 
             --shadow-tone: rgba(139, 92, 246, 0.4); 
             --danger-color: #ef4444; 
         }
 
-        /* ============================================================
-           RESET ET STYLES DE BASE
-           ============================================================
-        */
         body { 
             margin: 0; 
             padding: 0; 
@@ -46,10 +38,23 @@
 
         * { box-sizing: border-box; }
 
-        /* ============================================================
-           NAVBAR (LOGO GAUCHE / LIENS DROITE)
-           ============================================================
-        */
+        /* --- BACKGROUND BLOBS (Taches violettes) --- */
+        body::before {
+            content: ''; position: fixed; width: 40rem; height: 40rem;
+            right: -10%; top: -15%; z-index: -1;
+            background-color: var(--btn-color);
+            border-radius: 50%; filter: blur(120px); opacity: 0.25;
+            pointer-events: none;
+        }
+        body::after {
+            content: ''; position: fixed; width: 30rem; height: 30rem;
+            left: -5%; bottom: 10%; z-index: -1;
+            background-color: #c4b5fd;
+            border-radius: 50%; filter: blur(100px); opacity: 0.15;
+            pointer-events: none;
+        }
+
+        /* --- NAVBAR (LOGO GAUCHE / LIENS DROITE) --- */
         .navbar { 
             position: fixed; 
             top: 0; 
@@ -70,7 +75,9 @@
             text-decoration: none; 
             letter-spacing: 2px; 
             text-transform: uppercase;
+            transition: 0.3s;
         }
+        .logo:hover { color: var(--btn-color); }
 
         .nav-links { 
             display: flex; 
@@ -92,34 +99,15 @@
 
         .nav-links a:hover { color: var(--btn-color); }
 
-        /* ============================================================
-           SECTION HERO & PERSONNAGE GÉANT
-           ============================================================
-        */
+        /* --- HERO SECTION --- */
         .hero { 
             position: relative;
             min-height: 100vh;
             width: 100%;
             overflow: hidden; 
             display: block;
-            z-index: 1; /* Important pour que les blobs soient derrière */
+            z-index: 1; 
         } 
-
-        /* AJOUT : Blobs Violets en arrière-plan */
-        .hero::before {
-            content: ''; position: absolute; width: 40rem; height: 40rem;
-            right: -10%; top: -15%; z-index: -1;
-            background-color: var(--btn-color); /* Utilise le violet défini dans :root */
-            border-radius: 50%; filter: blur(120px); opacity: 0.25;
-            pointer-events: none;
-        }
-        .hero::after {
-            content: ''; position: absolute; width: 30rem; height: 30rem;
-            left: -5%; bottom: 10%; z-index: -1;
-            background-color: #c4b5fd; /* Un violet plus clair */
-            border-radius: 50%; filter: blur(100px); opacity: 0.15;
-            pointer-events: none;
-        }
         
         .hero-image-wrapper {
             position: fixed; 
@@ -127,7 +115,6 @@
             width: 100%; height: 100vh;
             display: flex; justify-content: center; align-items: flex-start; 
             z-index: 0; pointer-events: none; 
-            /* Sera animé par GSAP */
         }
 
         .parallax-img {
@@ -161,10 +148,6 @@
             text-transform: uppercase;
         }
 
-        /* ============================================================
-           BOUTONS
-           ============================================================
-        */
         .btn-group {
             display: flex; 
             gap: 15px; 
@@ -200,10 +183,6 @@
             transform: translateY(-3px);
         }
 
-        /* ============================================================
-           SECTIONS INFOS
-           ============================================================
-        */
         .info-section { 
             background: var(--card-bg); 
             border: 1px solid var(--card-border); 
@@ -224,10 +203,7 @@
 
         .info-item h3 { color: var(--btn-color); margin-bottom: 12px; font-weight: 700;}
 
-        /* ============================================================
-           GALERIE PHOTO (L'EFFET DE PILE)
-           ============================================================
-        */
+        /* --- GALERIE --- */
         .animation-wrapper { 
             position: relative; 
             width: 100%; 
@@ -281,13 +257,11 @@
 
         .img img { width: 100%; height: 100%; object-fit: cover; cursor: pointer; }
 
-        /* Configuration de l'effet de pile au repos */
         .img:nth-child(1) { margin-left: -350px; transform: translate(-50%, -50%) rotate(-5deg); }
         .img:nth-child(2) { margin-left: -120px; transform: translate(-50%, -50%) rotate(-2deg); }
         .img:nth-child(3) { margin-left: 120px; transform: translate(-50%, -50%) rotate(2deg); }
         .img:nth-child(4) { margin-left: 350px; transform: translate(-50%, -50%) rotate(5deg); }
 
-        /* État quand elles sont regroupées (Reorder) */
         .img.reorder { margin-left: 0; top: 50%; left: 50%; }
         .img.reorder:nth-child(1) { transform: translate(-50%, -50%) rotate(6deg); z-index: 1;}
         .img.reorder:nth-child(2) { transform: translate(-50%, -50%) rotate(-3deg); z-index: 2;}
@@ -308,10 +282,7 @@
             transition: transform 0.2s; 
         }
 
-        /* ============================================================
-           MODALES (IMAGE & AVIS)
-           ============================================================
-        */
+        /* --- MODALES --- */
         .modal, .review-modal { 
             background: rgba(0, 0, 0, 0.95); position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             z-index: 5000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); 
@@ -325,16 +296,12 @@
         .review-input-group input, .review-input-group textarea { padding: 12px; border: 1px solid var(--card-border); border-radius: 10px; background: var(--input-bg); color: white; }
         .btn-send-review { background: var(--btn-color); color: white; border: none; padding: 14px; border-radius: 10px; font-weight: 800; cursor: pointer; }
 
-        /* ============================================================
-           MARQUEE BG
-           ============================================================
-        */
+        /* --- MARQUEE BG --- */
         .marquee-container { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; display: flex; align-items: center; pointer-events: none; z-index: -1; overflow: hidden; }
         .marquee-text { font-size: 16vw; font-weight: 900; white-space: nowrap; color: transparent; -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.07); text-transform: uppercase; will-change: transform; }
 
         footer { border-top: 1px solid var(--card-border); padding: 60px 0; text-align: center; color: var(--text-muted); font-size: 12px; position: relative; z-index: 20; background: #000; letter-spacing: 2px; }
 
-        /* REVEAL */
         .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease; }
         .reveal.visible { opacity: 1; transform: translateY(0); }
 
@@ -349,12 +316,13 @@
     </div>
 
     <nav class="navbar">
-      <ul class="nav-links">
-    <li><a href="/accueil">Accueil</a></li>
-    <li><a href="/vehicules">Garage</a></li>
-    <li><a href="/fonctionnement">Fonctionnement</a></li>
-    <li><a href="/socials">Contact</a></li>
-</ul>
+        <a href="/accueil" class="logo">ITSMTO</a>
+        <ul class="nav-links">
+            <li><a href="/accueil">Accueil</a></li>
+            <li><a href="/vehicules">Garage</a></li>
+            <li><a href="/fonctionnement">Fonctionnement</a></li>
+            <li><a href="/socials">Contact</a></li>
+        </ul>
     </nav>
 
     <section class="hero">
@@ -367,9 +335,9 @@
             
             <div class="btn-group">
                 <button id="openReviewBtn" class="universal-btn">Avis Clients</button>
-                <a href="vehicules.html" class="universal-btn">Voir le Garage</a>
-                <a href="fonctionnement.html" class="universal-btn">Fonctionnement</a>
-                <a href="socials.html" class="universal-btn">Contact Direct</a>
+                <a href="/vehicules" class="universal-btn">Voir le Garage</a>
+                <a href="/fonctionnement" class="universal-btn">Fonctionnement</a>
+                <a href="/socials" class="universal-btn">Contact Direct</a>
             </div>
 
             <div class="info-section">
@@ -424,42 +392,35 @@
     </footer>
 
     <script>
-        // Enregistrement des plugins GSAP
         gsap.registerPlugin(ScrollTrigger, Flip);
 
         document.addEventListener("DOMContentLoaded", () => {
             const marquee = document.getElementById("marquee");
-            // const perso = document.getElementById("heroPerso"); // Plus besoin car géré par ScrollTrigger
             const rModal = document.getElementById('reviewModal');
 
-            // --- NOUVEL EFFET DE DISPARITION AU SCROLL (GSAP ScrollTrigger) ---
             gsap.to(".hero-image-wrapper", {
                 scrollTrigger: {
-                    trigger: ".hero", // L'élément qui déclenche
-                    start: "top top", // Commence quand le haut de hero est en haut de l'écran
-                    end: "40% top",   // Finit quand 40% du hero est passé
-                    scrub: 1,         // Effet fluide lié au scroll
+                    trigger: ".hero", 
+                    start: "top top", 
+                    end: "40% top",   
+                    scrub: 1,         
                 },
-                opacity: 0,  // Disparition
-                scale: 0.9,  // Léger rétrécissement pour l'effet de profondeur
-                y: 50,       // Descend légèrement
+                opacity: 0,  
+                scale: 0.9,  
+                y: 50,       
                 ease: "none"
             });
 
-            // --- SCROLL EFFECTS (Marquee uniquement maintenant) ---
             window.addEventListener("scroll", () => {
                 const scroll = window.scrollY;
                 if (marquee) marquee.style.transform = `translateX(calc(-5% - ${scroll * 1.5}px))`;
-                // L'ancien effet manuel sur 'perso' est retiré pour ne pas entrer en conflit avec GSAP
             });
 
-            // --- REVEAL SYSTEM ---
             const revealObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
             }, { threshold: 0.1 });
             document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
 
-            // --- ANIMATION GSAP FLIP (GALERIE) ---
             const images = gsap.utils.toArray(".img");
             const btn = document.querySelector(".toggle-btn");
             let isFlipped = false;
@@ -472,7 +433,6 @@
                 Flip.from(state, { absolute: true, duration: 1.5, stagger: 0.05, ease: "power2.inOut", simple: true });
             });
 
-            // --- MODAL AVIS ---
             document.getElementById('openReviewBtn').onclick = () => rModal.classList.add('active');
         });
 
