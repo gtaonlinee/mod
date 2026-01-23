@@ -19,26 +19,77 @@
     }
 
     body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background: var(--bg-body); color: var(--text-main); overflow-x: hidden; }
-    .container { max-width: 600px; margin: 140px auto; padding: 0 24px; position: relative; }
     
-    .navbar { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 1200px; border-radius: 30px; background: var(--nav-bg); padding: 10px 30px; z-index: 1000; border: 1px solid var(--card-border); box-shadow: 0 10px 30px -10px black; box-sizing: border-box; }
-    .nav-inner { display: flex; justify-content: space-between; align-items: center; }
-    .logo { font-weight: 800; font-size: 22px; color: var(--btn-color); text-decoration: none; }
-    
-    .nav-links { display: flex; gap: 20px; }
-    .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 14px; font-weight: 500; }
-    .nav-links a.active { color: var(--btn-color); }
+    /* --- BACKGROUND BLOBS (Taches violettes) --- */
+    body::before {
+        content: ''; position: fixed; width: 40rem; height: 40rem;
+        right: -10%; top: -15%; z-index: -1;
+        background-color: var(--btn-color);
+        border-radius: 50%; filter: blur(120px); opacity: 0.25;
+        pointer-events: none;
+    }
+    body::after {
+        content: ''; position: fixed; width: 30rem; height: 30rem;
+        left: -5%; bottom: 10%; z-index: -1;
+        background-color: #c4b5fd;
+        border-radius: 50%; filter: blur(100px); opacity: 0.15;
+        pointer-events: none;
+    }
 
-    .menu-toggle { display: none; background: none; border: none; font-size: 28px; color: var(--btn-color); cursor: pointer; }
-    .mobile-menu { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-body); z-index: 2000; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
-    .mobile-menu a { font-size: 32px; font-weight: 800; text-decoration: none; color: var(--text-main); }
-    .close-menu { position: absolute; top: 30px; right: 30px; font-size: 40px; background: none; border: none; color: var(--text-main); cursor: pointer; }
+    /* --- MARQUEE BACKGROUND (Texte défilant) --- */
+    .marquee-container { 
+        position: fixed; top: 0; left: 0; 
+        width: 100%; height: 100vh; 
+        display: flex; align-items: center; 
+        pointer-events: none; z-index: -2; 
+        overflow: hidden; 
+    }
+    .marquee-text { 
+        font-size: 16vw; font-weight: 900; 
+        white-space: nowrap; color: transparent; 
+        -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.07); 
+        text-transform: uppercase; will-change: transform; 
+    }
+
+    .container { max-width: 600px; margin: 140px auto; padding: 0 24px; position: relative; z-index: 1; }
     
-    @media (max-width: 768px) { .nav-links { display: none; } .menu-toggle { display: block; } }
+    /* --- NAVIGATION STYLE UNIFIÉ --- */
+    .navbar { 
+        position: fixed; top: 0; left: 0; width: 100%; 
+        padding: 35px 60px; display: flex; justify-content: space-between; align-items: center;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+        z-index: 5000; box-sizing: border-box;
+    }
+    .logo { 
+        font-weight: 800; font-size: 26px; color: white; 
+        text-decoration: none; letter-spacing: 2px; text-transform: uppercase;
+    }
+    .nav-links { display: flex; gap: 45px; list-style: none; margin: 0; padding: 0; }
+    .nav-links a { 
+        text-decoration: none; color: #dddddd; font-size: 13px; 
+        font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; transition: color 0.3s ease;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--btn-color); }
+    
+    .menu-toggle { display: none; background: none; border: none; font-size: 28px; color: white; cursor: pointer; }
+    
+    .mobile-menu { 
+        display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+        background: var(--bg-body); z-index: 6000; 
+        flex-direction: column; align-items: center; justify-content: center; gap: 40px; 
+    }
+    .mobile-menu.active { display: flex !important; }
+    .mobile-menu a { font-size: 32px; font-weight: 800; text-decoration: none; color: var(--text-main); }
+    .close-menu { position: absolute; top: 30px; right: 30px; font-size: 40px; border: none; background: none; color: var(--text-main); cursor: pointer; }
+    
+    @media (max-width: 768px) { 
+        .navbar { padding: 20px 24px; }
+        .nav-links { display: none; } 
+        .menu-toggle { display: block; } 
+    }
 
     .reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
-    .blob-bg::before { content: ''; position: absolute; width: 12rem; height: 12rem; left: -60px; top: -60px; z-index: -1; background-color: #8b5cf6; border-radius: 9999px; filter: blur(70px); opacity: 0.3; }
 
     .card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 40px; box-shadow: 0 25px 50px -12px black; }
     .link { display: flex; align-items: center; justify-content: space-between; background: #1a1a1a; border: 1px solid var(--card-border); padding: 18px; margin-bottom: 12px; border-radius: 12px; text-decoration: none; color: var(--text-main); transition: 0.3s; font-weight: 600; }
@@ -48,16 +99,21 @@
 </style>
 </head>
 <body>
-<nav class="navbar">
-    <div class="nav-inner">
-        <a href="index.html" class="logo">ITSMTO</a>
-        <div class="nav-links">
-            <a href="index.html">Accueil</a>
-            <a href="vehicules.html">Garage</a>
-            <a href="fonctionnement.html">Fonctionnement</a>
-        </div>
-        <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
+
+<div class="marquee-container">
+    <div class="marquee-text" id="marquee">
+        ITSMTO GARAGE • EXCLUSIVE • ITSMTO GARAGE • EXCLUSIVE •
     </div>
+</div>
+
+<nav class="navbar">
+    <a href="index.html" class="logo">ITSMTO</a>
+    <div class="nav-links">
+        <a href="vehicules.html">Garage</a>
+        <a href="fonctionnement.html">Fonctionnement</a>
+        <a href="socials.html" class="active">Contact</a>
+    </div>
+    <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
 </nav>
 
 <div id="mobileMenu" class="mobile-menu">
@@ -65,11 +121,12 @@
     <a href="index.html">Accueil</a>
     <a href="vehicules.html">Garage</a>
     <a href="fonctionnement.html">Fonctionnement</a>
+    <a href="socials.html">Contact</a>
 </div>
 
-<div class="container blob-bg">
+<div class="container">
     <div class="card">
-        <h1 style="font-weight:800; margin-bottom: 5px;">contact</h1>
+        <h1 style="font-weight:800; margin-bottom: 5px; text-transform: uppercase;">contact</h1>
         <p style="color:var(--text-muted); margin-bottom:30px;">itsmto_</p>
         
         <a href="https://profile.playstation.com/its_MTO" target="_blank" class="link">
@@ -93,8 +150,16 @@
 <script>
     function toggleMobileMenu() {
         const menu = document.getElementById('mobileMenu');
-        menu.style.display = (menu.style.display === 'flex') ? 'none' : 'flex';
+        menu.classList.toggle('active');
     }
+
+    // Marquee Scroll
+    const marquee = document.getElementById("marquee");
+    window.addEventListener("scroll", () => {
+        const scroll = window.scrollY;
+        if (marquee) marquee.style.transform = `translateX(calc(-5% - ${scroll * 1.5}px))`;
+    });
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
     }, { threshold: 0.1 });

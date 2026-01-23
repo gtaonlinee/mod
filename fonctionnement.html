@@ -16,22 +16,76 @@
         --card-border: #333333; 
         --btn-color: #8b5cf6; 
         --shadow-tone: rgba(139, 92, 246, 0.2); 
+        --danger-color: #ef4444;
+        --success-color: #28a745;
     }
 
     body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background: var(--bg-body); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
-    .container { max-width: 900px; margin: 140px auto; padding: 0 24px; position: relative; }
     
-    .navbar { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 1200px; border-radius: 30px; background: var(--nav-bg); padding: 10px 30px; z-index: 1000; border: 1px solid var(--card-border); box-shadow: 0 10px 30px -10px black; box-sizing: border-box; }
-    .nav-inner { display: flex; justify-content: space-between; align-items: center; }
-    .logo { font-weight: 800; font-size: 22px; color: var(--btn-color); text-decoration: none; }
-    .nav-links { display: flex; gap: 20px; }
-    .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 14px; font-weight: 500; transition: 0.3s; }
-    .nav-links a.active, .nav-links a:hover { color: var(--btn-color); }
-    .menu-toggle { display: none; background: none; border: none; font-size: 28px; color: var(--btn-color); cursor: pointer; }
-    .mobile-menu { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-body); z-index: 2000; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
+    /* --- BACKGROUND BLOBS (Taches violettes) --- */
+    body::before {
+        content: ''; position: fixed; width: 40rem; height: 40rem;
+        right: -10%; top: -15%; z-index: -1;
+        background-color: var(--btn-color);
+        border-radius: 50%; filter: blur(120px); opacity: 0.25;
+        pointer-events: none;
+    }
+    body::after {
+        content: ''; position: fixed; width: 30rem; height: 30rem;
+        left: -5%; bottom: 10%; z-index: -1;
+        background-color: #c4b5fd;
+        border-radius: 50%; filter: blur(100px); opacity: 0.15;
+        pointer-events: none;
+    }
+
+    /* --- MARQUEE BACKGROUND (Texte défilant) --- */
+    .marquee-container { 
+        position: fixed; top: 0; left: 0; 
+        width: 100%; height: 100vh; 
+        display: flex; align-items: center; 
+        pointer-events: none; z-index: -2; 
+        overflow: hidden; 
+    }
+    .marquee-text { 
+        font-size: 16vw; font-weight: 900; 
+        white-space: nowrap; color: transparent; 
+        -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.07); 
+        text-transform: uppercase; will-change: transform; 
+    }
+
+    .container { max-width: 900px; margin: 140px auto; padding: 0 24px; position: relative; z-index: 1; }
+    
+    /* --- NAVIGATION STYLE UNIFIÉ --- */
+    .navbar { 
+        position: fixed; top: 0; left: 0; width: 100%; 
+        padding: 35px 60px; display: flex; justify-content: space-between; align-items: center;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+        z-index: 5000; box-sizing: border-box;
+    }
+    .logo { 
+        font-weight: 800; font-size: 26px; color: white; 
+        text-decoration: none; letter-spacing: 2px; text-transform: uppercase;
+    }
+    .nav-links { display: flex; gap: 45px; list-style: none; margin: 0; padding: 0; }
+    .nav-links a { 
+        text-decoration: none; color: #dddddd; font-size: 13px; 
+        font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; transition: color 0.3s ease;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--btn-color); }
+    
+    .menu-toggle { display: none; background: none; border: none; font-size: 28px; color: white; cursor: pointer; }
+    
+    .mobile-menu { 
+        display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+        background: var(--bg-body); z-index: 6000; 
+        flex-direction: column; align-items: center; justify-content: center; gap: 40px; 
+    }
+    .mobile-menu.active { display: flex !important; }
     .mobile-menu a { font-size: 32px; font-weight: 800; text-decoration: none; color: var(--text-main); }
-    .close-menu { position: absolute; top: 30px; right: 30px; font-size: 40px; background: none; border: none; color: var(--text-main); cursor: pointer; }
+    .close-menu { position: absolute; top: 30px; right: 30px; font-size: 40px; border: none; background: none; color: var(--text-main); cursor: pointer; }
+
     @media (max-width: 768px) { 
+        .navbar { padding: 20px 24px; }
         .nav-links { display: none; } 
         .menu-toggle { display: block; }
         .container { margin: 120px auto; padding: 0 16px; }
@@ -45,30 +99,12 @@
         .heist-name { font-size: 14px; }
         .heist-stats { font-size: 12px; }
         .note-box { padding: 12px 16px; font-size: 13px; }
-        .blob-bg::before { width: 6rem; height: 6rem; top: -30px; }
         h1 { font-size: 28px; margin-bottom: 30px; }
         .heist-section-title { font-size: 16px; }
     }
 
-    @media (max-width: 480px) {
-        .container { padding: 0 12px; }
-        .info-card { padding: 16px; }
-        .heist-gallery { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; }
-        .heist-item { padding: 8px; }
-        .heist-item img { height: 80px; }
-        .heist-name { font-size: 13px; }
-        .heist-stats { font-size: 11px; }
-        .tag { font-size: 11px; padding: 5px 10px; }
-        h1 { font-size: 24px; }
-        .navbar { width: 98%; padding: 8px 20px; }
-        .logo { font-size: 18px; }
-        .menu-toggle { font-size: 24px; }
-        .mobile-menu a { font-size: 28px; }
-    }
-
     .reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
-    .blob-bg::before { content: ''; position: absolute; width: 10rem; height: 10rem; left: 50%; top: -50px; transform: translateX(-50%); z-index: -1; background-color: #8b5cf6; border-radius: 9999px; filter: blur(80px); opacity: 0.3; }
 
     .info-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px; padding: 40px; margin-bottom: 30px; box-shadow: 0 15px 30px -10px black; }
     .info-card h2 { color: var(--btn-color); margin-top: 0; display: flex; align-items: center; gap: 10px; }
@@ -89,38 +125,43 @@
     .note-title { font-weight: 800; display: block; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
 
     /* Styles pour la Modale (Zoom) */
-    .modal { display: none; position: fixed; z-index: 2000; padding-top: 50px; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); backdrop-filter: blur(5px); }
+    .modal { display: none; position: fixed; z-index: 7000; padding-top: 50px; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); backdrop-filter: blur(5px); }
     .modal-content { margin: auto; display: block; max-width: 90%; max-height: 85vh; border-radius: 10px; box-shadow: 0 0 20px rgba(255,255,255,0.1); animation: zoomIn 0.3s; border: 1px solid var(--card-border); }
-    .close-modal { position: absolute; top: 20px; right: 35px; color: #f1f1f1; font-size: 40px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+    .close-modal { position: absolute; top: 20px; right: 35px; color: #f1f1f1; font-size: 40px; font-weight: bold; cursor: pointer; transition: 0.3s; z-index: 7001;}
     .close-modal:hover { color: var(--btn-color); }
     @keyframes zoomIn { from {transform:scale(0.8); opacity:0} to {transform:scale(1); opacity:1} }
 </style>
 </head>
 <body>
 
-<nav class="navbar">
-    <div class="nav-inner">
-        <a href="index.html" class="logo">ITSMTO</a>
-        <div class="nav-links">
-            <a href="index.html">Accueil</a>
-            <a href="vehicules.html">Garage</a>
-            <a href="socials.html">Contact</a>
-        </div>
-        <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
+<div class="marquee-container">
+    <div class="marquee-text" id="marquee">
+        ITSMTO GARAGE • EXCLUSIVE • ITSMTO GARAGE • EXCLUSIVE •
     </div>
+</div>
+
+<nav class="navbar">
+    <a href="index.html" class="logo">ITSMTO</a>
+    <div class="nav-links">
+        <a href="vehicules.html">Garage</a>
+        <a href="fonctionnement.html" class="active">Fonctionnement</a>
+        <a href="socials.html">Contact</a>
+    </div>
+    <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
 </nav>
 
 <div id="mobileMenu" class="mobile-menu">
     <button class="close-menu" onclick="toggleMobileMenu()">×</button>
     <a href="index.html">Accueil</a>
     <a href="vehicules.html">Garage</a>
-        <a href="socials.html">Contact</a>
-    </div>
+    <a href="fonctionnement.html">Fonctionnement</a>
+    <a href="socials.html">Contact</a>
+</div>
 
-    <div class="container blob-bg">
-        <h1 style="text-align: center; margin-bottom: 50px; font-size: 36px; font-weight: 800;">Services & Fonctionnement</h1>
+<div class="container">
+    <h1 style="text-align: center; margin-bottom: 50px; font-size: 36px; font-weight: 800; text-transform: uppercase;">Services & Fonctionnement</h1>
 
-        <div class="info-card">
+    <div class="info-card">
         <h2><span>🚗</span> Échanges de Véhicules</h2>
         <p>J'échange mes véhicules moddés (Roues F1, Benny's, Plaques Yankton, Couleurs moddées) contre d'autres véhicules rares que je ne possède pas encore.</p>
     </div>
@@ -201,8 +242,15 @@
     // Menu Mobile
     function toggleMobileMenu() {
         const menu = document.getElementById('mobileMenu');
-        menu.style.display = (menu.style.display === 'flex') ? 'none' : 'flex';
+        menu.classList.toggle('active');
     }
+
+    // Marquee Scroll
+    const marquee = document.getElementById("marquee");
+    window.addEventListener("scroll", () => {
+        const scroll = window.scrollY;
+        if (marquee) marquee.style.transform = `translateX(calc(-5% - ${scroll * 1.5}px))`;
+    });
 
     // Animation au scroll
     const observer = new IntersectionObserver((entries) => {
