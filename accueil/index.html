@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>itsmto • Accueil</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script src="https://unpkg.co/gsap@3/dist/gsap.min.js"></script>
+    <script src="https://unpkg.co/gsap@3/dist/ScrollTrigger.min.js"></script>
+    <script src="https://assets.codepen.io/16327/Flip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/CustomEase.min.js"></script>
+
+    <style>
+        /* ============================================================
+           VARIABLES DE THÈME (DARK MODE NOIR)
+           ============================================================
+        */
+        :root { 
+            --bg-body: #000000;
+            --text-main: #ffffff;
+            --text-muted: #a1a1aa;
+            --nav-bg: #0a0a0a;
+            --card-bg: #111111;
+            --card-border: #333333;
+            --input-bg: #1a1a1a;
+            --btn-color: #8b5cf6; /* Couleur Violette Principale */
+            --shadow-tone: rgba(139, 92, 246, 0.4); 
+            --danger-color: #ef4444; 
+        }
+
+        /* ============================================================
+           RESET ET STYLES DE BASE
+           ============================================================
+        */
+        body { 
+            margin: 0; 
+            padding: 0; 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg-body); 
+            color: var(--text-main); 
+            line-height: 1.6; 
+            overflow-x: hidden; 
+        }
+
+        * { box-sizing: border-box; }
+
+        /* ============================================================
+           NAVBAR (LOGO GAUCHE / LIENS DROITE)
+           ============================================================
+        */
+        .navbar { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            padding: 35px 60px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+            z-index: 1000; 
+        }
+
+        .logo { 
+            font-weight: 800; 
+            font-size: 26px; 
+            color: white; 
+            text-decoration: none; 
+            letter-spacing: 2px; 
+            text-transform: uppercase;
+        }
+
+        .nav-links { 
+            display: flex; 
+            gap: 45px; 
+            list-style: none; 
+            margin: 0; 
+            padding: 0; 
+        }
+
+        .nav-links a { 
+            text-decoration: none; 
+            color: #dddddd; 
+            font-size: 13px; 
+            font-weight: 600; 
+            text-transform: uppercase; 
+            letter-spacing: 1.2px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover { color: var(--btn-color); }
+
+        /* ============================================================
+           SECTION HERO & PERSONNAGE GÉANT
+           ============================================================
+        */
+        .hero { 
+            position: relative;
+            min-height: 100vh;
+            width: 100%;
+            overflow: hidden; 
+            display: block;
+            z-index: 1; /* Important pour que les blobs soient derrière */
+        } 
+
+        /* AJOUT : Blobs Violets en arrière-plan */
+        .hero::before {
+            content: ''; position: absolute; width: 40rem; height: 40rem;
+            right: -10%; top: -15%; z-index: -1;
+            background-color: var(--btn-color); /* Utilise le violet défini dans :root */
+            border-radius: 50%; filter: blur(120px); opacity: 0.25;
+            pointer-events: none;
+        }
+        .hero::after {
+            content: ''; position: absolute; width: 30rem; height: 30rem;
+            left: -5%; bottom: 10%; z-index: -1;
+            background-color: #c4b5fd; /* Un violet plus clair */
+            border-radius: 50%; filter: blur(100px); opacity: 0.15;
+            pointer-events: none;
+        }
+        
+        .hero-image-wrapper {
+            position: fixed; 
+            top: 0; left: 0; 
+            width: 100%; height: 100vh;
+            display: flex; justify-content: center; align-items: flex-start; 
+            z-index: 0; pointer-events: none; 
+            /* Sera animé par GSAP */
+        }
+
+        .parallax-img {
+            height: 105vh; 
+            width: auto;
+            margin-top: 5vh; 
+            filter: drop-shadow(0 0 70px rgba(139, 92, 246, 0.25)); 
+            will-change: transform;
+        }
+
+        .container-hero {
+            position: relative;
+            z-index: 2; 
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            margin-top: 88vh; 
+            padding-bottom: 100px; 
+        }
+
+        h1 {
+            font-size: clamp(40px, 7vw, 90px); 
+            line-height: 1;
+            margin-bottom: 35px;
+            text-shadow: 0 10px 40px rgba(0,0,0,1); 
+            background: linear-gradient(to bottom, #ffffff, #888888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        /* ============================================================
+           BOUTONS
+           ============================================================
+        */
+        .btn-group {
+            display: flex; 
+            gap: 15px; 
+            justify-content: center; 
+            flex-wrap: wrap; 
+            margin-bottom: 50px;
+        }
+
+        .universal-btn { 
+            position: relative; 
+            display: inline-flex; 
+            justify-content: center; 
+            align-items: center; 
+            padding: 16px 35px; 
+            text-decoration: none; 
+            color: var(--text-main); 
+            background: rgba(0,0,0,0.85); 
+            border: 1px solid var(--card-border); 
+            backdrop-filter: blur(12px); 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+            border-radius: 50px; 
+            font-weight: 700; 
+            font-size: 13px; 
+            text-transform: uppercase; 
+            letter-spacing: 1px;
+        }
+
+        .universal-btn:hover { 
+            border-color: var(--btn-color); 
+            background: var(--btn-color); 
+            color: white; 
+            transform: translateY(-3px);
+        }
+
+        /* ============================================================
+           SECTIONS INFOS
+           ============================================================
+        */
+        .info-section { 
+            background: var(--card-bg); 
+            border: 1px solid var(--card-border); 
+            border-radius: 28px; 
+            padding: 50px; 
+            text-align: left; 
+            box-shadow: 0 30px 60px -20px black; 
+            max-width: 1050px; 
+            margin: 0 auto;
+        }
+
+        .info-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 35px; 
+            margin-top: 35px; 
+        }
+
+        .info-item h3 { color: var(--btn-color); margin-bottom: 12px; font-weight: 700;}
+
+        /* ============================================================
+           GALERIE PHOTO (L'EFFET DE PILE)
+           ============================================================
+        */
+        .animation-wrapper { 
+            position: relative; 
+            width: 100%; 
+            min-height: 800px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            margin-top: 100px; 
+            z-index: 10;
+            background: var(--bg-body);
+        }
+
+        .big-text-bg { 
+            position: absolute; 
+            top: 20%; left: 50%; 
+            transform: translate(-50%, -50%); 
+            text-align: center; 
+            z-index: 0; width: 100%; 
+            pointer-events: none; 
+        }
+
+        .big-text-bg h2 { 
+            font-size: 15vw; 
+            font-weight: 400; 
+            letter-spacing: -0.05em; 
+            color: rgba(255, 255, 255, 0.05); 
+            margin: 0; 
+            line-height: 1; 
+            text-transform: uppercase;
+        }
+
+        .img-gallery-container { 
+            position: relative; 
+            width: 100%; 
+            height: 600px; 
+            z-index: 10; 
+            margin-top: 100px; 
+        }
+
+        .img { 
+            position: absolute; 
+            width: 300px; 
+            height: 400px; 
+            overflow: hidden; 
+            border-radius: 15px; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
+            top: 50%; left: 50%; 
+            transform: translate(-50%, -50%); 
+            border: 1px solid var(--card-border);
+        }
+
+        .img img { width: 100%; height: 100%; object-fit: cover; cursor: pointer; }
+
+        /* Configuration de l'effet de pile au repos */
+        .img:nth-child(1) { margin-left: -350px; transform: translate(-50%, -50%) rotate(-5deg); }
+        .img:nth-child(2) { margin-left: -120px; transform: translate(-50%, -50%) rotate(-2deg); }
+        .img:nth-child(3) { margin-left: 120px; transform: translate(-50%, -50%) rotate(2deg); }
+        .img:nth-child(4) { margin-left: 350px; transform: translate(-50%, -50%) rotate(5deg); }
+
+        /* État quand elles sont regroupées (Reorder) */
+        .img.reorder { margin-left: 0; top: 50%; left: 50%; }
+        .img.reorder:nth-child(1) { transform: translate(-50%, -50%) rotate(6deg); z-index: 1;}
+        .img.reorder:nth-child(2) { transform: translate(-50%, -50%) rotate(-3deg); z-index: 2;}
+        .img.reorder:nth-child(3) { transform: translate(-50%, -50%) rotate(2deg); z-index: 3;}
+        .img.reorder:nth-child(4) { transform: translate(-50%, -50%) rotate(-1deg); z-index: 4;}
+
+        .toggle-btn { 
+            margin-top: 20px; 
+            background: var(--btn-color); 
+            color: white; 
+            border: none; 
+            padding: 15px 40px; 
+            border-radius: 30px; 
+            font-size: 16px; 
+            cursor: pointer; 
+            z-index: 20; 
+            font-weight: bold; 
+            transition: transform 0.2s; 
+        }
+
+        /* ============================================================
+           MODALES (IMAGE & AVIS)
+           ============================================================
+        */
+        .modal, .review-modal { 
+            background: rgba(0, 0, 0, 0.95); position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            z-index: 5000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); 
+        }
+        .review-modal.active { display: flex; }
+        .review-box { background: var(--card-bg); width: 90%; max-width: 500px; border-radius: 24px; padding: 30px; border: 1px solid var(--card-border); }
+        .review-list { background: var(--input-bg); border-radius: 12px; padding: 15px; max-height: 300px; overflow-y: auto; margin-bottom: 20px; display: flex; flex-direction: column; gap: 10px; border: 1px solid var(--card-border); }
+        .single-review { background: var(--card-bg); padding: 12px; border-radius: 8px; border: 1px solid var(--card-border); font-size: 14px; }
+        .sr-user { font-weight: 800; color: var(--btn-color); margin-bottom: 4px; }
+        .review-input-group { display: flex; gap: 12px; flex-direction: column; }
+        .review-input-group input, .review-input-group textarea { padding: 12px; border: 1px solid var(--card-border); border-radius: 10px; background: var(--input-bg); color: white; }
+        .btn-send-review { background: var(--btn-color); color: white; border: none; padding: 14px; border-radius: 10px; font-weight: 800; cursor: pointer; }
+
+        /* ============================================================
+           MARQUEE BG
+           ============================================================
+        */
+        .marquee-container { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; display: flex; align-items: center; pointer-events: none; z-index: -1; overflow: hidden; }
+        .marquee-text { font-size: 16vw; font-weight: 900; white-space: nowrap; color: transparent; -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.07); text-transform: uppercase; will-change: transform; }
+
+        footer { border-top: 1px solid var(--card-border); padding: 60px 0; text-align: center; color: var(--text-muted); font-size: 12px; position: relative; z-index: 20; background: #000; letter-spacing: 2px; }
+
+        /* REVEAL */
+        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    </style>
+</head>
+<body>
+
+    <div class="marquee-container">
+        <div class="marquee-text" id="marquee">
+            ITSMTO GARAGE • EXCLUSIVE • ITSMTO GARAGE • EXCLUSIVE •
+        </div>
+    </div>
+
+    <nav class="navbar">
+      <ul class="nav-links">
+    <li><a href="/accueil">Accueil</a></li>
+    <li><a href="/vehicules">Garage</a></li>
+    <li><a href="/fonctionnement">Fonctionnement</a></li>
+    <li><a href="/socials">Contact</a></li>
+</ul>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-image-wrapper">
+            <img src="mon_perso.png" alt="Personnage" class="parallax-img" id="heroPerso">
+        </div>
+
+        <div class="container-hero reveal">
+            <h1>L'Expérience<br>Moddée</h1>
+            
+            <div class="btn-group">
+                <button id="openReviewBtn" class="universal-btn">Avis Clients</button>
+                <a href="vehicules.html" class="universal-btn">Voir le Garage</a>
+                <a href="fonctionnement.html" class="universal-btn">Fonctionnement</a>
+                <a href="socials.html" class="universal-btn">Contact Direct</a>
+            </div>
+
+            <div class="info-section">
+                <h2 style="color:var(--btn-color); margin-top:0; font-weight: 800;">Services & Garage</h2>
+                <div class="info-grid">
+                    <div class="info-item"><h3>Échanges PS5</h3><p>Plus de 150 véhicules moddés avec plaques Yankton et peintures rares.</p></div>
+                    <div class="info-item"><h3>Braquages</h3><p>Optimisation de gains via Cayo Perico et Casino en un temps record.</p></div>
+                    <div class="info-item"><h3>Support Discord</h3><p>Une question ? Contactez-moi directement pour planifier vos sessions.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="animation-wrapper reveal">
+        <div class="big-text-bg">
+            <h2>ITSMTO</h2>
+        </div>
+        
+        <button class="toggle-btn">Voir les exemples</button>
+
+        <div class="img-gallery-container">
+            <div class="img reorder"><img src="./images/img1.jpg" alt="V1" onclick="openImageModal(this.src)"></div>
+            <div class="img reorder"><img src="./images/img2.jpg" alt="V2" onclick="openImageModal(this.src)"></div>
+            <div class="img reorder"><img src="./images/img3.jpg" alt="V3" onclick="openImageModal(this.src)"></div>
+            <div class="img reorder"><img src="./images/img4.jpg" alt="V4" onclick="openImageModal(this.src)"></div>
+        </div>
+    </div>
+
+    <div id="imageModal" class="modal" onclick="this.style.display='none'">
+        <img id="modalImg" style="max-width:90%; max-height:90%; border-radius:10px;">
+    </div>
+
+    <div id="reviewModal" class="review-modal">
+        <div class="review-box">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <h2 style="margin:0;">Avis Clients</h2>
+                <button onclick="document.getElementById('reviewModal').classList.remove('active')" style="background:none; border:none; color:white; font-size:24px; cursor:pointer;">&times;</button>
+            </div>
+            <div class="review-list">
+                <div class="single-review"><div class="sr-user">Tonio</div>C'est le meilleur garage, rapide et fiable !</div>
+            </div>
+            <div class="review-input-group">
+                <input type="text" placeholder="Ton Pseudo">
+                <textarea rows="2" placeholder="Ton avis..."></textarea>
+                <button class="btn-send-review">Envoyer l'avis</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 itsmto. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        // Enregistrement des plugins GSAP
+        gsap.registerPlugin(ScrollTrigger, Flip);
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const marquee = document.getElementById("marquee");
+            // const perso = document.getElementById("heroPerso"); // Plus besoin car géré par ScrollTrigger
+            const rModal = document.getElementById('reviewModal');
+
+            // --- NOUVEL EFFET DE DISPARITION AU SCROLL (GSAP ScrollTrigger) ---
+            gsap.to(".hero-image-wrapper", {
+                scrollTrigger: {
+                    trigger: ".hero", // L'élément qui déclenche
+                    start: "top top", // Commence quand le haut de hero est en haut de l'écran
+                    end: "40% top",   // Finit quand 40% du hero est passé
+                    scrub: 1,         // Effet fluide lié au scroll
+                },
+                opacity: 0,  // Disparition
+                scale: 0.9,  // Léger rétrécissement pour l'effet de profondeur
+                y: 50,       // Descend légèrement
+                ease: "none"
+            });
+
+            // --- SCROLL EFFECTS (Marquee uniquement maintenant) ---
+            window.addEventListener("scroll", () => {
+                const scroll = window.scrollY;
+                if (marquee) marquee.style.transform = `translateX(calc(-5% - ${scroll * 1.5}px))`;
+                // L'ancien effet manuel sur 'perso' est retiré pour ne pas entrer en conflit avec GSAP
+            });
+
+            // --- REVEAL SYSTEM ---
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+
+            // --- ANIMATION GSAP FLIP (GALERIE) ---
+            const images = gsap.utils.toArray(".img");
+            const btn = document.querySelector(".toggle-btn");
+            let isFlipped = false;
+
+            btn.addEventListener("click", () => {
+                isFlipped = !isFlipped;
+                btn.textContent = isFlipped ? "Masquer les exemples" : "Voir les exemples";
+                let state = Flip.getState(".img-gallery-container, .img");
+                images.forEach((img) => img.classList.toggle("reorder"));
+                Flip.from(state, { absolute: true, duration: 1.5, stagger: 0.05, ease: "power2.inOut", simple: true });
+            });
+
+            // --- MODAL AVIS ---
+            document.getElementById('openReviewBtn').onclick = () => rModal.classList.add('active');
+        });
+
+        function openImageModal(src) {
+            const m = document.getElementById('imageModal');
+            document.getElementById('modalImg').src = src;
+            m.style.display = 'flex';
+        }
+    </script>
+</body>
+</html>
