@@ -42,7 +42,6 @@
 
         * { box-sizing: border-box; }
 
-        /* --- BACKGROUND BLOBS (Taches violettes) --- */
         body::before {
             content: ''; position: fixed; width: 40rem; height: 40rem;
             right: -10%; top: -15%; z-index: -1;
@@ -58,7 +57,6 @@
             pointer-events: none;
         }
 
-        /* --- NAVBAR (LOGO GAUCHE / LIENS DROITE) --- */
         .navbar { 
             position: fixed; 
             top: 0; 
@@ -103,7 +101,6 @@
 
         .nav-links a:hover { color: var(--btn-color); }
 
-        /* --- HERO SECTION --- */
         .hero { 
             position: relative;
             min-height: 100vh;
@@ -207,7 +204,6 @@
 
         .info-item h3 { color: var(--btn-color); margin-bottom: 12px; font-weight: 700;}
 
-        /* --- GALERIE --- */
         .animation-wrapper { 
             position: relative; 
             width: 100%; 
@@ -286,7 +282,6 @@
             transition: transform 0.2s; 
         }
 
-        /* --- MODALES --- */
         .modal, .review-modal { 
             background: rgba(0, 0, 0, 0.95); position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             z-index: 5000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); 
@@ -300,11 +295,12 @@
         .review-input-group input, .review-input-group textarea { padding: 12px; border: 1px solid var(--card-border); border-radius: 10px; background: var(--input-bg); color: white; }
         .btn-send-review { background: var(--btn-color); color: white; border: none; padding: 14px; border-radius: 10px; font-weight: 800; cursor: pointer; }
 
-        /* --- MARQUEE BG --- */
         .marquee-container { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; display: flex; align-items: center; pointer-events: none; z-index: -1; overflow: hidden; }
         .marquee-text { font-size: 16vw; font-weight: 900; white-space: nowrap; color: transparent; -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.07); text-transform: uppercase; will-change: transform; }
 
         footer { border-top: 1px solid var(--card-border); padding: 60px 0; text-align: center; color: var(--text-muted); font-size: 12px; position: relative; z-index: 20; background: #000; letter-spacing: 2px; }
+        footer a { color: var(--text-muted); text-decoration: none; transition: color 0.3s; }
+        footer a:hover { color: var(--btn-color); }
 
         .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease; }
         .reveal.visible { opacity: 1; transform: translateY(0); }
@@ -400,7 +396,7 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 itsmto. Tous droits réservés.</p>
+        <p>&copy; 2026 itsmto. Tous droits réservés. | <a href="/mentions-legales.html">Mentions Légales</a></p>
     </footer>
 
     <script>
