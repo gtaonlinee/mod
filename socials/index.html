@@ -1,12 +1,12 @@
 <!doctype html>
 <html lang="fr">
 <head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1860352393133902" crossorigin="anonymous"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>itsmto • Contact</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-    /* --- VARIABLES DARK MODE --- */
     :root { 
         --bg-body: #000000; 
         --text-main: #ffffff; 
@@ -27,7 +27,6 @@
         overflow-x: hidden; 
     }
 
-    /* --- BACKGROUND BLOBS (Taches violettes) --- */
     body::before {
         content: ''; position: fixed; width: 40rem; height: 40rem;
         right: -10%; top: -15%; z-index: -1;
@@ -43,7 +42,6 @@
         pointer-events: none;
     }
 
-    /* --- MARQUEE BACKGROUND (Texte défilant) --- */
     .marquee-container { 
         position: fixed; top: 0; left: 0; 
         width: 100%; height: 100vh; 
@@ -58,9 +56,8 @@
         text-transform: uppercase; will-change: transform; 
     }
 
-    .container { max-width: 600px; margin: 180px auto; padding: 0 24px; position: relative; z-index: 1; }
+    .container { max-width: 600px; margin: 180px auto; padding: 0 24px; position: relative; z-index: 1; min-height: 60vh; }
     
-    /* --- NAVIGATION STYLE UNIFIÉ --- */
     .navbar { 
         position: fixed; 
         top: 0; 
@@ -146,6 +143,10 @@
     
     .label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; }
     .link:hover .label { color: #e9d5ff; }
+
+    footer { border-top: 1px solid var(--card-border); padding: 60px 0; text-align: center; color: var(--text-muted); font-size: 12px; position: relative; z-index: 20; background: #000; letter-spacing: 2px; }
+    footer a { color: var(--text-muted); text-decoration: none; transition: color 0.3s; }
+    footer a:hover { color: var(--btn-color); }
 </style>
 </head>
 <body>
@@ -181,22 +182,26 @@
         <p style="color:var(--text-muted); margin-bottom:30px;">itsmto_</p>
         
         <a href="https://profile.playstation.com/its_MTO" target="_blank" class="link">
-            <div><span class="label">Pour m’ajouter</span><br><span>Profil PlayStation</span></div><span>➔</span>
+            <div><span class="label">Pour m’ajouter</span><br><span>Profil PlayStation</span></div><span></span>
         </a>
         
         <a href="https://profile.playstation.com/its_MTO" target="_blank" class="link">
-            <div><span class="label">Psn</span><br><span>its_MTO / ancien : by_math_67</span></div><span>🎮</span>
+            <div><span class="label">Psn</span><br><span>its_MTO / ancien : by_math_67</span></div><span></span>
         </a>
         
         <a href="https://discord.gg/dDNhQwsr5E" target="_blank" class="link">
-            <div><span class="label">Discord Principal</span><br><span>Rejoindre le serveur</span></div><span>➔</span>
+            <div><span class="label">Discord Principal</span><br><span>Rejoindre le serveur</span></div><span></span>
         </a>
 
         <div class="link">
-            <div><span class="label">Plateformes</span><br><span>PS5 (& Pc & Ps4)</span></div><span>🚀</span>
+            <div><span class="label">Plateformes</span><br><span>PS5 (& Pc & Ps4)</span></div><span></span>
         </div>
     </div>
 </div>
+
+<footer>
+    <p>&copy; 2026 itsmto. Tous droits réservés. | <a href="/mentions-legales.html">Mentions Légales</a></p>
+</footer>
 
 <script>
     function toggleMobileMenu() {
@@ -204,7 +209,6 @@
         menu.classList.toggle('active');
     }
 
-    // Marquee Scroll
     const marquee = document.getElementById("marquee");
     window.addEventListener("scroll", () => {
         const scroll = window.scrollY;
